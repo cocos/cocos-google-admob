@@ -5,7 +5,6 @@
 library/
 temp/
 local/
-build/
 profiles/
 native
 #//////////////////////////
@@ -22,3 +21,6 @@ node_modules/
 # WebStorm
 #//////////////////////////
 .idea/
+/build/android/proj/build
+/build/android/proj/libadmob/build
+/build/android/proj/libservice/build
