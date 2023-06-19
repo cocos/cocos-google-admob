@@ -64,6 +64,7 @@ public final class AdManager {
         appOpenAdService.init(bridge, activity);
         interstitialAdService.init(bridge, activity);
         rewardedAdService.init(bridge, activity);
+        rewardedInterstitialAdService.init(bridge,activity);
         nativeService.init(bridge, activity);
     }
 
@@ -73,6 +74,7 @@ public final class AdManager {
         interstitialAdService.destroy();
         rewardedAdService.destroy();
         nativeService.destroy();
+        rewardedInterstitialAdService.destroy();
         activity = null;
         bridge.destroy();
     }

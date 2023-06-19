@@ -1,4 +1,4 @@
-import { AdError, LoadAdError } from "../ads/TypeAlias";
+import { AdError, LoadAdError } from "../ads/alias/TypeAlias";
 
 export interface ILoadAdError{
     method?:string;

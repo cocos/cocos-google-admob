@@ -1,5 +1,5 @@
 import { Base } from "./Base";
-import { AdError, LoadAdError } from "../ads/TypeAlias";
+import { AdError, LoadAdError } from "../ads/alias/TypeAlias";
 import { IAdError, ILoadAdError } from "./ICallbackNTF";
 
 export class LoadInterstitialAdREQ extends Base{

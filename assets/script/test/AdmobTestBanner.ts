@@ -3,8 +3,8 @@ import { Button } from 'cc';
 import { log } from 'cc';
 import { director } from 'cc';
 import { TestScenes } from './TestScenes';
-import { BannerView } from '../admob/ads/BannerView';
-import { LoadAdError } from '../admob/ads/TypeAlias';
+import { BannerClient } from '../admob/ads/client/BannerView';
+import { LoadAdError } from '../admob/ads/alias/TypeAlias';
 import { TestUnitId } from '../admob/misc/TestUnitId';
 const { ccclass, property } = _decorator;
 
@@ -18,22 +18,22 @@ export class AdmobTestBanner extends Component {
     @property(Button)
     buttonHideBanner: Button;
 
-    bannerView: BannerView;
+    bannerClient: BannerClient;
 
-    start() {;
-        this.bannerView?.destroy();
+    start() {
+        this.bannerClient?.destroy();
     }
 
-    onDestroy(){
-        this.bannerView?.destroy();
+    onDestroy() {
+        this.bannerClient?.destroy();
     }
 
     onClickLoadBanner() {
-        if( this.bannerView != null ){
+        if (this.bannerClient != null) {
             throw new Error("duplicated create of bannerView");
         }
-        this.bannerView = new BannerView();
-        this.bannerView.create( TestUnitId.BannerAd, {
+        this.bannerClient = new BannerClient();
+        this.bannerClient.create(TestUnitId.BannerAd, {
 
             onAdImpression: () => {
                 log(module, "onAdImpression", "onAdClicked", this);
@@ -57,16 +57,16 @@ export class AdmobTestBanner extends Component {
     }
 
     onClickShowBanner() {
-        this.bannerView?.show(true);
+        this.bannerClient?.show(true);
     }
 
     onClickHideBanner() {
-        this.bannerView?.show(false);
+        this.bannerClient?.show(false);
     }
 
     onClickDestroyBanner() {
         log(module, "onClickDestroyBanner");
-        this.bannerView?.destroy();
+        this.bannerClient?.destroy();
     }
 
     onNextScene() {

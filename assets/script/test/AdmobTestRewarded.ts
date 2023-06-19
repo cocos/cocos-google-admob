@@ -1,12 +1,11 @@
 import { _decorator, Component } from 'cc';
 import { director } from 'cc';
 import { TestScenes } from './TestScenes';
-import { RewardedAdView } from '../admob/ads/RewardedAdView';
+import { RewardedAdClient } from '../admob/ads/client/RewardedAdClient';
 import { TestUnitId } from '../admob/misc/TestUnitId';
 import { log } from 'cc';
 import { Node } from 'cc';
 import { Label } from 'cc';
-import { animation } from 'cc';
 const { ccclass, property } = _decorator;
 
 const module = "[AdmobTestRewarded]"
@@ -23,31 +22,39 @@ export class AdmobTestRewarded extends Component {
         log(module, "onClickLoadRewardedAd");
 
         let rewardEarnNode: Node = this.node.getChildByName("DialogRewarded");
-        let rewardedView = new RewardedAdView();
-        rewardedView.load(TestUnitId.RewardedAd, {
+        let rewardedAdClient = new RewardedAdClient();
+
+        rewardedAdClient.load(TestUnitId.RewardedAd, {
             onAdLoaded() {
                 log(module, "onClickLoadRewardedAd", "onAdLoaded");
-                rewardedView.show();
+                rewardedAdClient.show();
             },
             onAdFailedToLoad(loadAdError) {
                 log(module, "onClickLoadRewardedAd", "onAdFailedToLoad", loadAdError);
             },
-        }, {
-            onEarn(rewardType, amount) {                
-                log(module, "onClickLoadRewardedAd", `onEarn, rewardType = ${rewardType}, amount = ${amount}`);                
+            onEarn(rewardType, amount) {
+                log(module, "onClickLoadRewardedAd", `onEarn, rewardType = ${rewardType}, amount = ${amount}`);
                 rewardEarnNode.active = true;
                 const label = rewardEarnNode.getChildByName("Tip").getComponent(Label);
-                label.string = `Congratulations! You have win the reward, type = ${rewardType}, amount = ${amount}!`;
+                label.string = `You have won the reward, type = ${rewardType}, amount = ${amount}!`;
             },
-        });
-        
+            onAdDismissedFullScreenContent() {
+                log(module, "onAdDismissedFullScreenContent");
+                rewardedAdClient.destroy();
+            },
+            onAdFailedToShowFullScreenContent(adError) {
+                log(module, "onAdFailedToShowFullScreenContent, adError: ", adError);
+                rewardedAdClient.destroy();
+            },
+        })
+
     }
 
     onNextScene() {
         director.loadScene(TestScenes[4]);
     }
 
-    onBtnClickCloseRewardDialogue(){
+    onBtnClickCloseRewardDialogue() {
         let rewardEarnNode: Node = this.node.getChildByName("DialogRewarded");
         rewardEarnNode.active = false;
     }

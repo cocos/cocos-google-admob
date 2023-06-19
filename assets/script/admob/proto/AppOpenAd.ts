@@ -1,4 +1,4 @@
-import { AdError, LoadAdError } from "../ads/TypeAlias";
+import { AdError, LoadAdError } from "../ads/alias/TypeAlias";
 import { Base } from "./Base";
 import { IAdError, ILoadAdError } from "./ICallbackNTF";
 

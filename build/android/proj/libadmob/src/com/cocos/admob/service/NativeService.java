@@ -20,20 +20,20 @@ public final class NativeService extends Service {
 
     private String unitId;
 
-    private int mLoadedCount;
+    private int loadCount;
 
-    private List<NativeAd> mNativeAdList = new Vector<>();
+    private List<NativeAd> nativeAdList = new Vector<>();
 
     @Override
     public void destroy() {
         super.destroy();
-        for (NativeAd ad : mNativeAdList) {
+        for (NativeAd ad : nativeAdList) {
             ad.destroy();
         }
     }
 
     public void loadAd(int adCount) {
-        mLoadedCount = 0;
+        loadCount = 0;
         destroy();
         AdLoader adLoader = new AdLoader.Builder(activity, "ca-app-pub-3940256099942544/2247696110")
                 .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
@@ -46,15 +46,15 @@ public final class NativeService extends Service {
                             return;
                         }
 
-                        mNativeAdList.add(nativeAd);
+                        nativeAdList.add(nativeAd);
                     }
                 })
                 .withAdListener(new AdListener() {
                     @Override
                     public void onAdFailedToLoad(LoadAdError adError) {
                         // Handle the failure by logging, altering the UI, and so on.
-                        mLoadedCount++;
-                        Log.d(TAG, "onAdFailedToLoad: adError = " + adError + ", loaded count = " + mLoadedCount);
+                        loadCount++;
+                        Log.d(TAG, "onAdFailedToLoad: adError = " + adError + ", loaded count = " + loadCount);
                     }
                 })
                 .withNativeAdOptions(new NativeAdOptions.Builder()

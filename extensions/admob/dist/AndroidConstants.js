@@ -59,12 +59,22 @@ AndroidConstants.AdmobTemplateSettingGradle = `${AndroidConstants.AdmobTemplateP
  * @en
  * Code template to insert into the AppActivity.java in the build project.
  */
-AndroidConstants.AppActivityTemplatePath = `${AndroidConstants.AdmobTemplatePath}/java/AppActivity.java`;
+AndroidConstants.AppActivityTemplateInitPath = `${AndroidConstants.AdmobTemplatePath}/java/Init.java`;
 /**
  * @en
  * Keycode where do the extension find the exact place to insert the template code in the AppActivity's onCreate method.
  */
-AndroidConstants.AppActivityKeyCodeTemplatePath = `${AndroidConstants.AdmobTemplatePath}/java/AppActivity_keyCode.java`;
+AndroidConstants.AppActivityKeyCodeTemplateInitPath = `${AndroidConstants.AdmobTemplatePath}/java/Init_keyCode.java`;
+/**
+ * @en
+ * Code template to insert into the AppActivity.java in the build project.
+ */
+AndroidConstants.AppActivityTemplateDestroyPath = `${AndroidConstants.AdmobTemplatePath}/java/Destroy.java`;
+/**
+ * @en
+ * Keycode where do the extension find the exact place to insert the template code in the AppActivity's onCreate method.
+ */
+AndroidConstants.AppActivityKeyCodeTemplateDestroyPath = `${AndroidConstants.AdmobTemplatePath}/java/Destroy_keyCode.java`;
 /**
  * @en
  * The absolute path of the AppActivity.java

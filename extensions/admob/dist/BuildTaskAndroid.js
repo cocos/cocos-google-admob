@@ -129,20 +129,26 @@ class BuildTaskAndroid {
     handleAppActivity(options, buildResult) {
         console.log(TAG, "handleAppActivity");
         const adMobOption = options.packages[builder_1.PACKAGE_NAME];
-        const tempJavaPath = AndroidConstants_1.AndroidConstants.AppActivityTemplatePath;
-        const keyCodePath = AndroidConstants_1.AndroidConstants.AppActivityKeyCodeTemplatePath;
         const appActivityPath = AndroidConstants_1.AndroidConstants.AppActivityPath;
-        console.log(TAG, "handleAppActivity", `tempJavaPath : ${tempJavaPath}`, `keyCodePath : ${keyCodePath}`, `appActivityPath : ${appActivityPath}`);
-        console.log(TAG, "handleAppActivity", `tempImportPath : ${AndroidConstants_1.AndroidConstants.ImportTemplatePath}`, `keyCodeImportPath : ${AndroidConstants_1.AndroidConstants.ImportKeyCodeTemplatePath}`, `appActivityPath : ${appActivityPath}`);
         const { enableAdMob } = adMobOption;
         if (enableAdMob) {
-            (0, Util_1.insertDestToSrcBehindKey)(appActivityPath, tempJavaPath, keyCodePath);
+            (0, Util_1.insertDestToSrcBehindKey)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateInitPath, AndroidConstants_1.AndroidConstants.AppActivityKeyCodeTemplateInitPath);
             (0, Util_1.insertDestToSrcBehindKey)(appActivityPath, AndroidConstants_1.AndroidConstants.ImportTemplatePath, AndroidConstants_1.AndroidConstants.ImportKeyCodeTemplatePath);
+            (0, Util_1.insertDestToSrcBehindKey)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateDestroyPath, AndroidConstants_1.AndroidConstants.AppActivityKeyCodeTemplateDestroyPath);
         }
         else {
-            (0, Util_1.deleteDestContentInSrcFile)(appActivityPath, tempJavaPath);
+            (0, Util_1.deleteDestContentInSrcFile)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateInitPath);
             (0, Util_1.deleteDestContentInSrcFile)(appActivityPath, AndroidConstants_1.AndroidConstants.ImportTemplatePath);
+            (0, Util_1.deleteDestContentInSrcFile)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateDestroyPath);
         }
+    }
+    /**
+     * @en
+     * Write the engine version to AppActivity.java
+     * @param options
+     * @param buildResult
+     */
+    writeVersion(options, buildResult) {
     }
     /**
      * @en

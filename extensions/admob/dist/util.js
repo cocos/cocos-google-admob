@@ -45,6 +45,7 @@ function insertDestToSrcBehindKey(srcPath, destPath, keyPath) {
     const srcContent = fs.readFileSync(srcPath, { encoding: 'binary' });
     const keyCodeContent = fs.readFileSync(keyPath, { encoding: 'binary' });
     const destContent = fs.readFileSync(destPath, { encoding: 'binary' });
+    console.log(TAG, "insertDestToSrcBehindKey", `srcPath: ${srcPath}, destPath: ${destPath}, keyPath: ${keyPath}`);
     const pos = srcContent.indexOf(destContent);
     if (pos < 0) {
         let insertPos = srcContent.indexOf(keyCodeContent);

@@ -57,13 +57,25 @@ export class AndroidConstants {
      * @en
      * Code template to insert into the AppActivity.java in the build project.
      */
-    static readonly AppActivityTemplatePath = `${AndroidConstants.AdmobTemplatePath}/java/AppActivity.java`;
+    static readonly AppActivityTemplateInitPath = `${AndroidConstants.AdmobTemplatePath}/java/Init.java`;
 
     /**
      * @en
      * Keycode where do the extension find the exact place to insert the template code in the AppActivity's onCreate method.
      */
-    static readonly AppActivityKeyCodeTemplatePath = `${AndroidConstants.AdmobTemplatePath}/java/AppActivity_keyCode.java`;
+    static readonly AppActivityKeyCodeTemplateInitPath = `${AndroidConstants.AdmobTemplatePath}/java/Init_keyCode.java`;
+
+    /**
+     * @en
+     * Code template to insert into the AppActivity.java in the build project.
+     */
+     static readonly AppActivityTemplateDestroyPath = `${AndroidConstants.AdmobTemplatePath}/java/Destroy.java`;
+
+     /**
+      * @en
+      * Keycode where do the extension find the exact place to insert the template code in the AppActivity's onCreate method.
+      */
+     static readonly AppActivityKeyCodeTemplateDestroyPath = `${AndroidConstants.AdmobTemplatePath}/java/Destroy_keyCode.java`;
 
     /**
      * @en

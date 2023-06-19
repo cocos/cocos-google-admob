@@ -18,7 +18,7 @@ export class BuildTaskAndroid {
         const adMobOption = options.packages[PACKAGE_NAME] as AdmobOption;
 
         const { enableAdMob } = adMobOption;
-        if(!enableAdMob){
+        if (!enableAdMob) {
             console.log(TAG, "generateApplicationId", `exit because enableAdMob is false`);
             return;
         }
@@ -124,22 +124,17 @@ export class BuildTaskAndroid {
         console.log(TAG, "handleAppActivity");
         const adMobOption = options.packages[PACKAGE_NAME] as AdmobOption;
 
-        const tempJavaPath = AndroidConstants.AppActivityTemplatePath;
-        const keyCodePath = AndroidConstants.AppActivityKeyCodeTemplatePath;
         const appActivityPath = AndroidConstants.AppActivityPath;
-
-        console.log(TAG, "handleAppActivity", `tempJavaPath : ${tempJavaPath}`, `keyCodePath : ${keyCodePath}`, `appActivityPath : ${appActivityPath}`);
-        console.log(TAG, "handleAppActivity", `tempImportPath : ${AndroidConstants.ImportTemplatePath}`,
-            `keyCodeImportPath : ${AndroidConstants.ImportKeyCodeTemplatePath}`,
-            `appActivityPath : ${appActivityPath}`);
 
         const { enableAdMob } = adMobOption;
         if (enableAdMob) {
-            insertDestToSrcBehindKey(appActivityPath, tempJavaPath, keyCodePath);
+            insertDestToSrcBehindKey(appActivityPath, AndroidConstants.AppActivityTemplateInitPath, AndroidConstants.AppActivityKeyCodeTemplateInitPath);
             insertDestToSrcBehindKey(appActivityPath, AndroidConstants.ImportTemplatePath, AndroidConstants.ImportKeyCodeTemplatePath);
+            insertDestToSrcBehindKey(appActivityPath, AndroidConstants.AppActivityTemplateDestroyPath, AndroidConstants.AppActivityKeyCodeTemplateDestroyPath);
         } else {
-            deleteDestContentInSrcFile(appActivityPath, tempJavaPath);
+            deleteDestContentInSrcFile(appActivityPath, AndroidConstants.AppActivityTemplateInitPath);
             deleteDestContentInSrcFile(appActivityPath, AndroidConstants.ImportTemplatePath);
+            deleteDestContentInSrcFile(appActivityPath, AndroidConstants.AppActivityTemplateDestroyPath);
         }
     }
 
@@ -149,7 +144,7 @@ export class BuildTaskAndroid {
      * @param options 
      * @param buildResult 
      */
-    writeVersion(options: ITaskOptions, buildResult: IBuildResult){
+    writeVersion(options: ITaskOptions, buildResult: IBuildResult) {
 
     }
 

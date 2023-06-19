@@ -1,2 +1,0 @@
-        AdManager.instance().init(this);
-        

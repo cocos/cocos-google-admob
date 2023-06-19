@@ -1,6 +1,6 @@
 import { Base } from "./Base";
 import { IAdError, ILoadAdError } from "./ICallbackNTF";
-import { AdError, LoadAdError } from "../ads/TypeAlias";
+import { AdError, LoadAdError } from "../ads/alias/TypeAlias";
 
 export class LoadRewardedAdREQ extends Base { }
 
@@ -19,7 +19,7 @@ export class OnUserEarnedRewardListenerNTF extends Base {
 
 export class RewardedAdLoadCallbackNTF extends Base implements ILoadAdError {
     method?: string;
-    adError?: AdError;
+    loadAdError?: AdError;
 }
 
 export class RewardedFullScreenContentCallbackNTF extends Base implements IAdError {

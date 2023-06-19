@@ -2,7 +2,7 @@ import { _decorator, Component } from 'cc';
 import { log } from 'cc';
 import { director } from 'cc';
 import { TestScenes } from './TestScenes';
-import { InterstitialAdView } from '../admob/ads/InterstitialAdView';
+import { InterstitialAdClient } from '../admob/ads/client/InterstitialAdClient';
 import { TestUnitId } from '../admob/misc/TestUnitId';
 const { ccclass, property } = _decorator;
 
@@ -12,16 +12,16 @@ export class AdmobTestInterstitialAdts extends Component {
    
     onClickLoadInterstitialAd() {
 
-        let interstitialAdView = new InterstitialAdView();
+        let interstitialAdClient = new InterstitialAdClient();
 
-        interstitialAdView.load( TestUnitId.InterstitialAd, {
+        interstitialAdClient.load( TestUnitId.InterstitialAd, {
             onAdLoaded() {
                 log(module, "onAdLoaded");
-                interstitialAdView.show();
+                interstitialAdClient.show();
             },
             onAdFailedToLoad(loadAdError) {
                 log(module, "onAdFailedToLoad, error: ", loadAdError);
-                interstitialAdView.destroy();
+                interstitialAdClient.destroy();
             },
         });         
     }
