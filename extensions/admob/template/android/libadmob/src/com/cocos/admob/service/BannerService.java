@@ -28,6 +28,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Internal class for banner ads.
@@ -127,6 +128,11 @@ public final class BannerService extends Service {
 
     public void destroy() {
         // TODO: destroy all banners
+        for (String key : bannerMap.keySet()) {
+            AdView value = bannerMap.get(key);
+            value.destroy();
+        }
+        bannerMap.clear();
     }
 
     private AdView createBannerView(String unitId) {

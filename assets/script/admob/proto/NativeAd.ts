@@ -1,20 +1,33 @@
 import { AdError } from "../ads/alias/TypeAlias";
 import { Base } from "./Base";
-import { IAdError } from "./ICallbackNTF";
+import { ILoadAdError } from "./ICallbackNTF";
 
-export class LoadNativeAdREQ extends Base {
-    adCount: number;
+export enum NativeAdTemplateSize {
+    Small = 'small',
+    Medium = 'medium',
 }
 
-export class LoadNativeAdACK extends Base{
+export class LoadNativeAdREQ extends Base {    
+    size: NativeAdTemplateSize = NativeAdTemplateSize.Small;
+}
+
+export class LoadNativeAdACK extends Base {
 
 }
 
-export class NativeLoadNTF extends Base {
+export class NativeLoadedNTF extends Base {
 
 }
 
-export class NativeAdLoadNTF extends Base implements IAdError {
-    method?:string;
-    adError?:AdError;
+export class NativeAdListenerNTF extends Base implements ILoadAdError {
+    method?: string;
+    loadAdError?: AdError;
+}
+
+export class DestroyNativeAdREQ extends Base{
+
+}
+
+export class DestroyNativeAdACK extends Base{
+
 }

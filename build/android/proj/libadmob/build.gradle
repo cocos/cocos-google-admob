@@ -39,4 +39,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime:2.5.1"
     implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.5.1"
+    implementation project(':nativetemplates')
 }

@@ -2,16 +2,14 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
-    <application android:name="com.cocos.admob.AdMobApplication">
+    <application android:name="com.cocos.admob.AdMobApplication" android:hardwareAccelerated="true">
 
         <!-- Tell CocosNativeActivity the name of our .so -->
         <meta-data android:name="android.app.lib_name" android:value="cocos"/>
 
-        <activity android:name="com.cocos.admob.BannerActivity" android:label="@string/app_name" tools:ignore="MissingClass,WrongManifestParent">
-        </activity>
-
         <!-- Google admob application ID-->
         <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-9551622059571494~6666273017"/>
+
     </application>
 
 </manifest>

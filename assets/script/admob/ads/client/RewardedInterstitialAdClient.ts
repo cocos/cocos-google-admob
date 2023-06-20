@@ -39,7 +39,7 @@ export class RewardedInterstitialAdClient extends AdClient {
     }
 
     destroy() {
-        this._rewardedInterstitialListener = null;
+        this.rewardedInterstitialListener = null;
     }
 
     show() {
@@ -50,7 +50,7 @@ export class RewardedInterstitialAdClient extends AdClient {
     }
 
     private onRewardedInterstitialAdLoadCallback(ntf: RewardedInterstitialAdLoadCallbackNTF) {
-        const method = this._rewardedInterstitialListener[ntf.method];
+        const method = this.rewardedInterstitialListener[ntf.method];
         if (method) {
             method(ntf.loadAdError);
         }
@@ -58,8 +58,8 @@ export class RewardedInterstitialAdClient extends AdClient {
 
     private onOnUserEarnedRewardListenerNTF(ntf: OnUserEarnedRewardedInterstitialListenerNTF) {
         log(module, `onOnUserEarnedRewardListenerNTF`);
-        if (this._rewardedInterstitialListener) {
-            const onEarn = this._rewardedInterstitialListener as OnUserEarnedRewardListener;
+        if (this.rewardedInterstitialListener) {
+            const onEarn = this.rewardedInterstitialListener as OnUserEarnedRewardListener;
             if (onEarn && onEarn.onEarn) {
                 onEarn.onEarn(ntf.rewardType, ntf.rewardAmount);
             }

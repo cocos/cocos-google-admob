@@ -1,11 +1,11 @@
-import { bridge } from "../core/Bridge";
-import { route } from "../core/Route";
-import { AppOpenAdLoadCallbackNTF, OpenAppAdFullScreenContentCallbackNTF, LoadOpenAppAdACK, LoadOpenAppAdREQ, ShowOpenAppAdACK, ShowOpenAppAdCompleteNTF, ShowOpenAppAdREQ, IsAdAvailableREQ, IsAdAvailableACK } from "../proto/AppOpenAd";
-import { AdClient } from "./client/AdClient";
-import { AppOpenAdLoadCallback } from "./AppOpenAdLoadCallback";
-import { OpenAppAdFullScreenContentCallback } from "./OpenAppAdFullScreenContentCallback";
-import { OnShowAdComplete } from "./OnShowAdCompleteListener";
 import { log } from "cc";
+import { bridge } from "../../core/Bridge";
+import { route } from "../../core/Route";
+import { AppOpenAdLoadCallbackNTF, OpenAppAdFullScreenContentCallbackNTF, ShowOpenAppAdCompleteNTF, LoadOpenAppAdREQ, LoadOpenAppAdACK, IsAdAvailableREQ, IsAdAvailableACK, ShowOpenAppAdREQ, ShowOpenAppAdACK } from "../../proto/AppOpenAd";
+import { AppOpenAdLoadCallback } from "../listener/AppOpenAdLoadCallback";
+import { OnShowAdComplete } from "../listener/OnShowAdCompleteListener";
+import { OpenAppAdFullScreenContentCallback } from "../listener/OpenAppAdFullScreenContentCallback";
+import { AdClient } from "./AdClient";
 
 const module = "[AppOpenAdClient]";
 export class AppOpenAdClient extends AdClient {
