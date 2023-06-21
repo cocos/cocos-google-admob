@@ -55,9 +55,6 @@
         "subpackages": [],
         "preloadBundles": [
             {
-                "bundle": "resources"
-            },
-            {
                 "bundle": "main"
             }
         ],
@@ -65,7 +62,6 @@
         "preloadAssets": [],
         "projectBundles": [
             "internal",
-            "resources",
             "main"
         ]
     },

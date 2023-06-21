@@ -3,9 +3,11 @@ import { Button } from 'cc';
 import { log } from 'cc';
 import { director } from 'cc';
 import { TestScenes } from './TestScenes';
-import { BannerClient } from '../admob/ads/client/BannerView';
-import { LoadAdError } from '../admob/ads/alias/TypeAlias';
-import { TestUnitId } from '../admob/misc/TestUnitId';
+import { BannerClient } from 'db://admob/ads/client/BannerClient';
+import { LoadAdError } from 'db://admob/ads/alias/TypeAlias';
+import { TestUnitId } from 'db://admob/misc/TestUnitId';
+import { BannerSize } from 'db://admob/misc/BannerSize';
+import { BottomCenter, TopCenter } from 'db://admob/misc/BannerAlignment';
 const { ccclass, property } = _decorator;
 
 const module = "[AdmobTestBanner]"
@@ -33,8 +35,7 @@ export class AdmobTestBanner extends Component {
             throw new Error("duplicated create of bannerView");
         }
         this.bannerClient = new BannerClient();
-        this.bannerClient.create(TestUnitId.BannerAd, {
-
+        this.bannerClient.load(TestUnitId.BannerAd, {
             onAdImpression: () => {
                 log(module, "onAdImpression", "onAdClicked", this);
                 this.buttonShowBanner.interactable = true;
@@ -53,15 +54,7 @@ export class AdmobTestBanner extends Component {
                 log(module, "onClickLoadBanner", "onAdLoaded")
                 throw new Error(`load Ad Error, the error is: ${loadError}.`);
             }
-        });
-    }
-
-    onClickShowBanner() {
-        this.bannerClient?.show(true);
-    }
-
-    onClickHideBanner() {
-        this.bannerClient?.show(false);
+        },  { size:BannerSize.BANNER, alignments:TopCenter});
     }
 
     onClickDestroyBanner() {

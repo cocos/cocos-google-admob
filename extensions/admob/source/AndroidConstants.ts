@@ -69,20 +69,20 @@ export class AndroidConstants {
      * @en
      * Code template to insert into the AppActivity.java in the build project.
      */
-     static readonly AppActivityTemplateDestroyPath = `${AndroidConstants.AdmobTemplatePath}/java/Destroy.java`;
+    static readonly AppActivityTemplateDestroyPath = `${AndroidConstants.AdmobTemplatePath}/java/Destroy.java`;
 
-     /**
-      * @en
-      * Keycode where do the extension find the exact place to insert the template code in the AppActivity's onCreate method.
-      */
-     static readonly AppActivityKeyCodeTemplateDestroyPath = `${AndroidConstants.AdmobTemplatePath}/java/Destroy_keyCode.java`;
+    /**
+     * @en
+     * Keycode where do the extension find the exact place to insert the template code in the AppActivity's onCreate method.
+     */
+    static readonly AppActivityKeyCodeTemplateDestroyPath = `${AndroidConstants.AdmobTemplatePath}/java/Destroy_keyCode.java`;
 
     /**
      * @en
      * The absolute path of the AppActivity.java
      */
     static readonly AppActivityPath = `${AndroidConstants.NativePath}/app/src/com/cocos/game/AppActivity.java`;
-    
+
     /**
      * 
      */
@@ -92,5 +92,22 @@ export class AndroidConstants {
      * 
      */
     static readonly ImportKeyCodeTemplatePath = `${AndroidConstants.AdmobTemplatePath}/java/Import_keyCode.java`;
+
+
+    /**
+     * 
+     */
+    static readonly GoogleNativeAdTemplateLibName = `nativetemplates`;
+
+    /**
+     * 
+     */
+    static readonly GoogleNativeAdTemplatePath =
+        `${AndroidConstants.AdmobTemplatePath}/googleads-mobile-android-native-templates-main/${AndroidConstants.GoogleNativeAdTemplateLibName}`;
+
+    /**
+     * 
+     */
+    static readonly GoogleNativeTemplateLibPath = `/proj/${AndroidConstants.GoogleNativeAdTemplateLibName}`;
 }
 

@@ -84,11 +84,8 @@ public final class NativeService extends Service {
                             nativeAdView = layoutInflater.inflate(R.layout.native_small_ad, vg);
                         }
 
-                        ColorDrawable background = new ColorDrawable();
-
                         NativeTemplateStyle styles = new
                                 NativeTemplateStyle.Builder()
-                                .withMainBackgroundColor(background)
                                 .build();
                         TemplateView template = nativeAdView.findViewById(R.id.native_ad_type);
                         template.setStyles(styles);

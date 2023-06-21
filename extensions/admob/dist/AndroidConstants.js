@@ -88,3 +88,15 @@ AndroidConstants.ImportTemplatePath = `${AndroidConstants.AdmobTemplatePath}/jav
  *
  */
 AndroidConstants.ImportKeyCodeTemplatePath = `${AndroidConstants.AdmobTemplatePath}/java/Import_keyCode.java`;
+/**
+ *
+ */
+AndroidConstants.GoogleNativeAdTemplateLibName = `nativetemplates`;
+/**
+ *
+ */
+AndroidConstants.GoogleNativeAdTemplatePath = `${AndroidConstants.AdmobTemplatePath}/googleads-mobile-android-native-templates-main/${AndroidConstants.GoogleNativeAdTemplateLibName}`;
+/**
+ *
+ */
+AndroidConstants.GoogleNativeTemplateLibPath = `/proj/${AndroidConstants.GoogleNativeAdTemplateLibName}`;

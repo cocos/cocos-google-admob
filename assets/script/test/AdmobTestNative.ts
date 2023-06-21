@@ -2,9 +2,9 @@ import { _decorator, Component } from 'cc';
 import { director } from 'cc';
 import { TestScenes } from './TestScenes';
 import { log } from 'cc';
-import { NativeAdClient } from '../admob/ads/client/NativeAdClient';
-import { TestUnitId } from '../admob/misc/TestUnitId';
-import { NativeAdTemplateSize } from '../admob/proto/NativeAd';
+import { NativeAdClient } from 'db://admob/ads/client/NativeAdClient';
+import { TestUnitId } from 'db://admob/misc/TestUnitId';
+import { NativeAdTemplateSize } from 'db://admob/proto/NativeAd';
 const { ccclass, property } = _decorator;
 
 const module = "[AdmobTestNative]"

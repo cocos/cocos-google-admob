@@ -6,7 +6,7 @@ System.register("chunks:///_virtual/AdClient.ts", ['cc'], function (exports) {
       EventTarget = module.EventTarget;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "75cbdUoOilEO4Zv4j4/er2J", "AdClient", undefined);
+      cclegacy._RF.push({}, "913ddXSZoBEo5AGp798igBP", "AdClient", undefined);
 
       class AdClient extends EventTarget {
         constructor(...args) {
@@ -30,15 +30,15 @@ System.register("chunks:///_virtual/AdListener.ts", ['cc'], function () {
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "eeabbSrcf9JUJAhW53QJEys", "AdListener", undefined);
+      cclegacy._RF.push({}, "f6d88RBS9tPzIA7DyZtLjZT", "AdListener", undefined);
 
       cclegacy._RF.pop();
     }
   };
 });
 
-System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc', './TestScenes.ts', './BannerView.ts', './TestUnitId.ts'], function (exports) {
-  var _applyDecoratedDescriptor, _initializerDefineProperty, cclegacy, Button, _decorator, Component, log, director, TestScenes, BannerClient, TestUnitId;
+System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc', './TestScenes.ts', './BannerClient.ts', './TestUnitId.ts', './BannerSize.ts', './BannerAlignment.ts'], function (exports) {
+  var _applyDecoratedDescriptor, _initializerDefineProperty, cclegacy, Button, _decorator, Component, log, director, TestScenes, BannerClient, TestUnitId, BannerSize, TopCenter;
 
   return {
     setters: [function (module) {
@@ -57,6 +57,10 @@ System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBa
       BannerClient = module.BannerClient;
     }, function (module) {
       TestUnitId = module.TestUnitId;
+    }, function (module) {
+      BannerSize = module.BannerSize;
+    }, function (module) {
+      TopCenter = module.TopCenter;
     }],
     execute: function () {
       var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2;
@@ -97,7 +101,7 @@ System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBa
           }
 
           this.bannerClient = new BannerClient();
-          this.bannerClient.create(TestUnitId.BannerAd, {
+          this.bannerClient.load(TestUnitId.BannerAd, {
             onAdImpression: () => {
               log(module$1, "onAdImpression", "onAdClicked", this);
               this.buttonShowBanner.interactable = true;
@@ -113,26 +117,17 @@ System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBa
               log(module$1, "onClickLoadBanner", "onAdLoaded");
               throw new Error(`load Ad Error, the error is: ${loadError}.`);
             }
+          }, {
+            size: BannerSize.BANNER,
+            alignments: TopCenter
           });
         }
 
-        onClickShowBanner() {
+        onClickDestroyBanner() {
           var _this$bannerClient3;
 
-          (_this$bannerClient3 = this.bannerClient) == null ? void 0 : _this$bannerClient3.show(true);
-        }
-
-        onClickHideBanner() {
-          var _this$bannerClient4;
-
-          (_this$bannerClient4 = this.bannerClient) == null ? void 0 : _this$bannerClient4.show(false);
-        }
-
-        onClickDestroyBanner() {
-          var _this$bannerClient5;
-
           log(module$1, "onClickDestroyBanner");
-          (_this$bannerClient5 = this.bannerClient) == null ? void 0 : _this$bannerClient5.destroy();
+          (_this$bannerClient3 = this.bannerClient) == null ? void 0 : _this$bannerClient3.destroy();
         }
 
         onNextScene() {
@@ -540,7 +535,7 @@ System.register("chunks:///_virtual/AppOpenAd.ts", ['cc', './Base.ts'], function
       Base = module.Base;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "1abb0J+bN5Lr7Y1oYGCJDOp", "AppOpenAd", undefined);
+      cclegacy._RF.push({}, "1b2e4BJmARLoYFp0UFuCx/t", "AppOpenAd", undefined);
 
       class LoadOpenAppAdREQ extends Base {}
 
@@ -627,7 +622,7 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
       AdClient = module.AdClient;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "84e98N5sqRD5bh10i/EComX", "AppOpenAdClient", undefined);
+      cclegacy._RF.push({}, "de391JGZ7RFmILooPgf1Zbb", "AppOpenAdClient", undefined);
 
       const module$1 = "[AppOpenAdClient]";
 
@@ -769,7 +764,7 @@ System.register("chunks:///_virtual/AppOpenAdLoadCallback.ts", ['cc'], function 
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "4e5033RcxVOzZ3gnkXZCeuD", "AppOpenAdLoadCallback", undefined);
+      cclegacy._RF.push({}, "22adflecGJOkqbjch9VPNzC", "AppOpenAdLoadCallback", undefined);
 
       cclegacy._RF.pop();
     }
@@ -785,34 +780,25 @@ System.register("chunks:///_virtual/BannerAd.ts", ['cc', './Base.ts'], function 
       Base = module.Base;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "1f149S+joVDj6Sy/8ZJQyY2", "BannerAd", undefined);
+      cclegacy._RF.push({}, "a3850FFnhpK8LXjWJ/XukPq", "BannerAd", undefined);
 
-      class CreateBannerViewREQ extends Base {}
+      class LoadBannerREQ extends Base {
+        constructor(...args) {
+          super(...args);
+          this.bannerSize = void 0;
+          this.method = void 0;
+          this.width = void 0;
+          this.maxWidth = void 0;
+          this.alignments = void 0;
+        }
 
-      exports('CreateBannerViewREQ', CreateBannerViewREQ);
-
-      class CreateBannerViewACK extends Base {}
-
-      exports('CreateBannerViewACK', CreateBannerViewACK);
-
-      class LoadBannerREQ extends Base {}
+      }
 
       exports('LoadBannerREQ', LoadBannerREQ);
 
       class LoadBannerACK extends Base {}
 
       exports('LoadBannerACK', LoadBannerACK);
-
-      class SetBannerSizeREQ extends Base {
-        constructor(...args) {
-          super(...args);
-          this.x = void 0;
-          this.y = void 0;
-        }
-
-      }
-
-      exports('SetBannerSizeREQ', SetBannerSizeREQ);
 
       class ShowBannerREQ extends Base {
         constructor(...args) {
@@ -858,8 +844,54 @@ System.register("chunks:///_virtual/BannerAd.ts", ['cc', './Base.ts'], function 
   };
 });
 
-System.register("chunks:///_virtual/BannerView.ts", ['cc', './AdClient.ts', './BannerAd.ts', './Bridge.ts', './Route.ts'], function (exports) {
-  var cclegacy, log, AdClient, SetBannerSizeREQ, BannerAdListenerNTF, CreateBannerViewREQ, CreateBannerViewACK, ShowBannerREQ, LoadBannerREQ, LoadBannerACK, DestroyBannerREQ, DestroyBannerACK, bridge, route;
+System.register("chunks:///_virtual/BannerAlignment.ts", ['cc'], function (exports) {
+  var cclegacy;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+    }],
+    execute: function () {
+      cclegacy._RF.push({}, "22c7dg+reFL/bvh46PA4/ED", "BannerAlignment", undefined);
+      /**
+       * @en
+       * Defines the RelativeLayout of Android in Typescript. 
+       * See RelativeLayout.java for more details. 
+       */
+
+
+      let BannerAlignment = exports('BannerAlignment', /*#__PURE__*/function (BannerAlignment) {
+        BannerAlignment["ALIGN_LEFT"] = "ALIGN_LEFT";
+        BannerAlignment["ALIGN_TOP"] = "ALIGN_TOP";
+        BannerAlignment["ALIGN_RIGHT"] = "ALIGN_RIGHT";
+        BannerAlignment["ALIGN_BOTTOM"] = "ALIGN_BOTTOM";
+        BannerAlignment["ALIGN_PARENT_LEFT"] = "ALIGN_PARENT_LEFT";
+        BannerAlignment["ALIGN_PARENT_TOP"] = "ALIGN_PARENT_TOP";
+        BannerAlignment["ALIGN_PARENT_BOTTOM"] = "ALIGN_PARENT_BOTTOM";
+        BannerAlignment["CENTER_IN_PARENT"] = "CENTER_IN_PARENT";
+        BannerAlignment["CENTER_HORIZONTAL"] = "CENTER_HORIZONTAL";
+        BannerAlignment["CENTER_VERTICAL"] = "CENTER_VERTICAL";
+        return BannerAlignment;
+      }({}));
+      /**
+       * @en
+       * Put the banner at bottom-center of the screen
+       */
+
+      const BottomCenter = exports('BottomCenter', [BannerAlignment.ALIGN_BOTTOM, BannerAlignment.CENTER_HORIZONTAL]);
+      /**
+       * @en
+       * Put the banner at the top-center of the screen.
+       */
+
+      const TopCenter = exports('TopCenter', [BannerAlignment.ALIGN_TOP, BannerAlignment.CENTER_HORIZONTAL]);
+
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', './BannerAd.ts', './Bridge.ts', './Route.ts', './BannerSize.ts', './BannerAlignment.ts'], function (exports) {
+  var cclegacy, log, AdClient, BannerAdListenerNTF, ShowBannerREQ, LoadBannerREQ, LoadBannerACK, DestroyBannerREQ, DestroyBannerACK, bridge, route, BannerSize, BottomCenter;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
@@ -867,10 +899,7 @@ System.register("chunks:///_virtual/BannerView.ts", ['cc', './AdClient.ts', './B
     }, function (module) {
       AdClient = module.AdClient;
     }, function (module) {
-      SetBannerSizeREQ = module.SetBannerSizeREQ;
       BannerAdListenerNTF = module.BannerAdListenerNTF;
-      CreateBannerViewREQ = module.CreateBannerViewREQ;
-      CreateBannerViewACK = module.CreateBannerViewACK;
       ShowBannerREQ = module.ShowBannerREQ;
       LoadBannerREQ = module.LoadBannerREQ;
       LoadBannerACK = module.LoadBannerACK;
@@ -880,34 +909,20 @@ System.register("chunks:///_virtual/BannerView.ts", ['cc', './AdClient.ts', './B
       bridge = module.bridge;
     }, function (module) {
       route = module.route;
+    }, function (module) {
+      BannerSize = module.BannerSize;
+    }, function (module) {
+      BottomCenter = module.BottomCenter;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "c134clsj91M34EZ30WPUV7n", "BannerView", undefined);
+      cclegacy._RF.push({}, "67876+xkzJIO6gfVziSiyV8", "BannerClient", undefined);
 
       const module$1 = "[BannerClient]";
 
       class BannerClient extends AdClient {
         constructor(...args) {
           super(...args);
-          this._size = void 0;
-          this.isLoaded = false;
           this._adListener = null;
-        }
-
-        set size(value) {
-          if (this.isLoaded) {
-            throw new Error(`the size can not be set after loaded.`);
-          }
-
-          this._size = value;
-          let req = new SetBannerSizeREQ(this.unitId);
-          req.x = this.size.x;
-          req.y = this.size.y;
-          bridge.sendToNative(SetBannerSizeREQ.name, req);
-        }
-
-        get size() {
-          return this.size;
         }
 
         get adListener() {
@@ -926,15 +941,6 @@ System.register("chunks:///_virtual/BannerView.ts", ['cc', './AdClient.ts', './B
           }
         }
 
-        create(unitId, adListener) {
-          this.unitId = unitId;
-          bridge.sendToNative(CreateBannerViewREQ.name, {
-            unitId: unitId
-          }, CreateBannerViewACK.name, ack => {
-            this.load(adListener);
-          }, this);
-        }
-
         show(visible) {
           let req = new ShowBannerREQ(this.unitId);
           req.visible = visible;
@@ -943,20 +949,21 @@ System.register("chunks:///_virtual/BannerView.ts", ['cc', './AdClient.ts', './B
           });
         }
 
-        load(adListener) {
+        load(unitId, adListener, opt) {
           this.adListener = adListener;
-          this.isLoaded = true;
-          let req = new LoadBannerREQ(this.unitId);
-          bridge.sendToNative(LoadBannerREQ.name, req, LoadBannerACK.name, response => {}, this);
+          this.unitId = unitId;
+          bridge.sendToNative(LoadBannerREQ.name, {
+            unitId: unitId,
+            bannerSize: opt != null && opt.size ? opt == null ? void 0 : opt.size : BannerSize.BANNER,
+            alignments: opt != null && opt.alignments ? opt == null ? void 0 : opt.alignments : BottomCenter
+          }, LoadBannerACK.name, response => {}, this);
         }
 
         destroy() {
           log(module$1, "destroy", this.unitId);
           let req = new DestroyBannerREQ(this.unitId);
           this.adListener = null;
-          bridge.sendToNative(DestroyBannerREQ.name, req, DestroyBannerACK.name, response => {
-            this.emit(BannerClient.OnDestroyed, this);
-          });
+          bridge.sendToNative(DestroyBannerREQ.name, req, DestroyBannerACK.name, response => {});
         }
 
         onAdListenerEvent(ntf) {
@@ -972,7 +979,72 @@ System.register("chunks:///_virtual/BannerView.ts", ['cc', './AdClient.ts', './B
       }
 
       exports('BannerClient', BannerClient);
-      BannerClient.OnDestroyed = 'OnDestroyed';
+
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/BannerSize.ts", ['cc'], function (exports) {
+  var cclegacy;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+    }],
+    execute: function () {
+      cclegacy._RF.push({}, "e3b6eOKvZVEtZgTOUkZOxTU", "BannerSize", undefined);
+      /**
+       * @en
+       * Builtin BannerSize 
+       * See https://developers.google.com/admob/android/banner?hl=zh-cn#banner_sizes for more details.
+       * @zh
+       * 内置的 Banner 的大小
+       * 查看 https://developers.google.com/admob/android/banner?hl=zh-cn#banner_sizes 获取更多细节。、
+       */
+
+
+      let BannerSize = exports('BannerSize', /*#__PURE__*/function (BannerSize) {
+        BannerSize["BANNER"] = "BANNER";
+        BannerSize["LARGE_BANNER"] = "LARGE_BANNER";
+        BannerSize["MEDIUM_RECTANGLE"] = "MEDIUM_RECTANGLE";
+        BannerSize["FULL_BANNER"] = "FULL_BANNER";
+        BannerSize["LEADERBOARD"] = "LEADERBOARD";
+        BannerSize["SMART_BANNER"] = "SMART_BANNER";
+        return BannerSize;
+      }({}));
+
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/BannerSizeOption.ts", ['cc', './BannerAlignment.ts', './BannerSize.ts'], function (exports) {
+  var cclegacy, BottomCenter, BannerSize;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+    }, function (module) {
+      BottomCenter = module.BottomCenter;
+    }, function (module) {
+      BannerSize = module.BannerSize;
+    }],
+    execute: function () {
+      cclegacy._RF.push({}, "5616bT5rtJEcY/73XVD9E9f", "BannerSizeOption", undefined);
+      /**
+       * @en
+       * 
+       */
+
+
+      class BannerSizeOption {
+        constructor() {
+          this.size = BannerSize.BANNER;
+          this.alignments = BottomCenter;
+        }
+
+      }
+
+      exports('BannerSizeOption', BannerSizeOption);
 
       cclegacy._RF.pop();
     }
@@ -986,7 +1058,7 @@ System.register("chunks:///_virtual/Base.ts", ['cc'], function (exports) {
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "4391dfWK9ZAQKAnvLK4nty3", "Base", undefined);
+      cclegacy._RF.push({}, "83981cFerZAEJC1MboCagJY", "Base", undefined);
 
       class Base {
         constructor(unitId) {
@@ -1017,7 +1089,7 @@ System.register("chunks:///_virtual/Bridge.ts", ['cc', './Route.ts', './Version.
       AdMobVersion = module.AdMobVersion;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "5fda2TWWuhELZgGyhZZgKj6", "Bridge", undefined);
+      cclegacy._RF.push({}, "9fa2b+aj71GBKZ5Ae4Zxwy/", "Bridge", undefined);
 
       const module$1 = "[Bridge]";
 
@@ -1080,7 +1152,7 @@ System.register("chunks:///_virtual/Codec.ts", ['cc'], function (exports) {
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "4367e0EXQ1PcoDX5a5qOFWu", "Codec", undefined);
+      cclegacy._RF.push({}, "5fc3csE8LBMtJ0kAlIAJVfi", "Codec", undefined);
 
       class Codec {
         decode(content) {
@@ -1404,7 +1476,7 @@ System.register("chunks:///_virtual/FullScreenContentCallback.ts", ['cc'], funct
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "f9800LbeD1M642D45zyHUQ4", "FullScreenContentCallback", undefined);
+      cclegacy._RF.push({}, "37fb7dk2tpKnKLMY9BVIgk4", "FullScreenContentCallback", undefined);
 
       cclegacy._RF.pop();
     }
@@ -1418,7 +1490,7 @@ System.register("chunks:///_virtual/ICallbackNTF.ts", ['cc'], function () {
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "9edb6Fh09VO7Y37IqJ13RYv", "ICallbackNTF", undefined);
+      cclegacy._RF.push({}, "6c8dadexLJGwqjGQ2usL63Y", "ICallbackNTF", undefined);
 
       cclegacy._RF.pop();
     }
@@ -1432,7 +1504,7 @@ System.register("chunks:///_virtual/INativeResponse.ts", ['cc'], function () {
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "1b4f8DNF/RLRZXInWqAThAc", "INativeResponse", undefined);
+      cclegacy._RF.push({}, "03548ZFhZZARbvS8YmyP/AH", "INativeResponse", undefined);
 
       cclegacy._RF.pop();
     }
@@ -1448,7 +1520,7 @@ System.register("chunks:///_virtual/InterstitailAd.ts", ['cc', './Base.ts'], fun
       Base = module.Base;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "50bf32kIfdFT6mUWmlo3xTy", "InterstitailAd", undefined);
+      cclegacy._RF.push({}, "351a6cGhWdHlaZa5uq/AsZ8", "InterstitailAd", undefined);
 
       class LoadInterstitialAdREQ extends Base {}
 
@@ -1514,7 +1586,7 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
       AdClient = module.AdClient;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "f5127/q14VHfYxNfoF9+P6R", "InterstitialAdClient", undefined);
+      cclegacy._RF.push({}, "0133a1I+utKjZdl7GATzhls", "InterstitialAdClient", undefined);
 
       const module$1 = "[InterstitialAdClient]";
 
@@ -1621,7 +1693,7 @@ System.register("chunks:///_virtual/InterstitialAdLoadCallback.ts", ['cc'], func
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "c6af7uO9xdG9L3zq6nKjfxX", "InterstitialAdLoadCallback", undefined);
+      cclegacy._RF.push({}, "95c6biRenVPv70yEzTspX+h", "InterstitialAdLoadCallback", undefined);
 
       cclegacy._RF.pop();
     }
@@ -1635,16 +1707,16 @@ System.register("chunks:///_virtual/InterstitialFullScreenContentCallback.ts", [
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "f05b5kjguVPgYcKjjXMMy59", "InterstitialFullScreenContentCallback", undefined);
+      cclegacy._RF.push({}, "26862PsMLhAsYZJMHVxZiYj", "InterstitialFullScreenContentCallback", undefined);
 
       cclegacy._RF.pop();
     }
   };
 });
 
-System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', './TypeAlias.ts', './AdClient.ts', './AppOpenAdClient.ts', './BannerView.ts', './InterstitialAdClient.ts', './NativeAdClient.ts', './RewardedAdClient.ts', './RewardedInterstitialAdClient.ts', './AdListener.ts', './AppOpenAdLoadCallback.ts', './FullScreenContentCallback.ts', './InterstitialAdLoadCallback.ts', './InterstitialFullScreenContentCallback.ts', './NativeAdListener.ts', './OnNativeAdLoadedListener.ts', './OnShowAdCompleteListener.ts', './OnUserEarnedRewardListener.ts', './OpenAppAdFullScreenContentCallback.ts', './RewardedAdFullScreenContentCallback.ts', './RewardedAdListener.ts', './RewardedAdLoadCallback.ts', './RewardedInterstitialAdLoadCallback.ts', './RewardedInterstitialFullScreenContentCallback.ts', './RewardedInterstitialListener.ts', './Bridge.ts', './Codec.ts', './INativeResponse.ts', './Route.ts', './Version2.ts', './TestUnitId.ts', './AppOpenAd.ts', './BannerAd.ts', './Base.ts', './ICallbackNTF.ts', './InterstitailAd.ts', './NativeAd.ts', './RewardedAd.ts', './RewardedInterstitialAd.ts', './Version.ts', './AdmobTestBanner.ts', './AdmobTestInterstitialAd.ts', './AdmobTestNative.ts', './AdmobTestOpenAppAd.ts', './AdmobTestRewarded.ts', './AdmobTestRewardedInterstitialAd.ts', './TestScenes.ts'], function () {
+System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', './AdmobTestBanner.ts', './AdmobTestInterstitialAd.ts', './AdmobTestNative.ts', './AdmobTestOpenAppAd.ts', './AdmobTestRewarded.ts', './AdmobTestRewardedInterstitialAd.ts', './TestScenes.ts', './TypeAlias.ts', './AdClient.ts', './AppOpenAdClient.ts', './BannerClient.ts', './InterstitialAdClient.ts', './NativeAdClient.ts', './RewardedAdClient.ts', './RewardedInterstitialAdClient.ts', './AdListener.ts', './AppOpenAdLoadCallback.ts', './FullScreenContentCallback.ts', './InterstitialAdLoadCallback.ts', './InterstitialFullScreenContentCallback.ts', './NativeAdListener.ts', './OnNativeAdLoadedListener.ts', './OnShowAdCompleteListener.ts', './OnUserEarnedRewardListener.ts', './OpenAppAdFullScreenContentCallback.ts', './RewardedAdFullScreenContentCallback.ts', './RewardedAdListener.ts', './RewardedAdLoadCallback.ts', './RewardedInterstitialAdLoadCallback.ts', './RewardedInterstitialFullScreenContentCallback.ts', './RewardedInterstitialListener.ts', './Bridge.ts', './Codec.ts', './INativeResponse.ts', './Route.ts', './Version2.ts', './BannerAlignment.ts', './BannerSize.ts', './BannerSizeOption.ts', './TestUnitId.ts', './AppOpenAd.ts', './BannerAd.ts', './Base.ts', './ICallbackNTF.ts', './InterstitailAd.ts', './NativeAd.ts', './RewardedAd.ts', './RewardedInterstitialAd.ts', './Version.ts'], function () {
   return {
-    setters: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    setters: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
     execute: function () {}
   };
 });
@@ -1658,7 +1730,7 @@ System.register("chunks:///_virtual/NativeAd.ts", ['cc', './Base.ts'], function 
       Base = module.Base;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "8c2ff5jR+5DsbkJ9see0252", "NativeAd", undefined);
+      cclegacy._RF.push({}, "7b7c2Gl5W9GoreLVP8oHwTY", "NativeAd", undefined);
 
       let NativeAdTemplateSize = exports('NativeAdTemplateSize', /*#__PURE__*/function (NativeAdTemplateSize) {
         NativeAdTemplateSize["Small"] = "small";
@@ -1730,7 +1802,7 @@ System.register("chunks:///_virtual/NativeAdClient.ts", ['cc', './Bridge.ts', '.
       route = module.route;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "9f47abEDV5OsLkRJx/ZinC7", "NativeAdClient", undefined);
+      cclegacy._RF.push({}, "2051einid9F8YRS5orUMZnQ", "NativeAdClient", undefined);
 
       const module$1 = "[NativeAdClient]";
 
@@ -1812,7 +1884,7 @@ System.register("chunks:///_virtual/NativeAdListener.ts", ['cc'], function () {
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "deb7afxfyxLQ6ZJNanDJ1iH", "NativeAdListener", undefined);
+      cclegacy._RF.push({}, "98273YC00NE6pnlSV02h9oy", "NativeAdListener", undefined);
 
       cclegacy._RF.pop();
     }
@@ -1826,7 +1898,7 @@ System.register("chunks:///_virtual/OnNativeAdLoadedListener.ts", ['cc'], functi
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "181b0/jeMNP8YOPFq0hClM0", "OnNativeAdLoadedListener", undefined);
+      cclegacy._RF.push({}, "2a2e6fRYgBIe6tHmj67gL2S", "OnNativeAdLoadedListener", undefined);
 
       cclegacy._RF.pop();
     }
@@ -1840,7 +1912,7 @@ System.register("chunks:///_virtual/OnShowAdCompleteListener.ts", ['cc'], functi
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "48248gpGjlLd772IYhQqcpV", "OnShowAdCompleteListener", undefined);
+      cclegacy._RF.push({}, "62f0fffhWRH1rGcDJtj6FDT", "OnShowAdCompleteListener", undefined);
 
       cclegacy._RF.pop();
     }
@@ -1854,7 +1926,7 @@ System.register("chunks:///_virtual/OnUserEarnedRewardListener.ts", ['cc'], func
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "7f2cf7vts1KnY/2/8iuRVrB", "OnUserEarnedRewardListener", undefined);
+      cclegacy._RF.push({}, "6d0a2WiUoRBA455UFNYwzFU", "OnUserEarnedRewardListener", undefined);
 
       cclegacy._RF.pop();
     }
@@ -1868,7 +1940,7 @@ System.register("chunks:///_virtual/OpenAppAdFullScreenContentCallback.ts", ['cc
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "ff564t2fchKHZrWEv4E62Hw", "OpenAppAdFullScreenContentCallback", undefined);
+      cclegacy._RF.push({}, "90e5fhISZJDYYjcgDMvfa8z", "OpenAppAdFullScreenContentCallback", undefined);
 
       cclegacy._RF.pop();
     }
@@ -1884,7 +1956,7 @@ System.register("chunks:///_virtual/RewardedAd.ts", ['cc', './Base.ts'], functio
       Base = module.Base;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "aba08WlVZNGxpZ6VmKuY9Fb", "RewardedAd", undefined);
+      cclegacy._RF.push({}, "a19d623UwdAurbcHSnuSt4c", "RewardedAd", undefined);
 
       class LoadRewardedAdREQ extends Base {}
 
@@ -1969,7 +2041,7 @@ System.register("chunks:///_virtual/RewardedAdClient.ts", ['cc', './Bridge.ts', 
       route = module.route;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "f671fUVeRZAD5cN05OWkw+n", "RewardedAdClient", undefined);
+      cclegacy._RF.push({}, "9c823kMEqhG354V3pAi+6bv", "RewardedAdClient", undefined);
 
       const module$1 = "[RewardedAdClient]";
 
@@ -2076,7 +2148,7 @@ System.register("chunks:///_virtual/RewardedAdFullScreenContentCallback.ts", ['c
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "b056e+LxdFFxod26wtZGDRm", "RewardedAdFullScreenContentCallback", undefined);
+      cclegacy._RF.push({}, "ccbcclTM5BLeaQxYmDylXnq", "RewardedAdFullScreenContentCallback", undefined);
 
       cclegacy._RF.pop();
     }
@@ -2090,7 +2162,7 @@ System.register("chunks:///_virtual/RewardedAdListener.ts", ['cc'], function () 
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "71a58UbDcFEEI4mXQYqyg2n", "RewardedAdListener", undefined);
+      cclegacy._RF.push({}, "b10b1DUlehJBrliYcPlp/9I", "RewardedAdListener", undefined);
 
       cclegacy._RF.pop();
     }
@@ -2104,7 +2176,7 @@ System.register("chunks:///_virtual/RewardedAdLoadCallback.ts", ['cc'], function
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "4a1efNLiMlIf7RTSxC1P7kI", "RewardedAdLoadCallback", undefined);
+      cclegacy._RF.push({}, "59c6ayhqOxKuIKCFYiHSxfo", "RewardedAdLoadCallback", undefined);
 
       cclegacy._RF.pop();
     }
@@ -2120,7 +2192,7 @@ System.register("chunks:///_virtual/RewardedInterstitialAd.ts", ['cc', './Base.t
       Base = module.Base;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "8d7acjr7ExBIanfhtFo2bVc", "RewardedInterstitialAd", undefined);
+      cclegacy._RF.push({}, "f35b0ZWnitHd4mL4VnNo7Th", "RewardedInterstitialAd", undefined);
 
       class LoadRewardedInterstitialAdREQ extends Base {}
 
@@ -2186,7 +2258,7 @@ System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './
       route = module.route;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "9ca7a3u0FdOSqTQ9U0IGJLD", "RewardedInterstitialAdClient", undefined);
+      cclegacy._RF.push({}, "bcd464DuS9EHZFqL+Wv7Zc9", "RewardedInterstitialAdClient", undefined);
 
       const module$1 = "[RewardedInterstitialAdClient]";
 
@@ -2269,7 +2341,7 @@ System.register("chunks:///_virtual/RewardedInterstitialAdLoadCallback.ts", ['cc
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "1d0c7+MjgZPsq0TZhuhn0Pv", "RewardedInterstitialAdLoadCallback", undefined);
+      cclegacy._RF.push({}, "31b4agsy/RARJF/0v6HTKzC", "RewardedInterstitialAdLoadCallback", undefined);
 
       class RewardedInterstitialAdLoadCallback {
         constructor() {
@@ -2293,7 +2365,7 @@ System.register("chunks:///_virtual/RewardedInterstitialFullScreenContentCallbac
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "47bafOZ4M1MWKiSYrPGSpAJ", "RewardedInterstitialFullScreenContentCallback", undefined);
+      cclegacy._RF.push({}, "684a9OsAopPXKs/PNqQRKhv", "RewardedInterstitialFullScreenContentCallback", undefined);
 
       cclegacy._RF.pop();
     }
@@ -2307,7 +2379,7 @@ System.register("chunks:///_virtual/RewardedInterstitialListener.ts", ['cc'], fu
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "ac4bfpM0CdLA7O4sXFC0Kjj", "RewardedInterstitialListener", undefined);
+      cclegacy._RF.push({}, "2ce66tAXYJKTYcwXNbPTkD2", "RewardedInterstitialListener", undefined);
 
       cclegacy._RF.pop();
     }
@@ -2325,7 +2397,7 @@ System.register("chunks:///_virtual/Route.ts", ['cc', './Codec.ts'], function (e
       Codec = module.Codec;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "69f2fHHtVNP0rFXSQf1U3WT", "Route", undefined);
+      cclegacy._RF.push({}, "d7d2caHkbhJx7OojQtGJlDF", "Route", undefined);
 
       const module$1 = "[Route]";
 
@@ -2401,7 +2473,7 @@ System.register("chunks:///_virtual/TestUnitId.ts", ['cc'], function (exports) {
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "55cd6paoF5Hxq9K9vHTcY6l", "TestUnitId", undefined);
+      cclegacy._RF.push({}, "82ff3DgPcxO9pSnl1qmYr+u", "TestUnitId", undefined);
 
       let TestUnitId = exports('TestUnitId', /*#__PURE__*/function (TestUnitId) {
         TestUnitId["BannerAd"] = "ca-app-pub-3940256099942544/6300978111";
@@ -2425,7 +2497,7 @@ System.register("chunks:///_virtual/TypeAlias.ts", ['cc'], function () {
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "e95983XLbRBV56VoA+XtVpR", "TypeAlias", undefined);
+      cclegacy._RF.push({}, "5738fx85WpMp6bb3Q7WK7YX", "TypeAlias", undefined);
 
       cclegacy._RF.pop();
     }
@@ -2441,7 +2513,7 @@ System.register("chunks:///_virtual/Version.ts", ['cc', './Base.ts'], function (
       Base = module.Base;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "03f470OFoJK/KzjtquDZG47", "Version", undefined);
+      cclegacy._RF.push({}, "54026AUb3NNTbcYO88Ecs9i", "Version", undefined);
 
       class VersionREQ extends Base {
         constructor(unitId, engineVersion) {
@@ -2465,7 +2537,7 @@ System.register("chunks:///_virtual/Version2.ts", ['cc'], function (exports) {
       cclegacy = module.cclegacy;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "be287/1NUNA9I/6LyztSgFf", "Version", undefined);
+      cclegacy._RF.push({}, "aca25+juFNMM5K8dGC0LPU/", "Version", undefined);
 
       const AdMobVersion = exports('AdMobVersion', "0.0.1");
 

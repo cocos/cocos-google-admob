@@ -113,6 +113,9 @@ class BuildTaskAndroid {
             console.log(TAG, "copyLibraryDirectory", `from ${extLibPath} to ${destLibPath}`);
             fse.copySync(extLibPath, destLibPath, { recursive: true, overwrite: overwriteLibrary });
             console.log(TAG, "copyLibraryDirectory", `from ${extLibPath} to ${destLibPath}`, "done");
+            const nativeTemplatePath = `${buildResult.dest}${AndroidConstants_1.AndroidConstants.GoogleNativeTemplateLibPath}`;
+            fse.copySync(AndroidConstants_1.AndroidConstants.GoogleNativeAdTemplatePath, nativeTemplatePath, { recursive: true, overwrite: overwriteLibrary });
+            console.log(TAG, "copyLibraryDirectory", `from ${AndroidConstants_1.AndroidConstants.GoogleNativeAdTemplatePath} to ${nativeTemplatePath}`, "done");
         }
     }
     /**
@@ -141,14 +144,6 @@ class BuildTaskAndroid {
             (0, Util_1.deleteDestContentInSrcFile)(appActivityPath, AndroidConstants_1.AndroidConstants.ImportTemplatePath);
             (0, Util_1.deleteDestContentInSrcFile)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateDestroyPath);
         }
-    }
-    /**
-     * @en
-     * Write the engine version to AppActivity.java
-     * @param options
-     * @param buildResult
-     */
-    writeVersion(options, buildResult) {
     }
     /**
      * @en

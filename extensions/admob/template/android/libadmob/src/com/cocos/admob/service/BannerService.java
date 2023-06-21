@@ -1,7 +1,6 @@
 package com.cocos.admob.service;
 
 
-import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,6 @@ import androidx.annotation.NonNull;
 import com.cocos.admob.AdManager;
 import com.cocos.admob.core.Bridge;
 import com.cocos.admob.proto.banner.BannerAdListenerNTF;
-import com.cocos.admob.proto.banner.CreateBannerViewACK;
-import com.cocos.admob.proto.banner.CreateBannerViewREQ;
 import com.cocos.admob.proto.banner.DestroyBannerACK;
 import com.cocos.admob.proto.banner.DestroyBannerREQ;
 import com.cocos.admob.proto.banner.LoadBannerACK;
@@ -27,8 +24,8 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Internal class for banner ads.
@@ -36,22 +33,19 @@ import java.util.Map;
 public final class BannerService extends Service {
     private static final String TAG = "BannerService";
     HashMap<String, AdView> bannerMap = new HashMap<>();
+
     public void init(Bridge bridge, CocosActivity activity) {
         super.init(bridge, activity);
-        bridge.getRoute().on(CreateBannerViewREQ.class.getSimpleName(), CreateBannerViewREQ.class, arg -> {
-            CreateBannerViewREQ req = (CreateBannerViewREQ) arg;
-            if (!bannerMap.containsKey(req.unitId)) {
-                this.createBannerView(req.unitId);
-            }
-            bridge.sendToScript(CreateBannerViewACK.class.getSimpleName(), new CreateBannerViewACK(req.unitId));
-        });
 
         bridge.getRoute().on(LoadBannerREQ.class.getSimpleName(), LoadBannerREQ.class, arg -> {
             LoadBannerREQ req = (LoadBannerREQ) arg;
+            if (!bannerMap.containsKey(req.unitId)) {
+                this.createBannerView(req);
+            }
             String unitId = req.unitId;
             LoadBannerACK ack = new LoadBannerACK(unitId);
             String method = LoadBannerACK.class.getSimpleName();
-            ack.unitId = req.unitId;
+            ack.unitId = unitId;
             loadBannerAd(req.unitId, new AdListener() {
                 @Override
                 public void onAdClicked() {
@@ -135,7 +129,11 @@ public final class BannerService extends Service {
         bannerMap.clear();
     }
 
-    private AdView createBannerView(String unitId) {
+    private AdView createBannerView(LoadBannerREQ req) {
+        String unitId = req.unitId;
+        String bannerSize = req.bannerSize;
+        String[] alignments = req.alignments;
+
         Window w = activity.getWindow();
         ViewGroup vg = (ViewGroup) w.getDecorView();
 
@@ -153,12 +151,35 @@ public final class BannerService extends Service {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
-        bannerLp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        bannerLp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+
+        try {
+            if (alignments != null) {
+                for (int i = 0; i < alignments.length; i++) {
+                    Field filed = RelativeLayout.class.getDeclaredField(alignments[i]);
+                    int rule = filed.getInt(RelativeLayout.class);
+                    bannerLp.addRule(rule);
+                }
+            }
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
         rl.addView(adview);
 
+        AdSize adSize;
+
+        try {
+            Field filed = AdSize.class.getDeclaredField(bannerSize);
+            adSize = (AdSize) filed.get(AdSize.class);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
         adview.setAdUnitId(unitId);
-        adview.setAdSize(AdSize.BANNER);
+        adview.setAdSize(adSize);
         adview.setLayoutParams(bannerLp);
         bannerMap.put(unitId, adview);
         return adview;
@@ -176,7 +197,6 @@ public final class BannerService extends Service {
     }
 
     private void showBanner(String unitId, boolean visible) {
-
         if (!bannerMap.containsKey(unitId)) {
             return;
         }

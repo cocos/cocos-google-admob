@@ -2,8 +2,8 @@ import { _decorator, Component } from 'cc';
 import { log } from 'cc';
 import { director } from 'cc';
 import { TestScenes } from './TestScenes';
-import { AppOpenAdClient } from '../admob/ads/client/AppOpenAdClient';
-import { TestUnitId } from '../admob/misc/TestUnitId';
+import { AppOpenAdClient } from 'db://admob/ads/client/AppOpenAdClient';
+import { TestUnitId } from 'db://admob/misc/TestUnitId';
 const { ccclass, property } = _decorator;
 
 const module = "[AdmobTestOpenAppAd]";

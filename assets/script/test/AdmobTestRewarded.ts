@@ -1,8 +1,8 @@
 import { _decorator, Component } from 'cc';
 import { director } from 'cc';
 import { TestScenes } from './TestScenes';
-import { RewardedAdClient } from '../admob/ads/client/RewardedAdClient';
-import { TestUnitId } from '../admob/misc/TestUnitId';
+import { RewardedAdClient } from 'db://admob/ads/client/RewardedAdClient';
+import { TestUnitId } from 'db://admob/misc/TestUnitId';
 import { log } from 'cc';
 import { Node } from 'cc';
 import { Label } from 'cc';

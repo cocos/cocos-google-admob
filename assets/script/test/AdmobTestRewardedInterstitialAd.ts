@@ -1,13 +1,13 @@
 import { _decorator, Component } from 'cc';
 import { director } from 'cc';
 import { TestScenes } from './TestScenes';
-import { TestUnitId } from '../admob/misc/TestUnitId';
+import { TestUnitId } from 'db://admob/misc/TestUnitId';
 import { log } from 'cc';
 import { Node } from 'cc';
 import { Label } from 'cc';
-import { RewardedInterstitialAdClient } from '../admob/ads/client/RewardedInterstitialAdClient';
+import { RewardedInterstitialAdClient } from 'db://admob/ads/client/RewardedInterstitialAdClient';
 const { ccclass, property } = _decorator;
-
+ 
 const module = "[AdmobTestRewardedInterstitialAd]"
 @ccclass('AdmobTestRewardedInterstitialAd')
 export class AdmobTestRewardedInterstitialAd extends Component {
