@@ -182,16 +182,14 @@ System.register("chunks:///_virtual/AdmobTestInterstitialAd.ts", ['cc', './TestS
         onClickLoadInterstitialAd() {
           let interstitialAdClient = new InterstitialAdClient();
           interstitialAdClient.load(TestUnitId.InterstitialAd, {
-            onAdLoaded() {
+            onAdLoaded: () => {
               log(module$1, "onAdLoaded");
               interstitialAdClient.show();
             },
-
-            onAdFailedToLoad(loadAdError) {
+            onAdFailedToLoad: loadAdError => {
               log(module$1, "onAdFailedToLoad, error: ", loadAdError);
               interstitialAdClient.destroy();
             }
-
           });
         }
 
@@ -246,10 +244,9 @@ System.register("chunks:///_virtual/AdmobTestNative.ts", ['cc', './TestScenes.ts
           log(module$1, "onClickLoadNativeAd");
           this.smallNativeAd = new NativeAdClient();
           this.smallNativeAd.load(TestUnitId.NativeAd, NativeAdTemplateSize.Small, {
-            onAdLoaded() {
+            onAdLoaded: () => {
               log(module$1, "onClickLoadSmallAd", "onAdLoaded");
             }
-
           });
         }
 
@@ -263,10 +260,9 @@ System.register("chunks:///_virtual/AdmobTestNative.ts", ['cc', './TestScenes.ts
           log(module$1, "onClickLoadNativeAd");
           this.mediumNativeAd = new NativeAdClient();
           this.mediumNativeAd.load(TestUnitId.NativeAd, NativeAdTemplateSize.Medium, {
-            onAdLoaded() {
+            onAdLoaded: () => {
               log(module$1, "onClickLoadSmallAd", "onAdLoaded");
             }
-
           });
         }
 
@@ -323,14 +319,12 @@ System.register("chunks:///_virtual/AdmobTestOpenAppAd.ts", ['cc', './TestScenes
         onClickLoadOpenAppAd() {
           log(module$1, "onClickLoadOpenAppAd");
           this.appOpenAdView.loadAd(TestUnitId.OpenAppAd, {
-            onAdLoaded() {
+            onAdLoaded: () => {
               log(module$1, "onClickLoadOpenAppAd", "onAdLoaded");
             },
-
-            onAdFailedToLoad(loadAdError) {
+            onAdFailedToLoad: loadAdError => {
               log(module$1, "onClickLoadOpenAppAd", "onAdFailedToLoad", loadAdError);
             }
-
           });
         }
 
@@ -396,32 +390,27 @@ System.register("chunks:///_virtual/AdmobTestRewarded.ts", ['cc', './TestScenes.
           let rewardEarnNode = this.node.getChildByName("DialogRewarded");
           let rewardedAdClient = new RewardedAdClient();
           rewardedAdClient.load(TestUnitId.RewardedAd, {
-            onAdLoaded() {
+            onAdLoaded: () => {
               log(module$1, "onClickLoadRewardedAd", "onAdLoaded");
               rewardedAdClient.show();
             },
-
-            onAdFailedToLoad(loadAdError) {
+            onAdFailedToLoad: loadAdError => {
               log(module$1, "onClickLoadRewardedAd", "onAdFailedToLoad", loadAdError);
             },
-
-            onEarn(rewardType, amount) {
+            onEarn: (rewardType, amount) => {
               log(module$1, "onClickLoadRewardedAd", `onEarn, rewardType = ${rewardType}, amount = ${amount}`);
               rewardEarnNode.active = true;
               const label = rewardEarnNode.getChildByName("Tip").getComponent(Label);
               label.string = `You have won the reward, type = ${rewardType}, amount = ${amount}!`;
             },
-
-            onAdDismissedFullScreenContent() {
+            onAdDismissedFullScreenContent: () => {
               log(module$1, "onAdDismissedFullScreenContent");
               rewardedAdClient.destroy();
             },
-
-            onAdFailedToShowFullScreenContent(adError) {
+            onAdFailedToShowFullScreenContent: adError => {
               log(module$1, "onAdFailedToShowFullScreenContent, adError: ", adError);
               rewardedAdClient.destroy();
             }
-
           });
         }
 
@@ -481,32 +470,27 @@ System.register("chunks:///_virtual/AdmobTestRewardedInterstitialAd.ts", ['cc', 
           let rewardEarnNode = this.node.getChildByName("DialogRewarded");
           let rewardedInterstitialAdClient = new RewardedInterstitialAdClient();
           rewardedInterstitialAdClient.load(TestUnitId.RewardedInterstitialAd, {
-            onAdLoaded() {
+            onAdLoaded: () => {
               log(module$1, "onClickLoadRewardedAd", "onAdLoaded");
               rewardedInterstitialAdClient.show();
             },
-
-            onAdFailedToLoad(loadAdError) {
+            onAdFailedToLoad: loadAdError => {
               log(module$1, "onClickLoadRewardedAd", "onAdFailedToLoad", loadAdError);
             },
-
-            onEarn(rewardType, amount) {
+            onEarn: (rewardType, amount) => {
               log(module$1, "onClickLoadRewardedAd", `onEarn, rewardType = ${rewardType}, amount = ${amount}`);
               rewardEarnNode.active = true;
               const label = rewardEarnNode.getChildByName("Tip").getComponent(Label);
               label.string = `You have won the reward, type = ${rewardType}, amount = ${amount}!`;
             },
-
-            onAdDismissedFullScreenContent() {
+            onAdDismissedFullScreenContent: () => {
               log(module$1, "onAdDismissedFullScreenContent");
               rewardedInterstitialAdClient.destroy();
             },
-
-            onAdFailedToShowFullScreenContent(adError) {
+            onAdFailedToShowFullScreenContent: adError => {
               log(module$1, "onAdFailedToShowFullScreenContent, adError: ", adError);
               rewardedInterstitialAdClient.destroy();
             }
-
           });
         }
 
@@ -1094,6 +1078,15 @@ System.register("chunks:///_virtual/Bridge.ts", ['cc', './Route.ts', './Version.
       const module$1 = "[Bridge]";
 
       class Bridge {
+        constructor() {
+          this.onNative = (arg0, arg1) => {
+            log(module$1, `onNative method: ${arg0} | content: ${arg1}`); //te.instance.dispatch(arg0, Route.instance.codec.decode(arg1));            
+
+            const ack = route.codec.decode(arg1);
+            route.dispatch(arg0, ack);
+          };
+        }
+
         init() {
           log(module$1, "init");
           this.overwriteCallback();
@@ -1110,17 +1103,8 @@ System.register("chunks:///_virtual/Bridge.ts", ['cc', './Route.ts', './Version.
         overwriteCallback() {
           log(module$1, "overwriteCallback");
           {
-            native.bridge.onNative = (arg0, arg1) => {
-              this.onNative(arg0, arg1);
-            };
+            native.bridge.onNative = this.onNative;
           }
-        }
-
-        onNative(arg0, arg1) {
-          log(module$1, `onNative method: ${arg0} | content: ${arg1}`); //te.instance.dispatch(arg0, Route.instance.codec.decode(arg1));            
-
-          const ack = route.codec.decode(arg1);
-          route.dispatch(arg0, ack);
         }
 
         sendToNative(arg0, req, responseMethod, onResponse, thisArg) {
@@ -1566,7 +1550,7 @@ System.register("chunks:///_virtual/InterstitailAd.ts", ['cc', './Base.ts'], fun
 });
 
 System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.ts', './Route.ts', './InterstitailAd.ts', './AdClient.ts'], function (exports) {
-  var cclegacy, log, bridge, route, InterstitialAdLoadCalLBackNTF, LoadInterstitialAdREQ, LoadInterstitialAdACK, InterstitialFullScreenContentCallbackNTF, ShowInterstitialAdREQ, ShowInterstitialAdACK, AdClient;
+  var cclegacy, log, bridge, route, InterstitialFullScreenContentCallbackNTF, InterstitialAdLoadCalLBackNTF, LoadInterstitialAdREQ, LoadInterstitialAdACK, ShowInterstitialAdREQ, ShowInterstitialAdACK, AdClient;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
@@ -1576,10 +1560,10 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
     }, function (module) {
       route = module.route;
     }, function (module) {
+      InterstitialFullScreenContentCallbackNTF = module.InterstitialFullScreenContentCallbackNTF;
       InterstitialAdLoadCalLBackNTF = module.InterstitialAdLoadCalLBackNTF;
       LoadInterstitialAdREQ = module.LoadInterstitialAdREQ;
       LoadInterstitialAdACK = module.LoadInterstitialAdACK;
-      InterstitialFullScreenContentCallbackNTF = module.InterstitialFullScreenContentCallbackNTF;
       ShowInterstitialAdREQ = module.ShowInterstitialAdREQ;
       ShowInterstitialAdACK = module.ShowInterstitialAdACK;
     }, function (module) {
@@ -1593,56 +1577,42 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
       class InterstitialAdClient extends AdClient {
         constructor(...args) {
           super(...args);
-          this._interstitialAdLoadCallback = void 0;
-          this.fullScreenContentCallback = void 0;
+          this._interstitialListener = void 0;
         }
 
-        set interstitialAdLoadCallback(value) {
-          if (this._interstitialAdLoadCallback != null) {
+        get interstitialListener() {
+          return this._interstitialListener;
+        }
+
+        set interstitialListener(value) {
+          if (!value) {
+            route.off(InterstitialFullScreenContentCallbackNTF.name, this.onInterstitialFullScreenContentCallback, this);
             route.off(InterstitialAdLoadCalLBackNTF.name, this.onInterstitialAdLoadCalLBackNTF, this);
           }
 
-          this._interstitialAdLoadCallback = value;
+          this._interstitialListener = value;
 
-          if (this._interstitialAdLoadCallback) {
+          if (value) {
+            route.on(InterstitialFullScreenContentCallbackNTF.name, this.onInterstitialFullScreenContentCallback, this);
             route.on(InterstitialAdLoadCalLBackNTF.name, this.onInterstitialAdLoadCalLBackNTF, this);
           }
         }
 
-        get interstitialAdLoadCallback() {
-          return this._interstitialAdLoadCallback;
-        }
-
-        load(unitId, interstitialAdLoadCallback) {
+        load(unitId, interstitialListener) {
           this.destroy();
           log(module$1, `load, unitId = ${unitId}`);
           this.unitId = unitId;
-          this.interstitialAdLoadCallback = interstitialAdLoadCallback;
-          let view = this;
+          this.interstitialListener = interstitialListener;
           bridge.sendToNative(LoadInterstitialAdREQ.name, {
             unitId: unitId
           }, LoadInterstitialAdACK.name, ack => {
             log(module$1, `load, LoadInterstitialAdACK, ${ack}`);
-            route.on(InterstitialFullScreenContentCallbackNTF.name, this.onInterstitialFullScreenContentCallback, this);
-            this.fullScreenContentCallback = {
-              onAdDismissedFullScreenContent() {
-                log(module$1, `onAdDismissedFullScreenContent`);
-                view.destroy();
-              },
-
-              onAdFailedToShowFullScreenContent(adError) {
-                log(module$1, `onAdFailedToShowFullScreenContent ${adError}`);
-                view.destroy();
-              }
-
-            };
           });
         }
 
         destroy() {
           log(module$1, `destroy`);
-          this.interstitialAdLoadCallback = null;
-          route.off(InterstitialFullScreenContentCallbackNTF.name, this.onInterstitialFullScreenContentCallback, this);
+          this.interstitialListener = null;
         }
 
         show(onComplete) {
@@ -1659,8 +1629,8 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
         onInterstitialAdLoadCalLBackNTF(ntf) {
           log(module$1, `onInterstitialAdLoadCalLBackNTF, ${ntf}`);
 
-          if (this.interstitialAdLoadCallback) {
-            let method = this.interstitialAdLoadCallback[ntf.method];
+          if (this.interstitialListener) {
+            let method = this.interstitialListener[ntf.method];
 
             if (method) {
               method(ntf.loadAdError);
@@ -1670,7 +1640,7 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
 
         onInterstitialFullScreenContentCallback(ntf) {
           log(module$1, `onInterstitialFullScreenContentCallback, ${ntf}`);
-          const method = this.fullScreenContentCallback[ntf.method];
+          const method = this.interstitialListener[ntf.method];
 
           if (method) {
             method();
@@ -1680,6 +1650,20 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
       }
 
       exports('InterstitialAdClient', InterstitialAdClient);
+
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/InterstitialAdListener.ts", ['cc'], function () {
+  var cclegacy;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+    }],
+    execute: function () {
+      cclegacy._RF.push({}, "4f5447hMxxIepLeOECu2PRF", "InterstitialAdListener", undefined);
 
       cclegacy._RF.pop();
     }
@@ -1714,9 +1698,9 @@ System.register("chunks:///_virtual/InterstitialFullScreenContentCallback.ts", [
   };
 });
 
-System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', './AdmobTestBanner.ts', './AdmobTestInterstitialAd.ts', './AdmobTestNative.ts', './AdmobTestOpenAppAd.ts', './AdmobTestRewarded.ts', './AdmobTestRewardedInterstitialAd.ts', './TestScenes.ts', './TypeAlias.ts', './AdClient.ts', './AppOpenAdClient.ts', './BannerClient.ts', './InterstitialAdClient.ts', './NativeAdClient.ts', './RewardedAdClient.ts', './RewardedInterstitialAdClient.ts', './AdListener.ts', './AppOpenAdLoadCallback.ts', './FullScreenContentCallback.ts', './InterstitialAdLoadCallback.ts', './InterstitialFullScreenContentCallback.ts', './NativeAdListener.ts', './OnNativeAdLoadedListener.ts', './OnShowAdCompleteListener.ts', './OnUserEarnedRewardListener.ts', './OpenAppAdFullScreenContentCallback.ts', './RewardedAdFullScreenContentCallback.ts', './RewardedAdListener.ts', './RewardedAdLoadCallback.ts', './RewardedInterstitialAdLoadCallback.ts', './RewardedInterstitialFullScreenContentCallback.ts', './RewardedInterstitialListener.ts', './Bridge.ts', './Codec.ts', './INativeResponse.ts', './Route.ts', './Version2.ts', './BannerAlignment.ts', './BannerSize.ts', './BannerSizeOption.ts', './TestUnitId.ts', './AppOpenAd.ts', './BannerAd.ts', './Base.ts', './ICallbackNTF.ts', './InterstitailAd.ts', './NativeAd.ts', './RewardedAd.ts', './RewardedInterstitialAd.ts', './Version.ts'], function () {
+System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', './AdmobTestBanner.ts', './AdmobTestInterstitialAd.ts', './AdmobTestNative.ts', './AdmobTestOpenAppAd.ts', './AdmobTestRewarded.ts', './AdmobTestRewardedInterstitialAd.ts', './TestScenes.ts', './TypeAlias.ts', './AdClient.ts', './AppOpenAdClient.ts', './BannerClient.ts', './InterstitialAdClient.ts', './NativeAdClient.ts', './RewardedAdClient.ts', './RewardedInterstitialAdClient.ts', './AdListener.ts', './AppOpenAdLoadCallback.ts', './FullScreenContentCallback.ts', './InterstitialAdListener.ts', './InterstitialAdLoadCallback.ts', './InterstitialFullScreenContentCallback.ts', './NativeAdListener.ts', './OnNativeAdLoadedListener.ts', './OnShowAdCompleteListener.ts', './OnUserEarnedRewardListener.ts', './OpenAppAdFullScreenContentCallback.ts', './RewardedAdFullScreenContentCallback.ts', './RewardedAdListener.ts', './RewardedAdLoadCallback.ts', './RewardedInterstitialAdLoadCallback.ts', './RewardedInterstitialFullScreenContentCallback.ts', './RewardedInterstitialListener.ts', './Bridge.ts', './Codec.ts', './INativeResponse.ts', './Route.ts', './Version2.ts', './BannerAlignment.ts', './BannerSize.ts', './BannerSizeOption.ts', './TestUnitId.ts', './AppOpenAd.ts', './BannerAd.ts', './Base.ts', './ICallbackNTF.ts', './InterstitailAd.ts', './NativeAd.ts', './RewardedAd.ts', './RewardedInterstitialAd.ts', './Version.ts'], function () {
   return {
-    setters: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    setters: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
     execute: function () {}
   };
 });
@@ -2270,14 +2254,14 @@ System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './
 
         set rewardedInterstitialListener(value) {
           if (this._rewardedInterstitialListener) {
-            route.off(RewardedInterstitialAdLoadCallbackNTF.name, this.onRewardedInterstitialAdLoadCallback, this);
+            route.off(RewardedInterstitialAdLoadCallbackNTF.name, this.onRewardedInterstitialAdLoadCallbackNTF, this);
             route.off(OnUserEarnedRewardedInterstitialListenerNTF.name, this.onOnUserEarnedRewardListenerNTF, this);
           }
 
           this._rewardedInterstitialListener = value;
 
           if (this._rewardedInterstitialListener) {
-            route.on(RewardedInterstitialAdLoadCallbackNTF.name, this.onRewardedInterstitialAdLoadCallback, this);
+            route.on(RewardedInterstitialAdLoadCallbackNTF.name, this.onRewardedInterstitialAdLoadCallbackNTF, this);
             route.on(OnUserEarnedRewardedInterstitialListenerNTF.name, this.onOnUserEarnedRewardListenerNTF, this);
           }
         }
@@ -2289,7 +2273,7 @@ System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './
         load(unitId, listener) {
           this.destroy();
           this.unitId = unitId;
-          this._rewardedInterstitialListener = listener;
+          this.rewardedInterstitialListener = listener;
           bridge.sendToNative(LoadRewardedInterstitialAdREQ.name, {
             unitId: unitId
           }, LoadRewardedInterstitialAdACK.name, ack => {}, this);
@@ -2305,7 +2289,8 @@ System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './
           }, ShowRewardedInterstitialAdACK.name, ack => {}, this);
         }
 
-        onRewardedInterstitialAdLoadCallback(ntf) {
+        onRewardedInterstitialAdLoadCallbackNTF(ntf) {
+          log(module$1, "onRewardedInterstitialAdLoadCallbackNTF", ntf.method);
           const method = this.rewardedInterstitialListener[ntf.method];
 
           if (method) {

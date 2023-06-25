@@ -25,24 +25,24 @@ export class AdmobTestRewarded extends Component {
         let rewardedAdClient = new RewardedAdClient();
 
         rewardedAdClient.load(TestUnitId.RewardedAd, {
-            onAdLoaded() {
+            onAdLoaded: () => {
                 log(module, "onClickLoadRewardedAd", "onAdLoaded");
                 rewardedAdClient.show();
             },
-            onAdFailedToLoad(loadAdError) {
+            onAdFailedToLoad: (loadAdError) => {
                 log(module, "onClickLoadRewardedAd", "onAdFailedToLoad", loadAdError);
             },
-            onEarn(rewardType, amount) {
+            onEarn: (rewardType, amount) => {
                 log(module, "onClickLoadRewardedAd", `onEarn, rewardType = ${rewardType}, amount = ${amount}`);
                 rewardEarnNode.active = true;
                 const label = rewardEarnNode.getChildByName("Tip").getComponent(Label);
                 label.string = `You have won the reward, type = ${rewardType}, amount = ${amount}!`;
             },
-            onAdDismissedFullScreenContent() {
+            onAdDismissedFullScreenContent: () => {
                 log(module, "onAdDismissedFullScreenContent");
                 rewardedAdClient.destroy();
             },
-            onAdFailedToShowFullScreenContent(adError) {
+            onAdFailedToShowFullScreenContent: (adError) => {
                 log(module, "onAdFailedToShowFullScreenContent, adError: ", adError);
                 rewardedAdClient.destroy();
             },

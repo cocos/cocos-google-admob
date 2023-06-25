@@ -16,10 +16,10 @@ export class AdmobTestOpenAppAd extends Component {
         log(module, "onClickLoadOpenAppAd");
 
         this.appOpenAdView.loadAd(TestUnitId.OpenAppAd, {
-            onAdLoaded() {
+            onAdLoaded: ()=> {
                 log(module, "onClickLoadOpenAppAd", "onAdLoaded");
             },
-            onAdFailedToLoad(loadAdError) {
+            onAdFailedToLoad: (loadAdError) => {
                 log(module, "onClickLoadOpenAppAd", "onAdFailedToLoad", loadAdError);
             },
         });

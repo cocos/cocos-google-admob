@@ -7,7 +7,7 @@ import { Node } from 'cc';
 import { Label } from 'cc';
 import { RewardedInterstitialAdClient } from 'db://admob/ads/client/RewardedInterstitialAdClient';
 const { ccclass, property } = _decorator;
- 
+
 const module = "[AdmobTestRewardedInterstitialAd]"
 @ccclass('AdmobTestRewardedInterstitialAd')
 export class AdmobTestRewardedInterstitialAd extends Component {
@@ -24,24 +24,24 @@ export class AdmobTestRewardedInterstitialAd extends Component {
         let rewardEarnNode: Node = this.node.getChildByName("DialogRewarded");
         let rewardedInterstitialAdClient = new RewardedInterstitialAdClient();
         rewardedInterstitialAdClient.load(TestUnitId.RewardedInterstitialAd, {
-            onAdLoaded() {
+            onAdLoaded: () => {
                 log(module, "onClickLoadRewardedAd", "onAdLoaded");
                 rewardedInterstitialAdClient.show();
             },
-            onAdFailedToLoad(loadAdError) {
+            onAdFailedToLoad: (loadAdError) => {
                 log(module, "onClickLoadRewardedAd", "onAdFailedToLoad", loadAdError);
             },
-            onEarn(rewardType, amount) {
+            onEarn: (rewardType, amount) => {
                 log(module, "onClickLoadRewardedAd", `onEarn, rewardType = ${rewardType}, amount = ${amount}`);
                 rewardEarnNode.active = true;
                 const label = rewardEarnNode.getChildByName("Tip").getComponent(Label);
                 label.string = `You have won the reward, type = ${rewardType}, amount = ${amount}!`;
             },
-            onAdDismissedFullScreenContent() {
+            onAdDismissedFullScreenContent: () => {
                 log(module, "onAdDismissedFullScreenContent");
                 rewardedInterstitialAdClient.destroy();
             },
-            onAdFailedToShowFullScreenContent(adError) {
+            onAdFailedToShowFullScreenContent: (adError) => {
                 log(module, "onAdFailedToShowFullScreenContent, adError: ", adError);
                 rewardedInterstitialAdClient.destroy();
             },

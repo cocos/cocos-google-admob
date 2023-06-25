@@ -1,11 +1,9 @@
 package com.cocos.admob.proto.nativead;
 
 import com.cocos.admob.proto.Base;
+import com.cocos.admob.proto.IAdError;
 
-public class NativeAdListenerNTF extends Base  {
-    public String method;
-    public String adError;
-
+public class NativeAdListenerNTF extends IAdError {
     public NativeAdListenerNTF(String unitId, String method) {
         super(unitId);
     }

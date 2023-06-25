@@ -19,14 +19,14 @@ export class AdmobTestNative extends Component {
 
         this.smallNativeAd = new NativeAdClient();
         this.smallNativeAd.load(TestUnitId.NativeAd, NativeAdTemplateSize.Small, {
-            onAdLoaded() {
+            onAdLoaded: () => {
                 log(module, "onClickLoadSmallAd", "onAdLoaded");
             },
         });
     }
 
-    onClickCloseSmallAd(){
-        if(this.smallNativeAd){
+    onClickCloseSmallAd() {
+        if (this.smallNativeAd) {
             this.smallNativeAd.destroy();
         }
     }
@@ -36,14 +36,14 @@ export class AdmobTestNative extends Component {
 
         this.mediumNativeAd = new NativeAdClient();
         this.mediumNativeAd.load(TestUnitId.NativeAd, NativeAdTemplateSize.Medium, {
-            onAdLoaded() {
+            onAdLoaded: () => {
                 log(module, "onClickLoadSmallAd", "onAdLoaded");
             },
         });
     }
 
-    onClickCloseMediumAd(){
-        if(this.mediumNativeAd){
+    onClickCloseMediumAd() {
+        if (this.mediumNativeAd) {
             this.mediumNativeAd.destroy();
         }
     }

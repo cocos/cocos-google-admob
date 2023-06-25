@@ -1,6 +1,5 @@
 package com.cocos.admob.service;
 
-import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +7,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import androidx.annotation.NonNull;
-
+import com.cocos.admob.R;
 import com.cocos.admob.AdManager;
 import com.cocos.admob.core.Bridge;
 import com.cocos.admob.proto.nativead.DestroyNativeAdACK;
@@ -18,7 +17,6 @@ import com.cocos.admob.proto.nativead.LoadNativeAdREQ;
 import com.cocos.admob.proto.nativead.NativeAdListenerNTF;
 import com.cocos.admob.proto.nativead.NativeLoadedNTF;
 import com.cocos.lib.CocosActivity;
-import com.cocos.service.R;
 import com.google.android.ads.nativetemplates.NativeTemplateStyle;
 import com.google.android.ads.nativetemplates.TemplateView;
 import com.google.android.gms.ads.AdListener;

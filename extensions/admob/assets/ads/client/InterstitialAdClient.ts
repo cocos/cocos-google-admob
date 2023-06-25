@@ -3,60 +3,43 @@ import { bridge } from "../../core/Bridge";
 import { route } from "../../core/Route";
 import { InterstitialAdLoadCalLBackNTF, InterstitialFullScreenContentCallbackNTF, LoadInterstitialAdACK, LoadInterstitialAdREQ, ShowInterstitialAdACK, ShowInterstitialAdREQ } from "../../proto/InterstitailAd";
 import { AdClient } from "./AdClient";
-import { InterstitialAdLoadCallback } from "../listener/InterstitialAdLoadCallback";
-import { InterstitialFullScreenContentCallback } from "../listener/InterstitialFullScreenContentCallback";
+import { InterstitialAdListener } from "../listener/InterstitialAdListener";
 
 const module = "[InterstitialAdClient]"
 export class InterstitialAdClient extends AdClient {
 
-    private _interstitialAdLoadCallback: InterstitialAdLoadCallback;
-
-    set interstitialAdLoadCallback(value: InterstitialAdLoadCallback) {
-        if (this._interstitialAdLoadCallback != null) {
+    private _interstitialListener: InterstitialAdListener;
+    get interstitialListener(): InterstitialAdListener {
+        return this._interstitialListener;
+    }
+    set interstitialListener(value: InterstitialAdListener) {
+        if (!value) {
+            route.off(InterstitialFullScreenContentCallbackNTF.name, this.onInterstitialFullScreenContentCallback, this);
             route.off(InterstitialAdLoadCalLBackNTF.name, this.onInterstitialAdLoadCalLBackNTF, this);
         }
-        this._interstitialAdLoadCallback = value;
-        if (this._interstitialAdLoadCallback) {
+
+        this._interstitialListener = value;
+
+        if (value) {
+            route.on(InterstitialFullScreenContentCallbackNTF.name, this.onInterstitialFullScreenContentCallback, this);
             route.on(InterstitialAdLoadCalLBackNTF.name, this.onInterstitialAdLoadCalLBackNTF, this);
         }
     }
 
-    get interstitialAdLoadCallback(): InterstitialAdLoadCallback {
-        return this._interstitialAdLoadCallback;
-    }
-
-    fullScreenContentCallback: InterstitialFullScreenContentCallback;
-
-    load(unitId: string, interstitialAdLoadCallback?: InterstitialAdLoadCallback) {
+    load(unitId: string, interstitialListener?: InterstitialAdListener) {
         this.destroy();
         log(module, `load, unitId = ${unitId}`);
         this.unitId = unitId;
-        this.interstitialAdLoadCallback = interstitialAdLoadCallback;
+        this.interstitialListener = interstitialListener;
 
-        let view = this; 
         bridge.sendToNative(LoadInterstitialAdREQ.name, { unitId: unitId }, LoadInterstitialAdACK.name, (ack: LoadInterstitialAdACK) => {
-
             log(module, `load, LoadInterstitialAdACK, ${ack}`);
-
-            route.on(InterstitialFullScreenContentCallbackNTF.name, this.onInterstitialFullScreenContentCallback, this);
-
-            this.fullScreenContentCallback = {
-                onAdDismissedFullScreenContent() {
-                    log(module, `onAdDismissedFullScreenContent`);                  
-                    view.destroy();
-                },
-                onAdFailedToShowFullScreenContent(adError) {
-                    log(module, `onAdFailedToShowFullScreenContent ${adError}`);
-                    view.destroy();
-                },
-            }
         });
     }
 
     destroy() {
         log(module, `destroy`);
-        this.interstitialAdLoadCallback = null;
-        route.off(InterstitialFullScreenContentCallbackNTF.name, this.onInterstitialFullScreenContentCallback, this);      
+        this.interstitialListener = null;        
     }
 
     show(onComplete?: () => void) {
@@ -70,18 +53,17 @@ export class InterstitialAdClient extends AdClient {
 
     private onInterstitialAdLoadCalLBackNTF(ntf: InterstitialAdLoadCalLBackNTF) {
         log(module, `onInterstitialAdLoadCalLBackNTF, ${ntf}`);
-        if (this.interstitialAdLoadCallback) {
-            let method = this.interstitialAdLoadCallback[ntf.method];
+        if (this.interstitialListener) {
+            let method = this.interstitialListener[ntf.method];
             if (method) {
                 method(ntf.loadAdError);
             }
         }
-
     }
 
     private onInterstitialFullScreenContentCallback(ntf: InterstitialFullScreenContentCallbackNTF) {
         log(module, `onInterstitialFullScreenContentCallback, ${ntf}`);
-        const method = this.fullScreenContentCallback[ntf.method];
+        const method = this.interstitialListener[ntf.method];
         if (method) {
             method();
         }

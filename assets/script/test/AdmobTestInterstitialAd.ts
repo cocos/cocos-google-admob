@@ -9,21 +9,21 @@ const { ccclass, property } = _decorator;
 const module = "[AdmobTestInterstitialAdts]";
 @ccclass('AdmobTestInterstitialAdts')
 export class AdmobTestInterstitialAdts extends Component {
-   
+
     onClickLoadInterstitialAd() {
 
         let interstitialAdClient = new InterstitialAdClient();
 
-        interstitialAdClient.load( TestUnitId.InterstitialAd, {
-            onAdLoaded() {
+        interstitialAdClient.load(TestUnitId.InterstitialAd, {
+            onAdLoaded: () => {
                 log(module, "onAdLoaded");
                 interstitialAdClient.show();
             },
-            onAdFailedToLoad(loadAdError) {
+            onAdFailedToLoad: (loadAdError) => {
                 log(module, "onAdFailedToLoad, error: ", loadAdError);
                 interstitialAdClient.destroy();
             },
-        });         
+        });
     }
 
     onNextScene() {

@@ -1,10 +1,10 @@
 package com.cocos.admob.proto.openapp;
 
 import com.cocos.admob.proto.Base;
+import com.cocos.admob.proto.IAdError;
+import com.google.android.gms.ads.AdError;
 
-public class FullScreenContentCallbackNTF extends Base {
-    public String method;
-    public String adError;
+public class FullScreenContentCallbackNTF extends IAdError {
 
     public FullScreenContentCallbackNTF(String unitId, String method){
         super(unitId);

@@ -13,13 +13,13 @@ export class RewardedInterstitialAdClient extends AdClient {
 
     set rewardedInterstitialListener(value: RewardedInterstitialListener) {
         if (this._rewardedInterstitialListener) {
-            route.off(RewardedInterstitialAdLoadCallbackNTF.name, this.onRewardedInterstitialAdLoadCallback, this);
+            route.off(RewardedInterstitialAdLoadCallbackNTF.name, this.onRewardedInterstitialAdLoadCallbackNTF, this);
             route.off(OnUserEarnedRewardedInterstitialListenerNTF.name, this.onOnUserEarnedRewardListenerNTF, this);
         }
 
         this._rewardedInterstitialListener = value;
         if (this._rewardedInterstitialListener) {
-            route.on(RewardedInterstitialAdLoadCallbackNTF.name, this.onRewardedInterstitialAdLoadCallback, this);
+            route.on(RewardedInterstitialAdLoadCallbackNTF.name, this.onRewardedInterstitialAdLoadCallbackNTF, this);
             route.on(OnUserEarnedRewardedInterstitialListenerNTF.name, this.onOnUserEarnedRewardListenerNTF, this);
         }
     }
@@ -30,7 +30,7 @@ export class RewardedInterstitialAdClient extends AdClient {
     load(unitId: string, listener: RewardedInterstitialListener) {
         this.destroy();
         this.unitId = unitId;
-        this._rewardedInterstitialListener = listener;
+        this.rewardedInterstitialListener = listener;
         bridge.sendToNative(LoadRewardedInterstitialAdREQ.name, { unitId: unitId },
             LoadRewardedInterstitialAdACK.name,
             (ack: LoadRewardedInterstitialAdACK) => {
@@ -49,14 +49,15 @@ export class RewardedInterstitialAdClient extends AdClient {
             }, this);
     }
 
-    private onRewardedInterstitialAdLoadCallback(ntf: RewardedInterstitialAdLoadCallbackNTF) {
-        const method = this.rewardedInterstitialListener[ntf.method];
+    private onRewardedInterstitialAdLoadCallbackNTF(ntf: RewardedInterstitialAdLoadCallbackNTF) {
+        log(module, "onRewardedInterstitialAdLoadCallbackNTF", ntf.method);
+        const method = this.rewardedInterstitialListener[ntf.method];        
         if (method) {
             method(ntf.loadAdError);
         }
     }
 
-    private onOnUserEarnedRewardListenerNTF(ntf: OnUserEarnedRewardedInterstitialListenerNTF) {
+    private onOnUserEarnedRewardListenerNTF(ntf: OnUserEarnedRewardedInterstitialListenerNTF) {        
         log(module, `onOnUserEarnedRewardListenerNTF`);
         if (this.rewardedInterstitialListener) {
             const onEarn = this.rewardedInterstitialListener as OnUserEarnedRewardListener;

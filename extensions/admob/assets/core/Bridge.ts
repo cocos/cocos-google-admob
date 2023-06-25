@@ -28,13 +28,11 @@ export class Bridge {
         log(module, "overwriteCallback");
 
         if (NATIVE) {
-            native.bridge.onNative = (arg0: string, arg1: string) => {
-                this.onNative(arg0, arg1);
-            }
+            native.bridge.onNative = this.onNative;
         }
     }
 
-    onNative(arg0: string, arg1: string): void {
+    onNative = (arg0: string, arg1: string) => {
         log(module, `onNative method: ${arg0} | content: ${arg1}`,);
         //te.instance.dispatch(arg0, Route.instance.codec.decode(arg1));            
         const ack = route.codec.decode<Base>(arg1)
