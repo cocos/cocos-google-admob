@@ -7,8 +7,6 @@ import { log } from "cc";
 const module = "[Route]"
 export class Route {
 
-    public static instance: Route = new Route();
-
     codec: ICodec;
 
     private _eventTarget: EventTarget = new EventTarget();
