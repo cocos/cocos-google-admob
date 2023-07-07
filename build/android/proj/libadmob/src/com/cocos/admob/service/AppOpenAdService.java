@@ -1,6 +1,7 @@
 package com.cocos.admob.service;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -9,18 +10,20 @@ import androidx.annotation.NonNull;
 import com.cocos.admob.AdManager;
 import com.cocos.admob.AdMobApplication;
 import com.cocos.admob.core.Bridge;
-import com.cocos.admob.core.IScriptHandler;
+import com.cocos.admob.proto.banner.BannerPaidEventNTF;
 import com.cocos.admob.proto.openapp.AppOpenAdLoadCallbackNTF;
 import com.cocos.admob.proto.openapp.IsAdAvailableACK;
 import com.cocos.admob.proto.openapp.IsAdAvailableREQ;
-import com.cocos.admob.proto.openapp.LoadOpenAppAdACK;
-import com.cocos.admob.proto.openapp.LoadOpenAppAdREQ;
-import com.cocos.admob.proto.openapp.OpenAppAdFullScreenContentCallbackNTF;
-import com.cocos.admob.proto.openapp.ShowOpenAppAdCompleteNTF;
-import com.cocos.admob.proto.openapp.ShowOpenAppAdREQ;
+import com.cocos.admob.proto.openapp.LoadAppOpenAdACK;
+import com.cocos.admob.proto.openapp.LoadAppOpenAdREQ;
+import com.cocos.admob.proto.openapp.AppOpenAdFullScreenContentCallbackNTF;
+import com.cocos.admob.proto.openapp.AppOpenPaidEventNTF;
+import com.cocos.admob.proto.openapp.ShowAppOpenAdCompleteNTF;
+import com.cocos.admob.proto.openapp.ShowAppOpenAdREQ;
 import com.cocos.lib.CocosActivity;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdapterResponseInfo;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.appopen.AppOpenAd;
@@ -50,17 +53,17 @@ public final class AppOpenAdService extends Service {
 
     public void init(Bridge bridge, CocosActivity activity) {
         super.init(bridge, activity);
-        bridge.getRoute().on(LoadOpenAppAdREQ.class.getSimpleName(), LoadOpenAppAdREQ.class, arg -> {
-            LoadOpenAppAdREQ req = (LoadOpenAppAdREQ) arg;
+        bridge.getRoute().on(LoadAppOpenAdREQ.class.getSimpleName(), LoadAppOpenAdREQ.class, arg -> {
+            LoadAppOpenAdREQ req = (LoadAppOpenAdREQ) arg;
             loadAd(req.unitId);
-            LoadOpenAppAdACK ack = new LoadOpenAppAdACK(req.unitId);
-            bridge.sendToScript(LoadOpenAppAdACK.class.getSimpleName(), ack);
+            LoadAppOpenAdACK ack = new LoadAppOpenAdACK(req.unitId);
+            bridge.sendToScript(LoadAppOpenAdACK.class.getSimpleName(), ack);
         });
 
-        bridge.getRoute().on(ShowOpenAppAdREQ.class.getSimpleName(), ShowOpenAppAdREQ.class, arg -> {
-            ShowOpenAppAdREQ ack = (ShowOpenAppAdREQ) arg;
+        bridge.getRoute().on(ShowAppOpenAdREQ.class.getSimpleName(), ShowAppOpenAdREQ.class, arg -> {
+            ShowAppOpenAdREQ ack = (ShowAppOpenAdREQ) arg;
             showAdIfAvailable();
-            bridge.sendToScript(LoadOpenAppAdACK.class.getSimpleName(), ack);
+            bridge.sendToScript(LoadAppOpenAdACK.class.getSimpleName(), ack);
         });
 
         bridge.getRoute().on(IsAdAvailableREQ.class.getSimpleName(), IsAdAvailableREQ.class, arg -> {
@@ -68,10 +71,6 @@ public final class AppOpenAdService extends Service {
             boolean valid = isAdAvailable();
             bridge.sendToScript(IsAdAvailableACK.class.getSimpleName(), new IsAdAvailableACK(req.unitId, valid));
         });
-    }
-
-    public void destroy() {
-
     }
 
     private void loadAd(String unitId) {
@@ -106,6 +105,28 @@ public final class AppOpenAdService extends Service {
                         AppOpenAdLoadCallbackNTF ntf = new AppOpenAdLoadCallbackNTF(unitId);
                         ntf.method = "onAdLoaded";
                         bridge.sendToScript(AppOpenAdLoadCallbackNTF.class.getSimpleName(), ntf);
+
+                        appOpenAd.setOnPaidEventListener( adValue -> {
+                            AppOpenPaidEventNTF interstitialPaidEventNTF = new AppOpenPaidEventNTF(unitId);
+
+                            interstitialPaidEventNTF.valueMicros = adValue.getValueMicros();
+                            interstitialPaidEventNTF.currencyCode = adValue.getCurrencyCode();
+                            interstitialPaidEventNTF.precision = adValue.getPrecisionType();
+
+                            AdapterResponseInfo loadedAdapterResponseInfo = appOpenAd.getResponseInfo().
+                                    getLoadedAdapterResponseInfo();
+                            interstitialPaidEventNTF.adSourceName = loadedAdapterResponseInfo.getAdSourceName();
+                            interstitialPaidEventNTF.adSourceId = loadedAdapterResponseInfo.getAdSourceId();
+                            interstitialPaidEventNTF.adSourceInstanceName = loadedAdapterResponseInfo.getAdSourceInstanceName();
+                            interstitialPaidEventNTF.adSourceInstanceId = loadedAdapterResponseInfo.getAdSourceInstanceId();
+
+                            Bundle extras = appOpenAd.getResponseInfo().getResponseExtras();
+                            interstitialPaidEventNTF.mediationGroupName = extras.getString("mediation_group_name");
+                            interstitialPaidEventNTF.mediationABTestName = extras.getString("mediation_ab_test_name");
+                            interstitialPaidEventNTF.mediationABTestVariant = extras.getString("mediation_ab_test_variant");
+
+                            bridge.sendToScript(AppOpenPaidEventNTF.class.getSimpleName(), interstitialPaidEventNTF);
+                        });
                     }
 
                     /**
@@ -153,7 +174,7 @@ public final class AppOpenAdService extends Service {
                     @Override
                     public void onShowAdComplete() {
                         // Empty because the user will go back to the activity that shows the ad.
-                        bridge.sendToScript(ShowOpenAppAdCompleteNTF.class.getSimpleName(), new ShowOpenAppAdCompleteNTF(unitId));
+                        bridge.sendToScript(ShowAppOpenAdCompleteNTF.class.getSimpleName(), new ShowAppOpenAdCompleteNTF(unitId));
                     }
                 });
     }
@@ -186,10 +207,10 @@ public final class AppOpenAdService extends Service {
                         isShowingAd = false;
 
                         Log.d(TAG, "onAdDismissedFullScreenContent.");
-                        Toast.makeText(activity, "onAdDismissedFullScreenContent", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(activity, "onAdDismissedFullScreenContent", Toast.LENGTH_SHORT).show();
 
                         onShowAdCompleteListener.onShowAdComplete();
-                        bridge.sendToScript(OpenAppAdFullScreenContentCallbackNTF.class.getSimpleName(), new OpenAppAdFullScreenContentCallbackNTF(unitId, "onAdDismissedFullScreenContent"));
+                        bridge.sendToScript(AppOpenAdFullScreenContentCallbackNTF.class.getSimpleName(), new AppOpenAdFullScreenContentCallbackNTF(unitId, "onAdDismissedFullScreenContent"));
                     }
 
                     /** Called when fullscreen content failed to show. */
@@ -199,19 +220,18 @@ public final class AppOpenAdService extends Service {
                         isShowingAd = false;
 
                         Log.d(TAG, "onAdFailedToShowFullScreenContent: " + adError.getMessage());
-                        Toast.makeText(activity, "onAdFailedToShowFullScreenContent", Toast.LENGTH_SHORT)
-                                .show();
+                        //Toast.makeText(activity, "onAdFailedToShowFullScreenContent", Toast.LENGTH_SHORT).show();
 
                         onShowAdCompleteListener.onShowAdComplete();
-                        bridge.sendToScript(OpenAppAdFullScreenContentCallbackNTF.class.getSimpleName(), new OpenAppAdFullScreenContentCallbackNTF(unitId, "onAdDismissedFullScreenContent", adError.toString()));
+                        bridge.sendToScript(AppOpenAdFullScreenContentCallbackNTF.class.getSimpleName(), new AppOpenAdFullScreenContentCallbackNTF(unitId, "onAdDismissedFullScreenContent", adError.toString()));
                     }
 
                     /** Called when fullscreen content is shown. */
                     @Override
                     public void onAdShowedFullScreenContent() {
                         Log.d(TAG, "onAdShowedFullScreenContent.");
-                        Toast.makeText(activity, "onAdShowedFullScreenContent", Toast.LENGTH_SHORT).show();
-                        bridge.sendToScript(OpenAppAdFullScreenContentCallbackNTF.class.getSimpleName(), new OpenAppAdFullScreenContentCallbackNTF(unitId, "onAdShowedFullScreenContent"));
+                        //Toast.makeText(activity, "onAdShowedFullScreenContent", Toast.LENGTH_SHORT).show();
+                        bridge.sendToScript(AppOpenAdFullScreenContentCallbackNTF.class.getSimpleName(), new AppOpenAdFullScreenContentCallbackNTF(unitId, "onAdShowedFullScreenContent"));
                     }
                 });
 

@@ -5,6 +5,8 @@ import { AdClient } from "./AdClient";
 import { route } from "../../core/Route";
 import { OnUserEarnedRewardListener } from "../listener/OnUserEarnedRewardListener";
 import { RewardedAdListener } from "../listener/RewardedAdListener";
+import { RewardedPaidEventNTF } from "../../proto/PaidEventNTF";
+import { OnPaidEventListener } from "../listener/OnPaidEventListener";
 
 const module = "[RewardedAdClient]"
 export class RewardedAdClient extends AdClient {
@@ -16,6 +18,7 @@ export class RewardedAdClient extends AdClient {
             route.off(RewardedAdLoadCallbackNTF.name, this.onRewardedAdLoadCallbackNTF, this);
             route.off(RewardedFullScreenContentCallbackNTF.name, this.onFullScreenContentCallback, this);
             route.off(OnUserEarnedRewardListenerNTF.name, this.onOnUserEarnedRewardListenerNTF, this);
+            route.off(RewardedPaidEventNTF.name, this.onPaidEvent, this);
         }
         this._rewardedListener = value;
 
@@ -23,6 +26,7 @@ export class RewardedAdClient extends AdClient {
             route.on(RewardedAdLoadCallbackNTF.name, this.onRewardedAdLoadCallbackNTF, this);
             route.on(RewardedFullScreenContentCallbackNTF.name, this.onFullScreenContentCallback, this);
             route.on(OnUserEarnedRewardListenerNTF.name, this.onOnUserEarnedRewardListenerNTF, this);
+            route.on(RewardedPaidEventNTF.name, this.onPaidEvent, this);
         }
     }
     public get rewardedListener(): RewardedAdListener {
@@ -34,13 +38,13 @@ export class RewardedAdClient extends AdClient {
         this.unitId = unitId;
         this.rewardedListener = rewardedListener;
         bridge.sendToNative(LoadRewardedAdREQ.name, { unitId: unitId }, LoadRewardedAdACK.name, (ack: LoadRewardedAdACK) => {
-            log(module, `LoadRewardedAdACK, ${ack}`);            
+            log(module, `LoadRewardedAdACK, ${ack}`);
         }, this);
     }
 
     destroy() {
         log(module, `destroy`);
-        this.rewardedListener = null;        
+        this.rewardedListener = null;
     }
 
     show() {
@@ -77,6 +81,13 @@ export class RewardedAdClient extends AdClient {
             if (onUserEarnedRewardListener && onUserEarnedRewardListener.onEarn) {
                 onUserEarnedRewardListener.onEarn(ntf.rewardType, ntf.rewardAmount);
             }
+        }
+    }
+
+    private onPaidEvent(ntf: RewardedPaidEventNTF) {
+        const paid = this.rewardedListener as OnPaidEventListener<RewardedPaidEventNTF>;
+        if (paid) {
+            paid?.onPaidEvent(ntf);
         }
     }
 }

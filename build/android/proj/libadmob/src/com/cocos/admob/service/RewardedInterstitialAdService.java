@@ -1,5 +1,6 @@
 package com.cocos.admob.service;
 
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -10,10 +11,12 @@ import com.cocos.admob.proto.rewardedinterstitial.LoadRewardedInterstitialAdACK;
 import com.cocos.admob.proto.rewardedinterstitial.LoadRewardedInterstitialAdREQ;
 import com.cocos.admob.proto.rewardedinterstitial.OnUserEarnedRewardedInterstitialListenerNTF;
 import com.cocos.admob.proto.rewardedinterstitial.RewardedInterstitialAdLoadCallbackNTF;
+import com.cocos.admob.proto.rewardedinterstitial.RewardedInterstitialPaidEventNTF;
 import com.cocos.admob.proto.rewardedinterstitial.ShowRewardedInterstitialAdACK;
 import com.cocos.admob.proto.rewardedinterstitial.ShowRewardedInterstitialAdREQ;
 import com.cocos.lib.CocosActivity;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdapterResponseInfo;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.OnUserEarnedRewardListener;
 import com.google.android.gms.ads.rewarded.RewardItem;
@@ -29,7 +32,7 @@ public final class RewardedInterstitialAdService extends Service {
 
     private String unitId;
 
-    private RewardedInterstitialAd mRewardedInterstitialAd;
+    private RewardedInterstitialAd rewardedInterstitialAd;
 
     @Override
     public void init(Bridge bridge, CocosActivity activity) {
@@ -50,11 +53,6 @@ public final class RewardedInterstitialAdService extends Service {
         });
     }
 
-    @Override
-    public void destroy() {
-        super.destroy();
-    }
-
     private void loadAd(String unitId) {
         this.unitId = unitId;
         RewardedInterstitialAd.load(activity, unitId,
@@ -64,25 +62,47 @@ public final class RewardedInterstitialAdService extends Service {
                     @Override
                     public void onAdLoaded(RewardedInterstitialAd ad) {
                         Log.d(TAG, "Ad was loaded.");
-                        mRewardedInterstitialAd = ad;
+                        rewardedInterstitialAd = ad;
                         bridge.sendToScript(RewardedInterstitialAdLoadCallbackNTF.class.getSimpleName(), new RewardedInterstitialAdLoadCallbackNTF(unitId, "onAdLoaded"));
+
+                       rewardedInterstitialAd.setOnPaidEventListener(adValue -> {
+                           RewardedInterstitialPaidEventNTF rewardedInterstitialPaidEventNTF = new RewardedInterstitialPaidEventNTF(unitId);
+
+                           rewardedInterstitialPaidEventNTF.valueMicros = adValue.getValueMicros();
+                           rewardedInterstitialPaidEventNTF.currencyCode = adValue.getCurrencyCode();
+                           rewardedInterstitialPaidEventNTF.precision = adValue.getPrecisionType();
+
+                           AdapterResponseInfo loadedAdapterResponseInfo = rewardedInterstitialAd.getResponseInfo().
+                                   getLoadedAdapterResponseInfo();
+                           rewardedInterstitialPaidEventNTF.adSourceName = loadedAdapterResponseInfo.getAdSourceName();
+                           rewardedInterstitialPaidEventNTF.adSourceId = loadedAdapterResponseInfo.getAdSourceId();
+                           rewardedInterstitialPaidEventNTF.adSourceInstanceName = loadedAdapterResponseInfo.getAdSourceInstanceName();
+                           rewardedInterstitialPaidEventNTF.adSourceInstanceId = loadedAdapterResponseInfo.getAdSourceInstanceId();
+
+                           Bundle extras = rewardedInterstitialAd.getResponseInfo().getResponseExtras();
+                           rewardedInterstitialPaidEventNTF.mediationGroupName = extras.getString("mediation_group_name");
+                           rewardedInterstitialPaidEventNTF.mediationABTestName = extras.getString("mediation_ab_test_name");
+                           rewardedInterstitialPaidEventNTF.mediationABTestVariant = extras.getString("mediation_ab_test_variant");
+
+                           bridge.sendToScript(RewardedInterstitialPaidEventNTF.class.getSimpleName(), rewardedInterstitialPaidEventNTF);
+                       });
                     }
 
                     @Override
                     public void onAdFailedToLoad(LoadAdError loadAdError) {
                         Log.d(TAG, loadAdError.toString());
-                        mRewardedInterstitialAd = null;
+                        rewardedInterstitialAd = null;
                         bridge.sendToScript(RewardedInterstitialAdLoadCallbackNTF.class.getSimpleName(), new RewardedInterstitialAdLoadCallbackNTF(unitId, "onAdFailedToLoad", loadAdError.toString()));
                     }
                 });
     }
 
     private void showAd() {
-        if (mRewardedInterstitialAd == null) {
+        if (rewardedInterstitialAd == null) {
             return;
         }
 
-        mRewardedInterstitialAd.show(activity, new OnUserEarnedRewardListener() {
+        rewardedInterstitialAd.show(activity, new OnUserEarnedRewardListener() {
             @Override
             public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
                 Log.d(TAG, "onUserEarnedReward: ");

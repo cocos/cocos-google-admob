@@ -2,26 +2,26 @@ import { AdError, LoadAdError } from "../ads/alias/TypeAlias";
 import { Base } from "./Base";
 import { IAdError, ILoadAdError } from "./ICallbackNTF";
 
-export class LoadOpenAppAdREQ extends Base {
+export class LoadAppOpenAdREQ extends Base {
 
 }
-export class LoadOpenAppAdACK extends Base {
-
-}
-
-export class ShowOpenAppAdREQ extends Base {
+export class LoadAppOpenAdACK extends Base {
 
 }
 
-export class ShowOpenAppAdACK extends Base {
+export class ShowAppOpenAdREQ extends Base {
 
 }
 
-export class ShowOpenAppAdCompleteNTF extends Base {
+export class ShowAppOpenAdACK extends Base {
 
 }
 
-export class OpenAppAdFullScreenContentCallbackNTF extends Base implements IAdError {
+export class ShowAppOpenAdCompleteNTF extends Base {
+
+}
+
+export class AppOpenAdFullScreenContentCallbackNTF extends Base implements IAdError {
     method: string;
     adError: AdError;
 }

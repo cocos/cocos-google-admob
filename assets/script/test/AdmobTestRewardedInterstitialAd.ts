@@ -45,6 +45,9 @@ export class AdmobTestRewardedInterstitialAd extends Component {
                 log(module, "onAdFailedToShowFullScreenContent, adError: ", adError);
                 rewardedInterstitialAdClient.destroy();
             },
+            onPaidEvent(paidNTF) {
+                log(module, "onPaidEvent", paidNTF);
+            },
         });
     }
 

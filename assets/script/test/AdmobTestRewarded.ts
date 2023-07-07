@@ -46,6 +46,9 @@ export class AdmobTestRewarded extends Component {
                 log(module, "onAdFailedToShowFullScreenContent, adError: ", adError);
                 rewardedAdClient.destroy();
             },
+            onPaidEvent(paidNTF) {
+                log(module, "onPaidEvent", paidNTF);
+            },
         })
 
     }

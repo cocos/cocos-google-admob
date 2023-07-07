@@ -1,6 +1,7 @@
 package com.cocos.admob.service;
 
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import com.cocos.admob.AdManager;
 import com.cocos.admob.core.Bridge;
 import com.cocos.admob.proto.banner.BannerAdListenerNTF;
+import com.cocos.admob.proto.banner.BannerPaidEventNTF;
 import com.cocos.admob.proto.banner.DestroyBannerACK;
 import com.cocos.admob.proto.banner.DestroyBannerREQ;
 import com.cocos.admob.proto.banner.LoadBannerACK;
@@ -22,7 +24,9 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.AdapterResponseInfo;
 import com.google.android.gms.ads.LoadAdError;
+import com.google.gson.Gson;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -46,63 +50,7 @@ public final class BannerService extends Service {
             LoadBannerACK ack = new LoadBannerACK(unitId);
             String method = LoadBannerACK.class.getSimpleName();
             ack.unitId = unitId;
-            loadBannerAd(req.unitId, new AdListener() {
-                @Override
-                public void onAdClicked() {
-                    Log.d(TAG, "onAdClicked: ");
-                    super.onAdClicked();
-                    BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdClicked");
-                    bridge.sendToScript(method, ntf);
-                }
-
-                @Override
-                public void onAdClosed() {
-                    Log.d(TAG, "onAdClosed: ");
-                    super.onAdClosed();
-                    BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdClosed");
-                    bridge.sendToScript(method, ntf);
-                }
-
-                @Override
-                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                    Log.d(TAG, "onAdFailedToLoad: ");
-                    super.onAdFailedToLoad(loadAdError);
-                    BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdClosed", loadAdError.toString());
-                    bridge.sendToScript(method, ntf);
-                }
-
-                @Override
-                public void onAdImpression() {
-                    Log.d(TAG, "onAdImpression: ");
-                    super.onAdImpression();
-                    BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdImpression");
-                    bridge.sendToScript(method, ntf);
-                }
-
-                @Override
-                public void onAdLoaded() {
-                    Log.d(TAG, "onAdLoaded: ");
-                    super.onAdLoaded();
-                    BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdLoaded");
-                    bridge.sendToScript(method, ntf);
-                }
-
-                @Override
-                public void onAdOpened() {
-                    Log.d(TAG, "onAdOpened: ");
-                    super.onAdOpened();
-                    BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdOpened");
-                    bridge.sendToScript(method, ntf);
-                }
-
-                @Override
-                public void onAdSwipeGestureClicked() {
-                    Log.d(TAG, "onAdSwipeGestureClicked: ");
-                    super.onAdSwipeGestureClicked();
-                    BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdSwipeGestureClicked");
-                    bridge.sendToScript(method, ntf);
-                }
-            });
+            loadBannerAd(req.unitId);
             bridge.sendToScript(method, ack);
         });
 
@@ -185,13 +133,93 @@ public final class BannerService extends Service {
         return adview;
     }
 
-    private void loadBannerAd(String unitId, AdListener adListener) {
+    private void loadBannerAd(String unitId) {
         AdView adview = bannerMap.get(unitId);
         // Create an ad request.
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent(AdManager.engineVersion)
                 .build();
-        adview.setAdListener(adListener);
+        String method = BannerAdListenerNTF.class.getSimpleName();
+        adview.setAdListener(new AdListener() {
+            @Override
+            public void onAdClicked() {
+                Log.d(TAG, "onAdClicked: ");
+                super.onAdClicked();
+                BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdClicked");
+                bridge.sendToScript(method, ntf);
+            }
+
+            @Override
+            public void onAdClosed() {
+                Log.d(TAG, "onAdClosed: ");
+                super.onAdClosed();
+                BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdClosed");
+                bridge.sendToScript(method, ntf);
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                Log.d(TAG, "onAdFailedToLoad: ");
+                super.onAdFailedToLoad(loadAdError);
+                BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdClosed", loadAdError.toString());
+                bridge.sendToScript(method, ntf);
+            }
+
+            @Override
+            public void onAdImpression() {
+                Log.d(TAG, "onAdImpression: ");
+                super.onAdImpression();
+                BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdImpression");
+                bridge.sendToScript(method, ntf);
+            }
+
+            @Override
+            public void onAdLoaded() {
+                Log.d(TAG, "onAdLoaded: ");
+                super.onAdLoaded();
+                BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdLoaded");
+                bridge.sendToScript(method, ntf);
+
+                adview.setOnPaidEventListener( adValue -> {
+
+                    BannerPaidEventNTF bannerPaidEventNTF = new BannerPaidEventNTF(unitId);
+
+                    bannerPaidEventNTF.valueMicros = adValue.getValueMicros();
+                    bannerPaidEventNTF.currencyCode = adValue.getCurrencyCode();
+                    bannerPaidEventNTF.precision = adValue.getPrecisionType();
+
+                    AdapterResponseInfo loadedAdapterResponseInfo = adview.getResponseInfo().
+                            getLoadedAdapterResponseInfo();
+                    bannerPaidEventNTF.adSourceName = loadedAdapterResponseInfo.getAdSourceName();
+                    bannerPaidEventNTF.adSourceId = loadedAdapterResponseInfo.getAdSourceId();
+                    bannerPaidEventNTF.adSourceInstanceName = loadedAdapterResponseInfo.getAdSourceInstanceName();
+                    bannerPaidEventNTF.adSourceInstanceId = loadedAdapterResponseInfo.getAdSourceInstanceId();
+
+                    Bundle extras = adview.getResponseInfo().getResponseExtras();
+                    bannerPaidEventNTF.mediationGroupName = extras.getString("mediation_group_name");
+                    bannerPaidEventNTF.mediationABTestName = extras.getString("mediation_ab_test_name");
+                    bannerPaidEventNTF.mediationABTestVariant = extras.getString("mediation_ab_test_variant");
+
+                    bridge.sendToScript(BannerPaidEventNTF.class.getSimpleName(), bannerPaidEventNTF);
+                });
+            }
+
+            @Override
+            public void onAdOpened() {
+                Log.d(TAG, "onAdOpened: ");
+                super.onAdOpened();
+                BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdOpened");
+                bridge.sendToScript(method, ntf);
+            }
+
+            @Override
+            public void onAdSwipeGestureClicked() {
+                Log.d(TAG, "onAdSwipeGestureClicked: ");
+                super.onAdSwipeGestureClicked();
+                BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdSwipeGestureClicked");
+                bridge.sendToScript(method, ntf);
+            }
+        });
         // Start loading the ad in the background.
         adview.loadAd(adRequest);
     }

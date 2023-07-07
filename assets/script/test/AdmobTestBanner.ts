@@ -8,6 +8,7 @@ import { LoadAdError } from 'db://admob/ads/alias/TypeAlias';
 import { TestUnitId } from 'db://admob/misc/TestUnitId';
 import { BannerSize } from 'db://admob/misc/BannerSize';
 import { BottomCenter, TopCenter } from 'db://admob/misc/BannerAlignment';
+import { BannerPaidEventNTF } from 'db://admob/proto/PaidEventNTF';
 const { ccclass, property } = _decorator;
 
 const module = "[AdmobTestBanner]"
@@ -53,7 +54,13 @@ export class AdmobTestBanner extends Component {
             onAdFailedToLoad: (loadError: LoadAdError) => {
                 log(module, "onClickLoadBanner", "onAdLoaded")
                 throw new Error(`load Ad Error, the error is: ${loadError}.`);
-            }
+            },
+
+            onPaidEvent(paidNTF:BannerPaidEventNTF) {
+                // paid event, you can do your own analysis here.
+                log(module, "onPaidEvent", paidNTF);                
+            },
+            
         },  { size:BannerSize.BANNER, alignments:TopCenter});
     }
 

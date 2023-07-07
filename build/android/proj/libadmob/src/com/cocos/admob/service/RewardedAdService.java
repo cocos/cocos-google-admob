@@ -1,6 +1,7 @@
 package com.cocos.admob.service;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,11 +15,13 @@ import com.cocos.admob.proto.rewarded.LoadRewardedAdREQ;
 import com.cocos.admob.proto.rewarded.OnUserEarnedRewardListenerNTF;
 import com.cocos.admob.proto.rewarded.RewardedAdLoadCallbackNTF;
 import com.cocos.admob.proto.rewarded.RewardedFullScreenContentCallbackNTF;
+import com.cocos.admob.proto.rewarded.RewardedPaidEventNTF;
 import com.cocos.admob.proto.rewarded.ShowRewardedAdACK;
 import com.cocos.admob.proto.rewarded.ShowRewardedAdREQ;
 import com.cocos.lib.CocosActivity;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdapterResponseInfo;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.OnUserEarnedRewardListener;
@@ -31,10 +34,8 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
  * Internal class for rewarded ads.
  */
 public final class RewardedAdService  extends  Service{
-
     private static final String TAG = "RewardedAdService";
-
-    RewardedAd mRewardedAd;
+    RewardedAd rewardedAd;
     String unitId;
 
     public void init(Bridge bridge, CocosActivity activity) {
@@ -61,10 +62,6 @@ public final class RewardedAdService  extends  Service{
         });
     }
 
-    public void destroy() {
-
-    }
-
     private void loadAd(String unitId) {
         this.unitId = unitId;
         AdRequest adRequest = new AdRequest.Builder()
@@ -77,18 +74,40 @@ public final class RewardedAdService  extends  Service{
                         // Handle the error.
                         Log.d(TAG, loadAdError.toString());
                         Toast.makeText(activity, "Rewarded ad failed to load.", Toast.LENGTH_SHORT).show();
-                        mRewardedAd = null;
+                        rewardedAd = null;
                         bridge.sendToScript(RewardedAdLoadCallbackNTF.class.getSimpleName(), new RewardedAdLoadCallbackNTF(unitId, "onAdFailedToLoad", loadAdError.toString()));
                     }
 
                     @Override
                     public void onAdLoaded(@NonNull RewardedAd ad) {
-                        mRewardedAd = ad;
+                        rewardedAd = ad;
                         Log.d(TAG, "Ad was loaded.");
                         Toast.makeText(activity, "Rewarded ad loaded.", Toast.LENGTH_SHORT).show();
                         bridge.sendToScript(RewardedAdLoadCallbackNTF.class.getSimpleName(), new RewardedAdLoadCallbackNTF(unitId, "onAdLoaded"));
 
-                        mRewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                        rewardedAd.setOnPaidEventListener(adValue -> {
+                            RewardedPaidEventNTF rewardedPaidEventNTF = new RewardedPaidEventNTF(unitId);
+
+                            rewardedPaidEventNTF.valueMicros = adValue.getValueMicros();
+                            rewardedPaidEventNTF.currencyCode = adValue.getCurrencyCode();
+                            rewardedPaidEventNTF.precision = adValue.getPrecisionType();
+
+                            AdapterResponseInfo loadedAdapterResponseInfo = rewardedAd.getResponseInfo().
+                                    getLoadedAdapterResponseInfo();
+                            rewardedPaidEventNTF.adSourceName = loadedAdapterResponseInfo.getAdSourceName();
+                            rewardedPaidEventNTF.adSourceId = loadedAdapterResponseInfo.getAdSourceId();
+                            rewardedPaidEventNTF.adSourceInstanceName = loadedAdapterResponseInfo.getAdSourceInstanceName();
+                            rewardedPaidEventNTF.adSourceInstanceId = loadedAdapterResponseInfo.getAdSourceInstanceId();
+
+                            Bundle extras = rewardedAd.getResponseInfo().getResponseExtras();
+                            rewardedPaidEventNTF.mediationGroupName = extras.getString("mediation_group_name");
+                            rewardedPaidEventNTF.mediationABTestName = extras.getString("mediation_ab_test_name");
+                            rewardedPaidEventNTF.mediationABTestVariant = extras.getString("mediation_ab_test_variant");
+
+                            bridge.sendToScript(RewardedPaidEventNTF.class.getSimpleName(), rewardedPaidEventNTF);
+                        });
+
+                        rewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
                             @Override
                             public void onAdClicked() {
                                 // Called when a click is recorded for an ad.
@@ -101,7 +120,7 @@ public final class RewardedAdService  extends  Service{
                                 // Called when ad is dismissed.
                                 // Set the ad reference to null so you don't show the ad a second time.
                                 Log.d(TAG, "Ad dismissed fullscreen content.");
-                                mRewardedAd = null;
+                                rewardedAd = null;
                                 bridge.sendToScript(RewardedFullScreenContentCallbackNTF.class.getSimpleName(), new RewardedFullScreenContentCallbackNTF(unitId, "onAdDismissedFullScreenContent"));
                             }
 
@@ -109,7 +128,7 @@ public final class RewardedAdService  extends  Service{
                             public void onAdFailedToShowFullScreenContent(AdError adError) {
                                 // Called when ad fails to show.
                                 Log.e(TAG, "Ad failed to show fullscreen content.");
-                                mRewardedAd = null;
+                                rewardedAd = null;
                                 bridge.sendToScript(RewardedFullScreenContentCallbackNTF.class.getSimpleName(), new RewardedFullScreenContentCallbackNTF(unitId, "onAdFailedToShowFullScreenContent", adError.toString()));
                             }
 
@@ -133,13 +152,13 @@ public final class RewardedAdService  extends  Service{
 
     private void showAd() {
         Log.d(TAG, "showAd: ");
-        if (mRewardedAd == null) {
+        if (rewardedAd == null) {
             Log.d(TAG, "The rewarded ad wasn't ready yet.");
             return;
         }
 
         Activity activityContext = activity;
-        mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
+        rewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
             @Override
             public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
                 // Handle the reward.

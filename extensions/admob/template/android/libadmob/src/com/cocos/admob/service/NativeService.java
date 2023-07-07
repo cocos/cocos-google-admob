@@ -1,5 +1,6 @@
 package com.cocos.admob.service;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,21 +8,26 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import androidx.annotation.NonNull;
+
 import com.cocos.admob.R;
 import com.cocos.admob.AdManager;
 import com.cocos.admob.core.Bridge;
+import com.cocos.admob.proto.banner.BannerPaidEventNTF;
+import com.cocos.admob.proto.interstitial.InterstitialPaidEventNTF;
 import com.cocos.admob.proto.nativead.DestroyNativeAdACK;
 import com.cocos.admob.proto.nativead.DestroyNativeAdREQ;
 import com.cocos.admob.proto.nativead.LoadNativeAdACK;
 import com.cocos.admob.proto.nativead.LoadNativeAdREQ;
 import com.cocos.admob.proto.nativead.NativeAdListenerNTF;
 import com.cocos.admob.proto.nativead.NativeLoadedNTF;
+import com.cocos.admob.proto.nativead.NativePaidEventNTF;
 import com.cocos.lib.CocosActivity;
 import com.google.android.ads.nativetemplates.NativeTemplateStyle;
 import com.google.android.ads.nativetemplates.TemplateView;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdapterResponseInfo;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdOptions;
@@ -71,6 +77,28 @@ public final class NativeService extends Service {
                         }
 
                         NativeService.this.nativeAd = nativeAd;
+
+                        nativeAd.setOnPaidEventListener(adValue -> {
+                            NativePaidEventNTF nativePaidEventNTF = new NativePaidEventNTF(unitId);
+
+                            nativePaidEventNTF.valueMicros = adValue.getValueMicros();
+                            nativePaidEventNTF.currencyCode = adValue.getCurrencyCode();
+                            nativePaidEventNTF.precision = adValue.getPrecisionType();
+
+                            AdapterResponseInfo loadedAdapterResponseInfo = nativeAd.getResponseInfo().
+                                    getLoadedAdapterResponseInfo();
+                            nativePaidEventNTF.adSourceName = loadedAdapterResponseInfo.getAdSourceName();
+                            nativePaidEventNTF.adSourceId = loadedAdapterResponseInfo.getAdSourceId();
+                            nativePaidEventNTF.adSourceInstanceName = loadedAdapterResponseInfo.getAdSourceInstanceName();
+                            nativePaidEventNTF.adSourceInstanceId = loadedAdapterResponseInfo.getAdSourceInstanceId();
+
+                            Bundle extras = nativeAd.getResponseInfo().getResponseExtras();
+                            nativePaidEventNTF.mediationGroupName = extras.getString("mediation_group_name");
+                            nativePaidEventNTF.mediationABTestName = extras.getString("mediation_ab_test_name");
+                            nativePaidEventNTF.mediationABTestVariant = extras.getString("mediation_ab_test_variant");
+
+                            bridge.sendToScript(NativePaidEventNTF.class.getSimpleName(), nativePaidEventNTF);
+                        });
 
                         LayoutInflater layoutInflater = LayoutInflater.from(activity);
                         Window w = activity.getWindow();

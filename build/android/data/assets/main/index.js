@@ -116,7 +116,13 @@ System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBa
             onAdFailedToLoad: loadError => {
               log(module$1, "onClickLoadBanner", "onAdLoaded");
               throw new Error(`load Ad Error, the error is: ${loadError}.`);
+            },
+
+            onPaidEvent(paidNTF) {
+              // paid event, you can do your own analysis here.
+              log(module$1, "onPaidEvent", paidNTF);
             }
+
           }, {
             size: BannerSize.BANNER,
             alignments: TopCenter
@@ -189,7 +195,13 @@ System.register("chunks:///_virtual/AdmobTestInterstitialAd.ts", ['cc', './TestS
             onAdFailedToLoad: loadAdError => {
               log(module$1, "onAdFailedToLoad, error: ", loadAdError);
               interstitialAdClient.destroy();
+            },
+
+            onPaidEvent(paidNTF) {
+              // paid event, you can do your own analysis here.
+              log(module$1, "onPaidEvent", paidNTF);
             }
+
           });
         }
 
@@ -262,7 +274,13 @@ System.register("chunks:///_virtual/AdmobTestNative.ts", ['cc', './TestScenes.ts
           this.mediumNativeAd.load(TestUnitId.NativeAd, NativeAdTemplateSize.Medium, {
             onAdLoaded: () => {
               log(module$1, "onClickLoadSmallAd", "onAdLoaded");
+            },
+
+            onPaidEvent(paidNTF) {
+              // paid event, you can do your own analysis here.
+              log(module$1, "onPaidEvent", paidNTF);
             }
+
           });
         }
 
@@ -318,13 +336,22 @@ System.register("chunks:///_virtual/AdmobTestOpenAppAd.ts", ['cc', './TestScenes
 
         onClickLoadOpenAppAd() {
           log(module$1, "onClickLoadOpenAppAd");
-          this.appOpenAdView.loadAd(TestUnitId.OpenAppAd, {
+          this.appOpenAdView.loadAd(TestUnitId.AppOpenAd, {
             onAdLoaded: () => {
               log(module$1, "onClickLoadOpenAppAd", "onAdLoaded");
             },
             onAdFailedToLoad: loadAdError => {
               log(module$1, "onClickLoadOpenAppAd", "onAdFailedToLoad", loadAdError);
+            },
+
+            onShowAdComplete(unitId) {
+              log(module$1, "onClickLoadOpenAppAd", "onShowAdComplete");
+            },
+
+            onPaidEvent(paidNTF) {
+              log(module$1, "onClickLoadOpenAppAd", "onPaidEvent");
             }
+
           });
         }
 
@@ -410,7 +437,12 @@ System.register("chunks:///_virtual/AdmobTestRewarded.ts", ['cc', './TestScenes.
             onAdFailedToShowFullScreenContent: adError => {
               log(module$1, "onAdFailedToShowFullScreenContent, adError: ", adError);
               rewardedAdClient.destroy();
+            },
+
+            onPaidEvent(paidNTF) {
+              log(module$1, "onPaidEvent", paidNTF);
             }
+
           });
         }
 
@@ -490,7 +522,12 @@ System.register("chunks:///_virtual/AdmobTestRewardedInterstitialAd.ts", ['cc', 
             onAdFailedToShowFullScreenContent: adError => {
               log(module$1, "onAdFailedToShowFullScreenContent, adError: ", adError);
               rewardedInterstitialAdClient.destroy();
+            },
+
+            onPaidEvent(paidNTF) {
+              log(module$1, "onPaidEvent", paidNTF);
             }
+
           });
         }
 
@@ -521,27 +558,27 @@ System.register("chunks:///_virtual/AppOpenAd.ts", ['cc', './Base.ts'], function
     execute: function () {
       cclegacy._RF.push({}, "1b2e4BJmARLoYFp0UFuCx/t", "AppOpenAd", undefined);
 
-      class LoadOpenAppAdREQ extends Base {}
+      class LoadAppOpenAdREQ extends Base {}
 
-      exports('LoadOpenAppAdREQ', LoadOpenAppAdREQ);
+      exports('LoadAppOpenAdREQ', LoadAppOpenAdREQ);
 
-      class LoadOpenAppAdACK extends Base {}
+      class LoadAppOpenAdACK extends Base {}
 
-      exports('LoadOpenAppAdACK', LoadOpenAppAdACK);
+      exports('LoadAppOpenAdACK', LoadAppOpenAdACK);
 
-      class ShowOpenAppAdREQ extends Base {}
+      class ShowAppOpenAdREQ extends Base {}
 
-      exports('ShowOpenAppAdREQ', ShowOpenAppAdREQ);
+      exports('ShowAppOpenAdREQ', ShowAppOpenAdREQ);
 
-      class ShowOpenAppAdACK extends Base {}
+      class ShowAppOpenAdACK extends Base {}
 
-      exports('ShowOpenAppAdACK', ShowOpenAppAdACK);
+      exports('ShowAppOpenAdACK', ShowAppOpenAdACK);
 
-      class ShowOpenAppAdCompleteNTF extends Base {}
+      class ShowAppOpenAdCompleteNTF extends Base {}
 
-      exports('ShowOpenAppAdCompleteNTF', ShowOpenAppAdCompleteNTF);
+      exports('ShowAppOpenAdCompleteNTF', ShowAppOpenAdCompleteNTF);
 
-      class OpenAppAdFullScreenContentCallbackNTF extends Base {
+      class AppOpenAdFullScreenContentCallbackNTF extends Base {
         constructor(...args) {
           super(...args);
           this.method = void 0;
@@ -550,7 +587,7 @@ System.register("chunks:///_virtual/AppOpenAd.ts", ['cc', './Base.ts'], function
 
       }
 
-      exports('OpenAppAdFullScreenContentCallbackNTF', OpenAppAdFullScreenContentCallbackNTF);
+      exports('AppOpenAdFullScreenContentCallbackNTF', AppOpenAdFullScreenContentCallbackNTF);
 
       class AppOpenAdLoadCallbackNTF extends Base {
         constructor(...args) {
@@ -582,8 +619,8 @@ System.register("chunks:///_virtual/AppOpenAd.ts", ['cc', './Base.ts'], function
   };
 });
 
-System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', './Route.ts', './AppOpenAd.ts', './AdClient.ts'], function (exports) {
-  var cclegacy, log, bridge, route, AppOpenAdLoadCallbackNTF, OpenAppAdFullScreenContentCallbackNTF, ShowOpenAppAdCompleteNTF, LoadOpenAppAdREQ, LoadOpenAppAdACK, IsAdAvailableREQ, IsAdAvailableACK, ShowOpenAppAdREQ, ShowOpenAppAdACK, AdClient;
+System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', './Route.ts', './AppOpenAd.ts', './AdClient.ts', './PaidEventNTF.ts'], function (exports) {
+  var cclegacy, log, bridge, route, AppOpenAdLoadCallbackNTF, AppOpenAdFullScreenContentCallbackNTF, ShowAppOpenAdCompleteNTF, LoadAppOpenAdREQ, LoadAppOpenAdACK, IsAdAvailableREQ, IsAdAvailableACK, ShowAppOpenAdREQ, ShowAppOpenAdACK, AdClient, AppOpenPaidEventNTF;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
@@ -594,16 +631,18 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
       route = module.route;
     }, function (module) {
       AppOpenAdLoadCallbackNTF = module.AppOpenAdLoadCallbackNTF;
-      OpenAppAdFullScreenContentCallbackNTF = module.OpenAppAdFullScreenContentCallbackNTF;
-      ShowOpenAppAdCompleteNTF = module.ShowOpenAppAdCompleteNTF;
-      LoadOpenAppAdREQ = module.LoadOpenAppAdREQ;
-      LoadOpenAppAdACK = module.LoadOpenAppAdACK;
+      AppOpenAdFullScreenContentCallbackNTF = module.AppOpenAdFullScreenContentCallbackNTF;
+      ShowAppOpenAdCompleteNTF = module.ShowAppOpenAdCompleteNTF;
+      LoadAppOpenAdREQ = module.LoadAppOpenAdREQ;
+      LoadAppOpenAdACK = module.LoadAppOpenAdACK;
       IsAdAvailableREQ = module.IsAdAvailableREQ;
       IsAdAvailableACK = module.IsAdAvailableACK;
-      ShowOpenAppAdREQ = module.ShowOpenAppAdREQ;
-      ShowOpenAppAdACK = module.ShowOpenAppAdACK;
+      ShowAppOpenAdREQ = module.ShowAppOpenAdREQ;
+      ShowAppOpenAdACK = module.ShowAppOpenAdACK;
     }, function (module) {
       AdClient = module.AdClient;
+    }, function (module) {
+      AppOpenPaidEventNTF = module.AppOpenPaidEventNTF;
     }],
     execute: function () {
       cclegacy._RF.push({}, "de391JGZ7RFmILooPgf1Zbb", "AppOpenAdClient", undefined);
@@ -613,63 +652,37 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
       class AppOpenAdClient extends AdClient {
         constructor(...args) {
           super(...args);
-          this._appOpenAdLoadCallback = void 0;
-          this._fullscreenContentCallback = void 0;
-          this._onShowApComplete = void 0;
+          this._appOpenAdListener = void 0;
         }
 
-        set appOpenAdLoadCallback(value) {
-          if (this._appOpenAdLoadCallback) {
+        set appOpenAdListener(value) {
+          if (this._appOpenAdListener) {
             route.off(AppOpenAdLoadCallbackNTF.name, this.onAppOpenAdLoadCallbackNTF, this);
+            route.off(AppOpenPaidEventNTF.name, this.onPaidEvent, this);
+            route.off(AppOpenAdFullScreenContentCallbackNTF.name, this.onFullScreenContentCallbackNTF, this);
+            route.off(ShowAppOpenAdCompleteNTF.name, this.onShowCompleteNTF, this);
           }
 
-          this._appOpenAdLoadCallback = value;
-          route.on(AppOpenAdLoadCallbackNTF.name, this.onAppOpenAdLoadCallbackNTF, this);
-        }
+          this._appOpenAdListener = value;
 
-        get appOpenAdLoadCallback() {
-          return this._appOpenAdLoadCallback;
-        }
-
-        set fullscreenContentCallback(value) {
-          if (this._fullscreenContentCallback) {
-            route.off(OpenAppAdFullScreenContentCallbackNTF.name, this.onFullScreenContentCallbackNTF, this);
-          }
-
-          this._fullscreenContentCallback = value;
-
-          if (this._fullscreenContentCallback) {
-            route.on(OpenAppAdFullScreenContentCallbackNTF.name, this.onFullScreenContentCallbackNTF, this);
+          if (value) {
+            route.on(AppOpenAdLoadCallbackNTF.name, this.onAppOpenAdLoadCallbackNTF, this);
+            route.on(AppOpenPaidEventNTF.name, this.onPaidEvent, this);
+            route.on(AppOpenAdFullScreenContentCallbackNTF.name, this.onFullScreenContentCallbackNTF, this);
+            route.on(ShowAppOpenAdCompleteNTF.name, this.onShowCompleteNTF, this);
           }
         }
 
-        get fullscreenContentCallback() {
-          return this._fullscreenContentCallback;
+        get appOpenAdListener() {
+          return this._appOpenAdListener;
         }
 
-        set onShowApComplete(value) {
-          if (this.onShowApComplete) {
-            route.off(ShowOpenAppAdCompleteNTF.name, this.onShowCompleteNTF, this);
-          }
-
-          this._onShowApComplete = value;
-
-          if (this.onShowApComplete) {
-            route.on(ShowOpenAppAdCompleteNTF.name, this.onShowCompleteNTF, this);
-          }
-        }
-
-        get onShowApComplete() {
-          return this._onShowApComplete;
-        }
-
-        loadAd(unitId, appOpenAdLoadCallback, fullscreenContentCallback) {
-          this.appOpenAdLoadCallback = appOpenAdLoadCallback;
-          this.fullscreenContentCallback = fullscreenContentCallback;
+        loadAd(unitId, appOpenAdListener) {
+          this.appOpenAdListener = appOpenAdListener;
           this.unitId = unitId;
-          bridge.sendToNative(LoadOpenAppAdREQ.name, {
+          bridge.sendToNative(LoadAppOpenAdREQ.name, {
             unitId: unitId
-          }, LoadOpenAppAdACK.name, ack => {}, this);
+          }, LoadAppOpenAdACK.name, ack => {}, this);
         }
 
         isValid(onComplete, thisArg) {
@@ -685,9 +698,9 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
         }
 
         show(onComplete) {
-          bridge.sendToNative(ShowOpenAppAdREQ.name, {
+          bridge.sendToNative(ShowAppOpenAdREQ.name, {
             unitId: this.unitId
-          }, ShowOpenAppAdACK.name, ack => {
+          }, ShowAppOpenAdACK.name, ack => {
             log(module$1, "showAdIfAvailable", ack);
 
             if (onComplete) {
@@ -697,18 +710,12 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
         }
 
         destroy() {
-          this.appOpenAdLoadCallback = null;
-          this.fullscreenContentCallback = null;
-          this.onShowApComplete = null;
-        }
-
-        isAdAvailable(onShowApComplete) {
-          this.onShowApComplete = onShowApComplete;
+          this.appOpenAdListener = null;
         }
 
         onAppOpenAdLoadCallbackNTF(ntf) {
-          if (this.appOpenAdLoadCallback) {
-            let method = this.appOpenAdLoadCallback[ntf.method];
+          if (this.appOpenAdListener) {
+            let method = this.appOpenAdListener[ntf.method];
 
             if (method) {
               method(ntf.loadAdError);
@@ -717,8 +724,8 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
         }
 
         onFullScreenContentCallbackNTF(ntf) {
-          if (ntf && ntf.method && this.fullscreenContentCallback) {
-            let method = this.fullscreenContentCallback[ntf.method];
+          if (ntf && ntf.method && this.appOpenAdListener) {
+            let method = this.appOpenAdListener[ntf.method];
 
             if (method) {
               method(ntf.adError);
@@ -727,14 +734,52 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
         }
 
         onShowCompleteNTF(ntf) {
-          var _this$onShowApComplet;
+          const c = this.appOpenAdListener;
 
-          (_this$onShowApComplet = this.onShowApComplete) == null ? void 0 : _this$onShowApComplet.onShowAdComplete(ntf.unitId);
+          if (c && c.onShowAdComplete) {
+            c.onShowAdComplete(ntf.unitId);
+          }
+        }
+
+        onPaidEvent(ntf) {
+          const listener = this.appOpenAdListener;
+
+          if (listener) {
+            listener == null ? void 0 : listener.onPaidEvent(ntf);
+          }
         }
 
       }
 
       exports('AppOpenAdClient', AppOpenAdClient);
+
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/AppOpenAdFullScreenContentCallback.ts", ['cc'], function () {
+  var cclegacy;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+    }],
+    execute: function () {
+      cclegacy._RF.push({}, "a57d6Vr4nlN9pl61y73AbVj", "AppOpenAdFullScreenContentCallback", undefined);
+
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/AppOpenAdListener.ts", ['cc'], function () {
+  var cclegacy;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+    }],
+    execute: function () {
+      cclegacy._RF.push({}, "515ea1S85lFFpJR2p7bWBrP", "AppOpenAdListener", undefined);
 
       cclegacy._RF.pop();
     }
@@ -828,6 +873,20 @@ System.register("chunks:///_virtual/BannerAd.ts", ['cc', './Base.ts'], function 
   };
 });
 
+System.register("chunks:///_virtual/BannerAdListener.ts", ['cc'], function () {
+  var cclegacy;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+    }],
+    execute: function () {
+      cclegacy._RF.push({}, "94014wU+XZGi4mP2AihKg4J", "BannerAdListener", undefined);
+
+      cclegacy._RF.pop();
+    }
+  };
+});
+
 System.register("chunks:///_virtual/BannerAlignment.ts", ['cc'], function (exports) {
   var cclegacy;
   return {
@@ -874,8 +933,8 @@ System.register("chunks:///_virtual/BannerAlignment.ts", ['cc'], function (expor
   };
 });
 
-System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', './BannerAd.ts', './Bridge.ts', './Route.ts', './BannerSize.ts', './BannerAlignment.ts'], function (exports) {
-  var cclegacy, log, AdClient, BannerAdListenerNTF, ShowBannerREQ, LoadBannerREQ, LoadBannerACK, DestroyBannerREQ, DestroyBannerACK, bridge, route, BannerSize, BottomCenter;
+System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', './BannerAd.ts', './Bridge.ts', './Route.ts', './BannerSize.ts', './BannerAlignment.ts', './PaidEventNTF.ts'], function (exports) {
+  var cclegacy, log, AdClient, BannerAdListenerNTF, ShowBannerREQ, LoadBannerREQ, LoadBannerACK, DestroyBannerREQ, DestroyBannerACK, bridge, route, BannerSize, BottomCenter, BannerPaidEventNTF;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
@@ -897,6 +956,8 @@ System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', '.
       BannerSize = module.BannerSize;
     }, function (module) {
       BottomCenter = module.BottomCenter;
+    }, function (module) {
+      BannerPaidEventNTF = module.BannerPaidEventNTF;
     }],
     execute: function () {
       cclegacy._RF.push({}, "67876+xkzJIO6gfVziSiyV8", "BannerClient", undefined);
@@ -916,12 +977,14 @@ System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', '.
         set adListener(v) {
           if (this._adListener) {
             route.off(BannerAdListenerNTF.name, this.onAdListenerEvent, this);
+            route.off(BannerPaidEventNTF.name, this.onPaidEvent, this);
           }
 
           this._adListener = v;
 
           if (this._adListener) {
             route.on(BannerAdListenerNTF.name, this.onAdListenerEvent, this);
+            route.on(BannerPaidEventNTF.name, this.onPaidEvent, this);
           }
         }
 
@@ -957,6 +1020,14 @@ System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', '.
             if (method && typeof method == "function") {
               method(ntf.loadAdError);
             }
+          }
+        }
+
+        onPaidEvent(ntf) {
+          const listener = this.adListener;
+
+          if (listener) {
+            listener == null ? void 0 : listener.onPaidEvent(ntf);
           }
         }
 
@@ -1549,8 +1620,8 @@ System.register("chunks:///_virtual/InterstitailAd.ts", ['cc', './Base.ts'], fun
   };
 });
 
-System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.ts', './Route.ts', './InterstitailAd.ts', './AdClient.ts'], function (exports) {
-  var cclegacy, log, bridge, route, InterstitialFullScreenContentCallbackNTF, InterstitialAdLoadCalLBackNTF, LoadInterstitialAdREQ, LoadInterstitialAdACK, ShowInterstitialAdREQ, ShowInterstitialAdACK, AdClient;
+System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.ts', './Route.ts', './InterstitailAd.ts', './AdClient.ts', './PaidEventNTF.ts'], function (exports) {
+  var cclegacy, log, bridge, route, InterstitialFullScreenContentCallbackNTF, InterstitialAdLoadCalLBackNTF, LoadInterstitialAdREQ, LoadInterstitialAdACK, ShowInterstitialAdREQ, ShowInterstitialAdACK, AdClient, InterstitialPaidEventNTF;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
@@ -1568,6 +1639,8 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
       ShowInterstitialAdACK = module.ShowInterstitialAdACK;
     }, function (module) {
       AdClient = module.AdClient;
+    }, function (module) {
+      InterstitialPaidEventNTF = module.InterstitialPaidEventNTF;
     }],
     execute: function () {
       cclegacy._RF.push({}, "0133a1I+utKjZdl7GATzhls", "InterstitialAdClient", undefined);
@@ -1588,6 +1661,7 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
           if (!value) {
             route.off(InterstitialFullScreenContentCallbackNTF.name, this.onInterstitialFullScreenContentCallback, this);
             route.off(InterstitialAdLoadCalLBackNTF.name, this.onInterstitialAdLoadCalLBackNTF, this);
+            route.off(InterstitialPaidEventNTF.name, this.onPaidEvent, this);
           }
 
           this._interstitialListener = value;
@@ -1595,6 +1669,7 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
           if (value) {
             route.on(InterstitialFullScreenContentCallbackNTF.name, this.onInterstitialFullScreenContentCallback, this);
             route.on(InterstitialAdLoadCalLBackNTF.name, this.onInterstitialAdLoadCalLBackNTF, this);
+            route.on(InterstitialPaidEventNTF.name, this.onPaidEvent, this);
           }
         }
 
@@ -1644,6 +1719,14 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
 
           if (method) {
             method();
+          }
+        }
+
+        onPaidEvent(ntf) {
+          const listener = this.interstitialListener;
+
+          if (listener) {
+            listener == null ? void 0 : listener.onPaidEvent(ntf);
           }
         }
 
@@ -1698,9 +1781,9 @@ System.register("chunks:///_virtual/InterstitialFullScreenContentCallback.ts", [
   };
 });
 
-System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', './AdmobTestBanner.ts', './AdmobTestInterstitialAd.ts', './AdmobTestNative.ts', './AdmobTestOpenAppAd.ts', './AdmobTestRewarded.ts', './AdmobTestRewardedInterstitialAd.ts', './TestScenes.ts', './TypeAlias.ts', './AdClient.ts', './AppOpenAdClient.ts', './BannerClient.ts', './InterstitialAdClient.ts', './NativeAdClient.ts', './RewardedAdClient.ts', './RewardedInterstitialAdClient.ts', './AdListener.ts', './AppOpenAdLoadCallback.ts', './FullScreenContentCallback.ts', './InterstitialAdListener.ts', './InterstitialAdLoadCallback.ts', './InterstitialFullScreenContentCallback.ts', './NativeAdListener.ts', './OnNativeAdLoadedListener.ts', './OnShowAdCompleteListener.ts', './OnUserEarnedRewardListener.ts', './OpenAppAdFullScreenContentCallback.ts', './RewardedAdFullScreenContentCallback.ts', './RewardedAdListener.ts', './RewardedAdLoadCallback.ts', './RewardedInterstitialAdLoadCallback.ts', './RewardedInterstitialFullScreenContentCallback.ts', './RewardedInterstitialListener.ts', './Bridge.ts', './Codec.ts', './INativeResponse.ts', './Route.ts', './Version2.ts', './BannerAlignment.ts', './BannerSize.ts', './BannerSizeOption.ts', './TestUnitId.ts', './AppOpenAd.ts', './BannerAd.ts', './Base.ts', './ICallbackNTF.ts', './InterstitailAd.ts', './NativeAd.ts', './RewardedAd.ts', './RewardedInterstitialAd.ts', './Version.ts'], function () {
+System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', './AdmobTestBanner.ts', './AdmobTestInterstitialAd.ts', './AdmobTestNative.ts', './AdmobTestOpenAppAd.ts', './AdmobTestRewarded.ts', './AdmobTestRewardedInterstitialAd.ts', './TestScenes.ts', './TypeAlias.ts', './AdClient.ts', './AppOpenAdClient.ts', './BannerClient.ts', './InterstitialAdClient.ts', './NativeAdClient.ts', './RewardedAdClient.ts', './RewardedInterstitialAdClient.ts', './AdListener.ts', './AppOpenAdFullScreenContentCallback.ts', './AppOpenAdListener.ts', './AppOpenAdLoadCallback.ts', './BannerAdListener.ts', './FullScreenContentCallback.ts', './InterstitialAdListener.ts', './InterstitialAdLoadCallback.ts', './InterstitialFullScreenContentCallback.ts', './NativeAdListener.ts', './OnNativeAdLoadedListener.ts', './OnPaidEventListener.ts', './OnShowAdCompleteListener.ts', './OnUserEarnedRewardListener.ts', './RewardedAdFullScreenContentCallback.ts', './RewardedAdListener.ts', './RewardedAdLoadCallback.ts', './RewardedInterstitialAdLoadCallback.ts', './RewardedInterstitialFullScreenContentCallback.ts', './RewardedInterstitialListener.ts', './Bridge.ts', './Codec.ts', './INativeResponse.ts', './Route.ts', './Version2.ts', './BannerAlignment.ts', './BannerSize.ts', './BannerSizeOption.ts', './TestUnitId.ts', './AppOpenAd.ts', './BannerAd.ts', './Base.ts', './ICallbackNTF.ts', './InterstitailAd.ts', './NativeAd.ts', './PaidEventNTF.ts', './RewardedAd.ts', './RewardedInterstitialAd.ts', './Version.ts'], function () {
   return {
-    setters: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    setters: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
     execute: function () {}
   };
 });
@@ -1764,8 +1847,8 @@ System.register("chunks:///_virtual/NativeAd.ts", ['cc', './Base.ts'], function 
   };
 });
 
-System.register("chunks:///_virtual/NativeAdClient.ts", ['cc', './Bridge.ts', './BannerAd.ts', './NativeAd.ts', './AdClient.ts', './Route.ts'], function (exports) {
-  var cclegacy, log, bridge, DestroyBannerACK, NativeLoadedNTF, NativeAdListenerNTF, LoadNativeAdREQ, LoadNativeAdACK, DestroyNativeAdREQ, AdClient, route;
+System.register("chunks:///_virtual/NativeAdClient.ts", ['cc', './Bridge.ts', './BannerAd.ts', './NativeAd.ts', './AdClient.ts', './Route.ts', './PaidEventNTF.ts'], function (exports) {
+  var cclegacy, log, bridge, DestroyBannerACK, NativeLoadedNTF, NativeAdListenerNTF, LoadNativeAdREQ, LoadNativeAdACK, DestroyNativeAdREQ, AdClient, route, NativePaidEventNTF;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
@@ -1784,6 +1867,8 @@ System.register("chunks:///_virtual/NativeAdClient.ts", ['cc', './Bridge.ts', '.
       AdClient = module.AdClient;
     }, function (module) {
       route = module.route;
+    }, function (module) {
+      NativePaidEventNTF = module.NativePaidEventNTF;
     }],
     execute: function () {
       cclegacy._RF.push({}, "2051einid9F8YRS5orUMZnQ", "NativeAdClient", undefined);
@@ -1804,6 +1889,7 @@ System.register("chunks:///_virtual/NativeAdClient.ts", ['cc', './Bridge.ts', '.
           if (this._nativeAdListener) {
             route.off(NativeLoadedNTF.name, this.onNativeLoadedNTF, this);
             route.off(NativeAdListenerNTF.name, this.onNativeAdListenerNTF, this);
+            route.off(NativePaidEventNTF.name, this.onPaidEvent, this);
           }
 
           this._nativeAdListener = value;
@@ -1811,6 +1897,7 @@ System.register("chunks:///_virtual/NativeAdClient.ts", ['cc', './Bridge.ts', '.
           if (this._nativeAdListener) {
             route.on(NativeLoadedNTF.name, this.onNativeLoadedNTF, this);
             route.on(NativeAdListenerNTF.name, this.onNativeAdListenerNTF, this);
+            route.on(NativePaidEventNTF.name, this.onPaidEvent, this);
           }
         }
 
@@ -1852,6 +1939,14 @@ System.register("chunks:///_virtual/NativeAdClient.ts", ['cc', './Bridge.ts', '.
           }
         }
 
+        onPaidEvent(ntf) {
+          const paid = this.nativeAdListener;
+
+          if (paid) {
+            paid == null ? void 0 : paid.onPaidEvent(ntf);
+          }
+        }
+
       }
 
       exports('NativeAdClient', NativeAdClient);
@@ -1889,6 +1984,20 @@ System.register("chunks:///_virtual/OnNativeAdLoadedListener.ts", ['cc'], functi
   };
 });
 
+System.register("chunks:///_virtual/OnPaidEventListener.ts", ['cc'], function () {
+  var cclegacy;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+    }],
+    execute: function () {
+      cclegacy._RF.push({}, "0f711NbGkZBQ48WmxkneNNW", "OnPaidEventListener", undefined);
+
+      cclegacy._RF.pop();
+    }
+  };
+});
+
 System.register("chunks:///_virtual/OnShowAdCompleteListener.ts", ['cc'], function () {
   var cclegacy;
   return {
@@ -1917,14 +2026,59 @@ System.register("chunks:///_virtual/OnUserEarnedRewardListener.ts", ['cc'], func
   };
 });
 
-System.register("chunks:///_virtual/OpenAppAdFullScreenContentCallback.ts", ['cc'], function () {
-  var cclegacy;
+System.register("chunks:///_virtual/PaidEventNTF.ts", ['cc', './Base.ts'], function (exports) {
+  var cclegacy, Base;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
+    }, function (module) {
+      Base = module.Base;
     }],
     execute: function () {
-      cclegacy._RF.push({}, "90e5fhISZJDYYjcgDMvfa8z", "OpenAppAdFullScreenContentCallback", undefined);
+      cclegacy._RF.push({}, "e2d81qcvaVBva080tOWZBU/", "PaidEventNTF", undefined);
+
+      class PaidEventNTF extends Base {
+        constructor(...args) {
+          super(...args);
+          this.valueMicros = void 0;
+          this.currencyCode = void 0;
+          this.precision = void 0;
+          this.adSourceName = void 0;
+          this.adSourceId = void 0;
+          this.adSourceInstanceName = void 0;
+          this.adSourceInstanceId = void 0;
+          this.mediationGroupName = void 0;
+          this.mediationABTestName = void 0;
+          this.mediationABTestVariant = void 0;
+        }
+
+      }
+
+      exports('PaidEventNTF', PaidEventNTF);
+
+      class BannerPaidEventNTF extends PaidEventNTF {}
+
+      exports('BannerPaidEventNTF', BannerPaidEventNTF);
+
+      class InterstitialPaidEventNTF extends PaidEventNTF {}
+
+      exports('InterstitialPaidEventNTF', InterstitialPaidEventNTF);
+
+      class NativePaidEventNTF extends PaidEventNTF {}
+
+      exports('NativePaidEventNTF', NativePaidEventNTF);
+
+      class AppOpenPaidEventNTF extends PaidEventNTF {}
+
+      exports('AppOpenPaidEventNTF', AppOpenPaidEventNTF);
+
+      class RewardedPaidEventNTF extends PaidEventNTF {}
+
+      exports('RewardedPaidEventNTF', RewardedPaidEventNTF);
+
+      class RewardedInterstitialPaidEventNTF extends PaidEventNTF {}
+
+      exports('RewardedInterstitialPaidEventNTF', RewardedInterstitialPaidEventNTF);
 
       cclegacy._RF.pop();
     }
@@ -2003,8 +2157,8 @@ System.register("chunks:///_virtual/RewardedAd.ts", ['cc', './Base.ts'], functio
   };
 });
 
-System.register("chunks:///_virtual/RewardedAdClient.ts", ['cc', './Bridge.ts', './RewardedAd.ts', './AdClient.ts', './Route.ts'], function (exports) {
-  var cclegacy, log, bridge, RewardedAdLoadCallbackNTF, RewardedFullScreenContentCallbackNTF, OnUserEarnedRewardListenerNTF, LoadRewardedAdREQ, LoadRewardedAdACK, ShowRewardedAdREQ, ShowRewardedAdACK, AdClient, route;
+System.register("chunks:///_virtual/RewardedAdClient.ts", ['cc', './Bridge.ts', './RewardedAd.ts', './AdClient.ts', './Route.ts', './PaidEventNTF.ts'], function (exports) {
+  var cclegacy, log, bridge, RewardedAdLoadCallbackNTF, RewardedFullScreenContentCallbackNTF, OnUserEarnedRewardListenerNTF, LoadRewardedAdREQ, LoadRewardedAdACK, ShowRewardedAdREQ, ShowRewardedAdACK, AdClient, route, RewardedPaidEventNTF;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
@@ -2023,6 +2177,8 @@ System.register("chunks:///_virtual/RewardedAdClient.ts", ['cc', './Bridge.ts', 
       AdClient = module.AdClient;
     }, function (module) {
       route = module.route;
+    }, function (module) {
+      RewardedPaidEventNTF = module.RewardedPaidEventNTF;
     }],
     execute: function () {
       cclegacy._RF.push({}, "9c823kMEqhG354V3pAi+6bv", "RewardedAdClient", undefined);
@@ -2040,6 +2196,7 @@ System.register("chunks:///_virtual/RewardedAdClient.ts", ['cc', './Bridge.ts', 
             route.off(RewardedAdLoadCallbackNTF.name, this.onRewardedAdLoadCallbackNTF, this);
             route.off(RewardedFullScreenContentCallbackNTF.name, this.onFullScreenContentCallback, this);
             route.off(OnUserEarnedRewardListenerNTF.name, this.onOnUserEarnedRewardListenerNTF, this);
+            route.off(RewardedPaidEventNTF.name, this.onPaidEvent, this);
           }
 
           this._rewardedListener = value;
@@ -2048,6 +2205,7 @@ System.register("chunks:///_virtual/RewardedAdClient.ts", ['cc', './Bridge.ts', 
             route.on(RewardedAdLoadCallbackNTF.name, this.onRewardedAdLoadCallbackNTF, this);
             route.on(RewardedFullScreenContentCallbackNTF.name, this.onFullScreenContentCallback, this);
             route.on(OnUserEarnedRewardListenerNTF.name, this.onOnUserEarnedRewardListenerNTF, this);
+            route.on(RewardedPaidEventNTF.name, this.onPaidEvent, this);
           }
         }
 
@@ -2113,6 +2271,14 @@ System.register("chunks:///_virtual/RewardedAdClient.ts", ['cc', './Bridge.ts', 
             if (onUserEarnedRewardListener && onUserEarnedRewardListener.onEarn) {
               onUserEarnedRewardListener.onEarn(ntf.rewardType, ntf.rewardAmount);
             }
+          }
+        }
+
+        onPaidEvent(ntf) {
+          const paid = this.rewardedListener;
+
+          if (paid) {
+            paid == null ? void 0 : paid.onPaidEvent(ntf);
           }
         }
 
@@ -2221,8 +2387,8 @@ System.register("chunks:///_virtual/RewardedInterstitialAd.ts", ['cc', './Base.t
   };
 });
 
-System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './AdClient.ts', './RewardedInterstitialAd.ts', './Bridge.ts', './Route.ts'], function (exports) {
-  var cclegacy, log, AdClient, RewardedInterstitialAdLoadCallbackNTF, OnUserEarnedRewardedInterstitialListenerNTF, LoadRewardedInterstitialAdREQ, LoadRewardedInterstitialAdACK, ShowRewardedInterstitialAdREQ, ShowRewardedInterstitialAdACK, bridge, route;
+System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './AdClient.ts', './RewardedInterstitialAd.ts', './Bridge.ts', './Route.ts', './PaidEventNTF.ts'], function (exports) {
+  var cclegacy, log, AdClient, RewardedInterstitialAdLoadCallbackNTF, OnUserEarnedRewardedInterstitialListenerNTF, LoadRewardedInterstitialAdREQ, LoadRewardedInterstitialAdACK, ShowRewardedInterstitialAdREQ, ShowRewardedInterstitialAdACK, bridge, route, RewardedInterstitialPaidEventNTF;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
@@ -2240,6 +2406,8 @@ System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './
       bridge = module.bridge;
     }, function (module) {
       route = module.route;
+    }, function (module) {
+      RewardedInterstitialPaidEventNTF = module.RewardedInterstitialPaidEventNTF;
     }],
     execute: function () {
       cclegacy._RF.push({}, "bcd464DuS9EHZFqL+Wv7Zc9", "RewardedInterstitialAdClient", undefined);
@@ -2256,6 +2424,7 @@ System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './
           if (this._rewardedInterstitialListener) {
             route.off(RewardedInterstitialAdLoadCallbackNTF.name, this.onRewardedInterstitialAdLoadCallbackNTF, this);
             route.off(OnUserEarnedRewardedInterstitialListenerNTF.name, this.onOnUserEarnedRewardListenerNTF, this);
+            route.off(RewardedInterstitialPaidEventNTF.name, this.onPaidEvent, this);
           }
 
           this._rewardedInterstitialListener = value;
@@ -2263,6 +2432,7 @@ System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './
           if (this._rewardedInterstitialListener) {
             route.on(RewardedInterstitialAdLoadCallbackNTF.name, this.onRewardedInterstitialAdLoadCallbackNTF, this);
             route.on(OnUserEarnedRewardedInterstitialListenerNTF.name, this.onOnUserEarnedRewardListenerNTF, this);
+            route.on(RewardedInterstitialPaidEventNTF.name, this.onPaidEvent, this);
           }
         }
 
@@ -2307,6 +2477,14 @@ System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './
             if (onEarn && onEarn.onEarn) {
               onEarn.onEarn(ntf.rewardType, ntf.rewardAmount);
             }
+          }
+        }
+
+        onPaidEvent(ntf) {
+          const paid = this.rewardedInterstitialListener;
+
+          if (paid) {
+            paid == null ? void 0 : paid.onPaidEvent(ntf);
           }
         }
 
@@ -2427,7 +2605,6 @@ System.register("chunks:///_virtual/Route.ts", ['cc', './Codec.ts'], function (e
       }
 
       exports('Route', Route);
-      Route.instance = new Route();
       const route = exports('route', new Route().init(new Codec()));
 
       cclegacy._RF.pop();
@@ -2463,7 +2640,7 @@ System.register("chunks:///_virtual/TestUnitId.ts", ['cc'], function (exports) {
       let TestUnitId = exports('TestUnitId', /*#__PURE__*/function (TestUnitId) {
         TestUnitId["BannerAd"] = "ca-app-pub-3940256099942544/6300978111";
         TestUnitId["InterstitialAd"] = "ca-app-pub-3940256099942544/3419835294";
-        TestUnitId["OpenAppAd"] = "ca-app-pub-3940256099942544/3419835294";
+        TestUnitId["AppOpenAd"] = "ca-app-pub-3940256099942544/3419835294";
         TestUnitId["RewardedAd"] = "ca-app-pub-3940256099942544/5224354917";
         TestUnitId["NativeAd"] = "ca-app-pub-3940256099942544/2247696110";
         TestUnitId["RewardedInterstitialAd"] = "ca-app-pub-3940256099942544/5354046379";

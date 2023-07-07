@@ -1,11 +1,13 @@
 import { log } from "cc";
 import { bridge } from "../../core/Bridge";
-import { DestroyBannerACK, LoadBannerACK } from "../../proto/BannerAd";
+import { DestroyBannerACK } from "../../proto/BannerAd";
 import { DestroyNativeAdACK, DestroyNativeAdREQ, LoadNativeAdACK, LoadNativeAdREQ, NativeAdListenerNTF, NativeAdTemplateSize, NativeLoadedNTF } from "../../proto/NativeAd";
 import { AdClient } from "./AdClient";
 import { NativeAdListener } from "../listener/NativeAdListener";
 import { route } from "../../core/Route";
 import { OnNativeAdLoadedListener } from "../listener/OnNativeAdLoadedListener";
+import { NativePaidEventNTF } from "../../proto/PaidEventNTF";
+import { OnPaidEventListener } from "../listener/OnPaidEventListener";
 
 const module = "[NativeAdClient]";
 export class NativeAdClient extends AdClient {
@@ -19,12 +21,14 @@ export class NativeAdClient extends AdClient {
         if (this._nativeAdListener) {
             route.off(NativeLoadedNTF.name, this.onNativeLoadedNTF, this);
             route.off(NativeAdListenerNTF.name, this.onNativeAdListenerNTF, this);
+            route.off(NativePaidEventNTF.name, this.onPaidEvent, this);
 
         }
         this._nativeAdListener = value;
         if (this._nativeAdListener) {
             route.on(NativeLoadedNTF.name, this.onNativeLoadedNTF, this);
             route.on(NativeAdListenerNTF.name, this.onNativeAdListenerNTF, this);
+            route.on(NativePaidEventNTF.name, this.onPaidEvent, this);
         }
     }
 
@@ -59,6 +63,13 @@ export class NativeAdClient extends AdClient {
         const method = this.nativeAdListener[ntf.method];
         if (method) {
             method(ntf.loadAdError);
+        }
+    }
+
+    private onPaidEvent(ntf: NativePaidEventNTF) {
+        const paid = this.nativeAdListener as OnPaidEventListener<NativePaidEventNTF>;
+        if (paid) {
+            paid?.onPaidEvent(ntf);
         }
     }
 }

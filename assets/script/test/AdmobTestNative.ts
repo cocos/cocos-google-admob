@@ -5,6 +5,7 @@ import { log } from 'cc';
 import { NativeAdClient } from 'db://admob/ads/client/NativeAdClient';
 import { TestUnitId } from 'db://admob/misc/TestUnitId';
 import { NativeAdTemplateSize } from 'db://admob/proto/NativeAd';
+import { NativePaidEventNTF } from 'db://admob/proto/PaidEventNTF';
 const { ccclass, property } = _decorator;
 
 const module = "[AdmobTestNative]"
@@ -17,7 +18,7 @@ export class AdmobTestNative extends Component {
     onClickLoadSmallAd() {
         log(module, "onClickLoadNativeAd");
 
-        this.smallNativeAd = new NativeAdClient();
+        this.smallNativeAd = new NativeAdClient();        
         this.smallNativeAd.load(TestUnitId.NativeAd, NativeAdTemplateSize.Small, {
             onAdLoaded: () => {
                 log(module, "onClickLoadSmallAd", "onAdLoaded");
@@ -38,6 +39,11 @@ export class AdmobTestNative extends Component {
         this.mediumNativeAd.load(TestUnitId.NativeAd, NativeAdTemplateSize.Medium, {
             onAdLoaded: () => {
                 log(module, "onClickLoadSmallAd", "onAdLoaded");
+            },
+
+            onPaidEvent(paidNTF:NativePaidEventNTF) {
+                // paid event, you can do your own analysis here.
+                log(module, "onPaidEvent", paidNTF);                
             },
         });
     }

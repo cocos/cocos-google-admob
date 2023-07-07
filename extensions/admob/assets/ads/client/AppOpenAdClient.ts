@@ -1,68 +1,44 @@
 import { log } from "cc";
 import { bridge } from "../../core/Bridge";
 import { route } from "../../core/Route";
-import { AppOpenAdLoadCallbackNTF, OpenAppAdFullScreenContentCallbackNTF, ShowOpenAppAdCompleteNTF, LoadOpenAppAdREQ, LoadOpenAppAdACK, IsAdAvailableREQ, IsAdAvailableACK, ShowOpenAppAdREQ, ShowOpenAppAdACK } from "../../proto/AppOpenAd";
-import { AppOpenAdLoadCallback } from "../listener/AppOpenAdLoadCallback";
-import { OnShowAdComplete } from "../listener/OnShowAdCompleteListener";
-import { OpenAppAdFullScreenContentCallback } from "../listener/OpenAppAdFullScreenContentCallback";
+import { AppOpenAdLoadCallbackNTF, AppOpenAdFullScreenContentCallbackNTF, ShowAppOpenAdCompleteNTF, LoadAppOpenAdREQ, LoadAppOpenAdACK, IsAdAvailableREQ, IsAdAvailableACK, ShowAppOpenAdREQ as ShowAppOpenAdREQ, ShowAppOpenAdACK } from "../../proto/AppOpenAd";
+import { OnShowAdCompleteListener } from "../listener/OnShowAdCompleteListener";
 import { AdClient } from "./AdClient";
+import { AppOpenAdListener } from "../listener/AppOpenAdListener";
+import { AppOpenPaidEventNTF } from "../../proto/PaidEventNTF";
+import { OnPaidEventListener } from "../listener/OnPaidEventListener";
 
 const module = "[AppOpenAdClient]";
 export class AppOpenAdClient extends AdClient {
 
-    private _appOpenAdLoadCallback: AppOpenAdLoadCallback
+    private _appOpenAdListener: AppOpenAdListener
 
-    set appOpenAdLoadCallback(value: AppOpenAdLoadCallback) {
-        if (this._appOpenAdLoadCallback) {
+    set appOpenAdListener(value: AppOpenAdListener) {
+        if (this._appOpenAdListener) {
             route.off(AppOpenAdLoadCallbackNTF.name, this.onAppOpenAdLoadCallbackNTF, this);
+            route.off(AppOpenPaidEventNTF.name, this.onPaidEvent, this);
+            route.off(AppOpenAdFullScreenContentCallbackNTF.name, this.onFullScreenContentCallbackNTF, this);
+            route.off(ShowAppOpenAdCompleteNTF.name, this.onShowCompleteNTF, this);
         }
 
-        this._appOpenAdLoadCallback = value;
-        route.on(AppOpenAdLoadCallbackNTF.name, this.onAppOpenAdLoadCallbackNTF, this);
-    }
-
-    get appOpenAdLoadCallback(): AppOpenAdLoadCallback {
-        return this._appOpenAdLoadCallback;
-    }
-
-    private _fullscreenContentCallback: OpenAppAdFullScreenContentCallback;
-
-    set fullscreenContentCallback(value: OpenAppAdFullScreenContentCallback) {
-        if (this._fullscreenContentCallback) {
-            route.off(OpenAppAdFullScreenContentCallbackNTF.name, this.onFullScreenContentCallbackNTF, this);
-        }
-        this._fullscreenContentCallback = value;
-        if (this._fullscreenContentCallback) {
-            route.on(OpenAppAdFullScreenContentCallbackNTF.name, this.onFullScreenContentCallbackNTF, this);
+        this._appOpenAdListener = value;
+        if (value) {
+            route.on(AppOpenAdLoadCallbackNTF.name, this.onAppOpenAdLoadCallbackNTF, this);
+            route.on(AppOpenPaidEventNTF.name, this.onPaidEvent, this);
+            route.on(AppOpenAdFullScreenContentCallbackNTF.name, this.onFullScreenContentCallbackNTF, this);
+            route.on(ShowAppOpenAdCompleteNTF.name, this.onShowCompleteNTF, this);
         }
     }
 
-    get fullscreenContentCallback(): OpenAppAdFullScreenContentCallback {
-        return this._fullscreenContentCallback;
-    }
+    get appOpenAdListener(): AppOpenAdListener {
+        return this._appOpenAdListener;
+    }   
 
-    private _onShowApComplete: OnShowAdComplete;
-
-    set onShowApComplete(value: OnShowAdComplete) {
-        if (this.onShowApComplete) {
-            route.off(ShowOpenAppAdCompleteNTF.name, this.onShowCompleteNTF, this);
-        }
-        this._onShowApComplete = value;
-        if (this.onShowApComplete) {
-            route.on(ShowOpenAppAdCompleteNTF.name, this.onShowCompleteNTF, this);
-        }
-    }
-
-    get onShowApComplete(): OnShowAdComplete {
-        return this._onShowApComplete;
-    }
-
-    loadAd(unitId: string, appOpenAdLoadCallback?: AppOpenAdLoadCallback, fullscreenContentCallback?: OpenAppAdFullScreenContentCallback) {
-        this.appOpenAdLoadCallback = appOpenAdLoadCallback;
-        this.fullscreenContentCallback = fullscreenContentCallback;
+    loadAd(unitId: string, appOpenAdListener?: AppOpenAdListener) {
+        this.appOpenAdListener = appOpenAdListener;        
         this.unitId = unitId;
 
-        bridge.sendToNative(LoadOpenAppAdREQ.name, { unitId: unitId }, LoadOpenAppAdACK.name, (ack: LoadOpenAppAdACK) => {
+        bridge.sendToNative(LoadAppOpenAdREQ.name, { unitId: unitId }, LoadAppOpenAdACK.name, (ack: LoadAppOpenAdACK) => {
 
         }, this);
     }
@@ -77,7 +53,7 @@ export class AppOpenAdClient extends AdClient {
     }
 
     show(onComplete?: () => void) {
-        bridge.sendToNative(ShowOpenAppAdREQ.name, { unitId: this.unitId }, ShowOpenAppAdACK.name, (ack: ShowOpenAppAdACK) => {
+        bridge.sendToNative(ShowAppOpenAdREQ.name, { unitId: this.unitId }, ShowAppOpenAdACK.name, (ack: ShowAppOpenAdACK) => {
             log(module, "showAdIfAvailable", ack);
             if (onComplete) {
                 onComplete();
@@ -86,34 +62,38 @@ export class AppOpenAdClient extends AdClient {
     }
 
     destroy() {
-        this.appOpenAdLoadCallback = null;;
-        this.fullscreenContentCallback = null;
-        this.onShowApComplete = null;
-    }
-
-    isAdAvailable(onShowApComplete: OnShowAdComplete) {
-        this.onShowApComplete = onShowApComplete;
-    }
+        this.appOpenAdListener = null;
+    }   
 
     private onAppOpenAdLoadCallbackNTF(ntf: AppOpenAdLoadCallbackNTF) {
-        if (this.appOpenAdLoadCallback) {
-            let method = this.appOpenAdLoadCallback[ntf.method];
+        if (this.appOpenAdListener) {
+            let method = this.appOpenAdListener[ntf.method];
             if (method) {
                 method(ntf.loadAdError);
             }
         }
     }
 
-    private onFullScreenContentCallbackNTF(ntf: OpenAppAdFullScreenContentCallbackNTF) {
-        if (ntf && ntf.method && this.fullscreenContentCallback) {
-            let method = this.fullscreenContentCallback[ntf.method];
+    private onFullScreenContentCallbackNTF(ntf: AppOpenAdFullScreenContentCallbackNTF) {
+        if (ntf && ntf.method && this.appOpenAdListener) {
+            let method = this.appOpenAdListener[ntf.method];
             if (method) {
                 method(ntf.adError);
             }
         }
     }
 
-    private onShowCompleteNTF(ntf: ShowOpenAppAdCompleteNTF) {
-        this.onShowApComplete?.onShowAdComplete(ntf.unitId);
+    private onShowCompleteNTF(ntf: ShowAppOpenAdCompleteNTF) {
+        const c = this.appOpenAdListener as OnShowAdCompleteListener;
+        if( c && c.onShowAdComplete ){
+            c.onShowAdComplete(ntf.unitId);
+        }        
+    }
+
+    private onPaidEvent(ntf: AppOpenPaidEventNTF) {
+        const listener = this.appOpenAdListener as OnPaidEventListener<AppOpenPaidEventNTF>;
+        if (listener) {
+            listener?.onPaidEvent(ntf);
+        }
     }
 }

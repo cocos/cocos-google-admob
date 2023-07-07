@@ -1,3 +1,3 @@
-export interface OnShowAdComplete{
+export interface OnShowAdCompleteListener{
     onShowAdComplete?:(unitId:string)=>void;
 }
