@@ -8,11 +8,29 @@ import { RewardedAdListener } from "../listener/RewardedAdListener";
 import { RewardedPaidEventNTF } from "../../proto/PaidEventNTF";
 import { OnPaidEventListener } from "../listener/OnPaidEventListener";
 
+/**
+ * @zh
+ * 激励广告 Rewarded Ad 客户端
+ * @en
+ * The rewarded ad client
+ */
 const module = "[RewardedAdClient]"
 export class RewardedAdClient extends AdClient {
 
+    /**
+     * @zh
+     * 激励广告监听器的联合类型
+     * @en
+     * Union of listeners for rewarded ad.
+     */
     private _rewardedListener: RewardedAdListener;
 
+    /**
+     * @zh
+     * 激励广告监听器的联合类型
+     * @en
+     * Union of listeners for rewarded ad.
+     */
     public set rewardedListener(value: RewardedAdListener) {
         if (this._rewardedListener) {
             route.off(RewardedAdLoadCallbackNTF.name, this.onRewardedAdLoadCallbackNTF, this);
@@ -29,10 +47,29 @@ export class RewardedAdClient extends AdClient {
             route.on(RewardedPaidEventNTF.name, this.onPaidEvent, this);
         }
     }
+    
+    /**
+     * @zh
+     * 激励广告监听器的联合类型
+     * @en
+     * Union of listeners for rewarded ad.
+     */
     public get rewardedListener(): RewardedAdListener {
         return this._rewardedListener;
     }
 
+    /**
+     * @zh
+     * 加载记录广告
+     * @en
+     * Load the rewarded ad
+     * @param unitId 
+     *  @zh 单元 Id
+     *  @en the unit id
+     * @param rewardedListener 
+     *  @zh 监听器
+     *  @en The rewarded ad listener
+     */
     load(unitId: string, rewardedListener: RewardedAdListener) {
         log(module, `load, unitId = ${unitId}`);
         this.unitId = unitId;
@@ -42,15 +79,27 @@ export class RewardedAdClient extends AdClient {
         }, this);
     }
 
+    /**
+     * @zh
+     * 销毁事件监听
+     * @en
+     * Deregister ad listener
+     */
     destroy() {
         log(module, `destroy`);
         this.rewardedListener = null;
     }
 
+    /**
+     * @zh
+     * 展示激励广告
+     * @en
+     * Show the rewarded ad.
+     */
     show() {
         log(module, `show`);
         bridge.sendToNative(ShowRewardedAdREQ.name, { unitId: this.unitId }, ShowRewardedAdACK.name, (ack: ShowRewardedAdACK) => {
-            log(module, `ShowRewardedAdREQ, ${ack}`);
+            log(module, `ShowRewardedAdREQ, ${ack}`);            
         }, this);
     }
 

@@ -8,11 +8,31 @@ import { OnUserEarnedRewardListener } from "../listener/OnUserEarnedRewardListen
 import { RewardedInterstitialPaidEventNTF } from "../../proto/PaidEventNTF";
 import { OnPaidEventListener } from "../listener/OnPaidEventListener";
 
+/**
+ * @zh
+ * 插页式激励广告的广告客户端
+ * https://developers.google.com/admob/android/rewarded-interstitial?hl=zh-cn
+ * 
+ * @en
+ * The RewardedInterstitial Ad Client
+ */
 const module = "[RewardedInterstitialAdClient]";
 export class RewardedInterstitialAdClient extends AdClient {
 
+    /**
+     * @zh
+     * 监听器的联合
+     * @en
+     * The union of all listeners
+     */
     private _rewardedInterstitialListener: RewardedInterstitialListener
 
+    /**
+     * @zh
+     * 监听器的联合
+     * @en
+     * The union of all listeners
+     */
     set rewardedInterstitialListener(value: RewardedInterstitialListener) {
         if (this._rewardedInterstitialListener) {
             route.off(RewardedInterstitialAdLoadCallbackNTF.name, this.onRewardedInterstitialAdLoadCallbackNTF, this);
@@ -27,10 +47,23 @@ export class RewardedInterstitialAdClient extends AdClient {
             route.on(RewardedInterstitialPaidEventNTF.name, this.onPaidEvent, this);
         }
     }
+
+    /**
+     * @zh
+     * 监听器的联合
+     * @en
+     * The union of all listeners
+     */
     get rewardedInterstitialListener(): RewardedInterstitialListener {
         return this._rewardedInterstitialListener;
     }
 
+    /**
+     * @zh
+     * 加载 
+     * @param unitId 
+     * @param listener 
+     */
     load(unitId: string, listener: RewardedInterstitialListener) {
         this.destroy();
         this.unitId = unitId;
@@ -42,10 +75,22 @@ export class RewardedInterstitialAdClient extends AdClient {
             }, this);
     }
 
+    /**
+     * @zh
+     * 销毁插页式激励广告注册的事件
+     * @en
+     * Deregister all registered event listeners
+     */
     destroy() {
         this.rewardedInterstitialListener = null;
     }
 
+    /**
+     * @zh
+     * 展示已加载插页式激励广告
+     * @en
+     * Show the loaded RewardedInterstitial Ad.
+     */
     show() {
         bridge.sendToNative(ShowRewardedInterstitialAdREQ.name, { unitId: this.unitId }, ShowRewardedInterstitialAdACK.name,
             (ack: ShowRewardedInterstitialAdACK) => {

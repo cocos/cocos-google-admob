@@ -37,6 +37,82 @@ System.register("chunks:///_virtual/AdListener.ts", ['cc'], function () {
   };
 });
 
+System.register("chunks:///_virtual/AdmobTestAppOpenAd.ts", ['cc', './TestScenes.ts', './AppOpenAdClient.ts', './TestUnitId.ts'], function (exports) {
+  var cclegacy, Component, log, director, _decorator, TestScenes, AppOpenAdClient, TestUnitId;
+
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+      Component = module.Component;
+      log = module.log;
+      director = module.director;
+      _decorator = module._decorator;
+    }, function (module) {
+      TestScenes = module.TestScenes;
+    }, function (module) {
+      AppOpenAdClient = module.AppOpenAdClient;
+    }, function (module) {
+      TestUnitId = module.TestUnitId;
+    }],
+    execute: function () {
+      var _dec, _class;
+
+      cclegacy._RF.push({}, "16e5cQy1xRATonmm6jvefs8", "AdmobTestAppOpenAd", undefined);
+
+      const {
+        ccclass,
+        property
+      } = _decorator;
+      const module$1 = "[AdmobTestAppOpenAd]";
+      let AdmobTestAppOpenAd = exports('AdmobTestAppOpenAd', (_dec = ccclass('AdmobTestAppOpenAd'), _dec(_class = class AdmobTestAppOpenAd extends Component {
+        constructor(...args) {
+          super(...args);
+          this.appOpenAdView = new AppOpenAdClient();
+        }
+
+        onClickLoadAppOpenAd() {
+          log(module$1, "onClickLoadAppOpenAd");
+          this.appOpenAdView.loadAd(TestUnitId.AppOpenAd, {
+            onAdLoaded: () => {
+              log(module$1, "onClickLoadAppOpenAd", "onAdLoaded");
+            },
+            onAdFailedToLoad: loadAdError => {
+              log(module$1, "onClickLoadAppOpenAd", "onAdFailedToLoad", loadAdError);
+            },
+
+            onShowAdComplete(unitId) {
+              log(module$1, "onClickLoadAppOpenAd", "onShowAdComplete");
+            },
+
+            onPaidEvent(paidNTF) {
+              log(module$1, "onClickLoadAppOpenAd", "onPaidEvent");
+            }
+
+          });
+        }
+
+        onClickShowOpenAppAd() {
+          log(module$1, "onClickShowOpenAppAd");
+          this.appOpenAdView.isValid(valid => {
+            log(module$1, "onClickShowOpenAppAd", valid);
+
+            if (valid) {
+              this.appOpenAdView.show();
+            }
+          }, this);
+        }
+
+        onNextScene() {
+          director.loadScene(TestScenes[3]);
+        }
+
+      }) || _class));
+
+      cclegacy._RF.pop();
+    }
+  };
+});
+
 System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc', './TestScenes.ts', './BannerClient.ts', './TestUnitId.ts', './BannerSize.ts', './BannerAlignment.ts'], function (exports) {
   var _applyDecoratedDescriptor, _initializerDefineProperty, cclegacy, Button, _decorator, Component, log, director, TestScenes, BannerClient, TestUnitId, BannerSize, TopCenter;
 
@@ -292,82 +368,6 @@ System.register("chunks:///_virtual/AdmobTestNative.ts", ['cc', './TestScenes.ts
 
         onNextScene() {
           director.loadScene(TestScenes[0]);
-        }
-
-      }) || _class));
-
-      cclegacy._RF.pop();
-    }
-  };
-});
-
-System.register("chunks:///_virtual/AdmobTestOpenAppAd.ts", ['cc', './TestScenes.ts', './AppOpenAdClient.ts', './TestUnitId.ts'], function (exports) {
-  var cclegacy, Component, log, director, _decorator, TestScenes, AppOpenAdClient, TestUnitId;
-
-  return {
-    setters: [function (module) {
-      cclegacy = module.cclegacy;
-      Component = module.Component;
-      log = module.log;
-      director = module.director;
-      _decorator = module._decorator;
-    }, function (module) {
-      TestScenes = module.TestScenes;
-    }, function (module) {
-      AppOpenAdClient = module.AppOpenAdClient;
-    }, function (module) {
-      TestUnitId = module.TestUnitId;
-    }],
-    execute: function () {
-      var _dec, _class;
-
-      cclegacy._RF.push({}, "16e5cQy1xRATonmm6jvefs8", "AdmobTestOpenAppAd", undefined);
-
-      const {
-        ccclass,
-        property
-      } = _decorator;
-      const module$1 = "[AdmobTestOpenAppAd]";
-      let AdmobTestOpenAppAd = exports('AdmobTestOpenAppAd', (_dec = ccclass('AdmobTestOpenAppAd'), _dec(_class = class AdmobTestOpenAppAd extends Component {
-        constructor(...args) {
-          super(...args);
-          this.appOpenAdView = new AppOpenAdClient();
-        }
-
-        onClickLoadOpenAppAd() {
-          log(module$1, "onClickLoadOpenAppAd");
-          this.appOpenAdView.loadAd(TestUnitId.AppOpenAd, {
-            onAdLoaded: () => {
-              log(module$1, "onClickLoadOpenAppAd", "onAdLoaded");
-            },
-            onAdFailedToLoad: loadAdError => {
-              log(module$1, "onClickLoadOpenAppAd", "onAdFailedToLoad", loadAdError);
-            },
-
-            onShowAdComplete(unitId) {
-              log(module$1, "onClickLoadOpenAppAd", "onShowAdComplete");
-            },
-
-            onPaidEvent(paidNTF) {
-              log(module$1, "onClickLoadOpenAppAd", "onPaidEvent");
-            }
-
-          });
-        }
-
-        onClickShowOpenAppAd() {
-          log(module$1, "onClickShowOpenAppAd");
-          this.appOpenAdView.isValid(valid => {
-            log(module$1, "onClickShowOpenAppAd", valid);
-
-            if (valid) {
-              this.appOpenAdView.show();
-            }
-          }, this);
-        }
-
-        onNextScene() {
-          director.loadScene(TestScenes[3]);
         }
 
       }) || _class));
@@ -1781,7 +1781,7 @@ System.register("chunks:///_virtual/InterstitialFullScreenContentCallback.ts", [
   };
 });
 
-System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', './AdmobTestBanner.ts', './AdmobTestInterstitialAd.ts', './AdmobTestNative.ts', './AdmobTestOpenAppAd.ts', './AdmobTestRewarded.ts', './AdmobTestRewardedInterstitialAd.ts', './TestScenes.ts', './TypeAlias.ts', './AdClient.ts', './AppOpenAdClient.ts', './BannerClient.ts', './InterstitialAdClient.ts', './NativeAdClient.ts', './RewardedAdClient.ts', './RewardedInterstitialAdClient.ts', './AdListener.ts', './AppOpenAdFullScreenContentCallback.ts', './AppOpenAdListener.ts', './AppOpenAdLoadCallback.ts', './BannerAdListener.ts', './FullScreenContentCallback.ts', './InterstitialAdListener.ts', './InterstitialAdLoadCallback.ts', './InterstitialFullScreenContentCallback.ts', './NativeAdListener.ts', './OnNativeAdLoadedListener.ts', './OnPaidEventListener.ts', './OnShowAdCompleteListener.ts', './OnUserEarnedRewardListener.ts', './RewardedAdFullScreenContentCallback.ts', './RewardedAdListener.ts', './RewardedAdLoadCallback.ts', './RewardedInterstitialAdLoadCallback.ts', './RewardedInterstitialFullScreenContentCallback.ts', './RewardedInterstitialListener.ts', './Bridge.ts', './Codec.ts', './INativeResponse.ts', './Route.ts', './Version2.ts', './BannerAlignment.ts', './BannerSize.ts', './BannerSizeOption.ts', './TestUnitId.ts', './AppOpenAd.ts', './BannerAd.ts', './Base.ts', './ICallbackNTF.ts', './InterstitailAd.ts', './NativeAd.ts', './PaidEventNTF.ts', './RewardedAd.ts', './RewardedInterstitialAd.ts', './Version.ts'], function () {
+System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', './AdmobTestAppOpenAd.ts', './AdmobTestBanner.ts', './AdmobTestInterstitialAd.ts', './AdmobTestNative.ts', './AdmobTestRewarded.ts', './AdmobTestRewardedInterstitialAd.ts', './TestScenes.ts', './TypeAlias.ts', './AdClient.ts', './AppOpenAdClient.ts', './BannerClient.ts', './InterstitialAdClient.ts', './NativeAdClient.ts', './RewardedAdClient.ts', './RewardedInterstitialAdClient.ts', './AdListener.ts', './AppOpenAdFullScreenContentCallback.ts', './AppOpenAdListener.ts', './AppOpenAdLoadCallback.ts', './BannerAdListener.ts', './FullScreenContentCallback.ts', './InterstitialAdListener.ts', './InterstitialAdLoadCallback.ts', './InterstitialFullScreenContentCallback.ts', './NativeAdListener.ts', './OnNativeAdLoadedListener.ts', './OnPaidEventListener.ts', './OnShowAdCompleteListener.ts', './OnUserEarnedRewardListener.ts', './RewardedAdFullScreenContentCallback.ts', './RewardedAdListener.ts', './RewardedAdLoadCallback.ts', './RewardedInterstitialAdLoadCallback.ts', './RewardedInterstitialFullScreenContentCallback.ts', './RewardedInterstitialListener.ts', './Bridge.ts', './Codec.ts', './INativeResponse.ts', './Route.ts', './Version2.ts', './BannerAlignment.ts', './BannerSize.ts', './BannerSizeOption.ts', './TestUnitId.ts', './AppOpenAd.ts', './BannerAd.ts', './Base.ts', './ICallbackNTF.ts', './InterstitailAd.ts', './NativeAd.ts', './PaidEventNTF.ts', './RewardedAd.ts', './RewardedInterstitialAd.ts', './Version.ts'], function () {
   return {
     setters: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
     execute: function () {}
@@ -2621,7 +2621,7 @@ System.register("chunks:///_virtual/TestScenes.ts", ['cc'], function (exports) {
     execute: function () {
       cclegacy._RF.push({}, "0d9cd6Iq1NI0bro3GkAjxQH", "TestScenes", undefined);
 
-      const TestScenes = exports('TestScenes', ["1.banner", "2.interstitial", "3.openAppAd", "4.rewardedAd", "5.interstitialRewardedAd", "6.nativeAd"]);
+      const TestScenes = exports('TestScenes', ["1.banner", "2.interstitial", "3.appOpenAd", "4.rewardedAd", "5.interstitialRewardedAd", "6.nativeAd"]);
 
       cclegacy._RF.pop();
     }

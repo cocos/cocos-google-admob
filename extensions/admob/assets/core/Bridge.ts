@@ -7,6 +7,12 @@ import { Base } from "../proto/Base";
 import { VersionREQ } from "../proto/Version";
 import { AdMobVersion } from "./Version";
 
+/**
+ * @zh
+ * 桥接原生和 TS 
+ * @en
+ * Bridge connect native to ts
+ */
 const module = "[Bridge]";
 export class Bridge {
 

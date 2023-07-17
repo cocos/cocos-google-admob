@@ -52,7 +52,7 @@
         ]
     },
     "scenes": {
-        "db://assets/scene/3.openAppAd.scene": "37fcdf8a-d36c-43d6-8a35-e8af115f954f",
+        "db://assets/scene/3.appOpenAd.scene": "37fcdf8a-d36c-43d6-8a35-e8af115f954f",
         "db://assets/scene/4.rewardedAd.scene": "58be7eb8-2414-46ed-bdd0-37814caa2a2a",
         "db://assets/scene/5.interstitialRewardedAd.scene": "98db9230-707d-4653-9c73-7e332b22dcc2",
         "db://assets/scene/6.nativeAd.scene": "d885dea7-90a4-4f45-b1d0-7aef086bd4d6",

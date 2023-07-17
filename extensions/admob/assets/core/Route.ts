@@ -4,6 +4,12 @@ import { INativeResponse } from "./INativeResponse";
 import { EventTarget } from "cc";
 import { log } from "cc";
 
+/**
+ * @zh
+ * 封装 EventTarget，用于事件派发
+ * @en
+ * Encapsulate an event target to dispatch events from native.
+ */
 const module = "[Route]"
 export class Route {
 

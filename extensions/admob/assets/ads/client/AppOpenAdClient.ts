@@ -8,11 +8,29 @@ import { AppOpenAdListener } from "../listener/AppOpenAdListener";
 import { AppOpenPaidEventNTF } from "../../proto/PaidEventNTF";
 import { OnPaidEventListener } from "../listener/OnPaidEventListener";
 
+/**
+ * @zh
+ * 开屏广告的 TS 端实现
+ * @en
+ * Implementing of app open ad.
+ */
 const module = "[AppOpenAdClient]";
 export class AppOpenAdClient extends AdClient {
 
+    /**
+     * @zh
+     * 开屏广告的事件接收器，多个类型的联合
+     * @en
+     * The listener of app open ad.
+     */
     private _appOpenAdListener: AppOpenAdListener
 
+    /**
+     * @zh
+     * 开屏广告的事件接收器，多个类型的联合
+     * @en
+     * The listener of app open ad.
+     */
     set appOpenAdListener(value: AppOpenAdListener) {
         if (this._appOpenAdListener) {
             route.off(AppOpenAdLoadCallbackNTF.name, this.onAppOpenAdLoadCallbackNTF, this);
@@ -30,10 +48,28 @@ export class AppOpenAdClient extends AdClient {
         }
     }
 
+    /**
+     * @zh
+     * 开屏广告的事件接收器，多个类型的联合
+     * @en
+     * The listener of app open ad.
+     */
     get appOpenAdListener(): AppOpenAdListener {
         return this._appOpenAdListener;
     }   
-
+    
+    /**
+     * @zh
+     * 加载开屏广告
+     * @en
+     * load app open ad.
+     * @param unitId 
+     *  @zh 开屏广告的单元 Id
+     *  @en the unit id of app open ad
+     * @param appOpenAdListener 
+     *  @zh 开屏广告监听器
+     *  @en listener for app open ad
+     */
     loadAd(unitId: string, appOpenAdListener?: AppOpenAdListener) {
         this.appOpenAdListener = appOpenAdListener;        
         this.unitId = unitId;
@@ -43,6 +79,15 @@ export class AppOpenAdClient extends AdClient {
         }, this);
     }
 
+    /**
+     * @zh
+     * 开屏广告是否有效
+     * 要从回调中去判断是否有效，在安卓上，消息是来自其他线程的，因此是异步的。
+     * @en
+     * whether the app open ad is valid.
+     * @param onComplete 
+     * @param thisArg 
+     */
     isValid(onComplete: (valid: boolean) => void, thisArg: any) {
         bridge.sendToNative(IsAdAvailableREQ.name, { unitId: this.unitId }, IsAdAvailableACK.name, (ack: IsAdAvailableACK) => {
             log(module, "isValid", ack.valid);
@@ -52,6 +97,15 @@ export class AppOpenAdClient extends AdClient {
         })
     }
 
+    /**
+     * @zh
+     *  显示开屏广告
+     * @en
+     *  Show app open ad.
+     * @param onComplete 
+     *  @zh 展示结束
+     *  @en whether the show process is complete
+     */
     show(onComplete?: () => void) {
         bridge.sendToNative(ShowAppOpenAdREQ.name, { unitId: this.unitId }, ShowAppOpenAdACK.name, (ack: ShowAppOpenAdACK) => {
             log(module, "showAdIfAvailable", ack);
@@ -61,6 +115,15 @@ export class AppOpenAdClient extends AdClient {
         })
     }
 
+    /**
+     * @zh
+     * 销毁开屏广告
+     * 安卓中没有手动销毁的方法，这里的销毁是事件回调
+     * @en
+     * Destroy the app open ad
+     * Note that there is no 'destroy' method on the app open ad.
+     * Simply deregister all callbacks.
+     */
     destroy() {
         this.appOpenAdListener = null;
     }   
