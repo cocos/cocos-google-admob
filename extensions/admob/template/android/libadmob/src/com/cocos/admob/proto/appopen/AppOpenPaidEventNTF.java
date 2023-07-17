@@ -1,4 +1,4 @@
-package com.cocos.admob.proto.openapp;
+package com.cocos.admob.proto.appopen;
 
 import com.cocos.admob.proto.PaidEventNTF;
 

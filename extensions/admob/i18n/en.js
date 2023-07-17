@@ -39,5 +39,10 @@ module.exports = {
     overwriteLibrary: {
         title: "Force overwrite the libadmob library",
         tip: "Force overwrite the files in the built proj/libadmob from the extension's template.",
+    },
+
+    modifyAppActivity:{
+        title: "Modify AppActivity",
+        tip: "This option will modify the AppActivity.java, add code include the entry function and import of libadmob to the AppActivity",
     }
 };

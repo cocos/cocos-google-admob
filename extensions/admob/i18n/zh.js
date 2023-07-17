@@ -31,5 +31,10 @@ module.exports = {
     overwriteLibrary: {
         title: "覆盖已存在的库文件",
         tip: "覆盖已有的库文件，这个操作会覆盖 ${build/your build/proj/libadmob} 内的文件。",
+    },
+
+    modifyAppActivity:{
+        title: "修改 AppActivity",
+        tip: "该选项会修改 AppActivity.java 内的文件，包含：引用 libadmob 的库文件，增加入口函数，如取消，则需要手动添加。",
     }
 };

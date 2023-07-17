@@ -58,6 +58,14 @@ exports.configs = {
                 },
                 //verifyRules: ['ruleTest'],
             },
+            modifyAppActivity: {
+                label: `i18n:${exports.PACKAGE_NAME}.modifyAppActivity.title`,
+                description: `i18n:${exports.PACKAGE_NAME}.modifyAppActivity.tip`,
+                default: `true`,
+                render: {
+                    ui: 'ui-checkbox',
+                },
+            },
             overwriteLibrary: {
                 label: `i18n:${exports.PACKAGE_NAME}.overwriteLibrary.title`,
                 description: `i18n:${exports.PACKAGE_NAME}.overwriteLibrary.tip`,

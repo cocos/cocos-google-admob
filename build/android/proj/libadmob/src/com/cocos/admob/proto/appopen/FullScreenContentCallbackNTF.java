@@ -1,6 +1,5 @@
-package com.cocos.admob.proto.openapp;
+package com.cocos.admob.proto.appopen;
 
-import com.cocos.admob.proto.Base;
 import com.cocos.admob.proto.IAdError;
 import com.google.android.gms.ads.AdError;
 

@@ -133,16 +133,16 @@ class BuildTaskAndroid {
         console.log(TAG, "handleAppActivity");
         const adMobOption = options.packages[builder_1.PACKAGE_NAME];
         const appActivityPath = AndroidConstants_1.AndroidConstants.AppActivityPath;
-        const { enableAdMob } = adMobOption;
-        if (enableAdMob) {
-            (0, Util_1.insertDestToSrcBehindKey)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateInitPath, AndroidConstants_1.AndroidConstants.AppActivityKeyCodeTemplateInitPath);
-            (0, Util_1.insertDestToSrcBehindKey)(appActivityPath, AndroidConstants_1.AndroidConstants.ImportTemplatePath, AndroidConstants_1.AndroidConstants.ImportKeyCodeTemplatePath);
-            (0, Util_1.insertDestToSrcBehindKey)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateDestroyPath, AndroidConstants_1.AndroidConstants.AppActivityKeyCodeTemplateDestroyPath);
-        }
-        else {
+        const { enableAdMob, modifyAppActivity } = adMobOption;
+        if (!enableAdMob || !modifyAppActivity) {
             (0, Util_1.deleteDestContentInSrcFile)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateInitPath);
             (0, Util_1.deleteDestContentInSrcFile)(appActivityPath, AndroidConstants_1.AndroidConstants.ImportTemplatePath);
             (0, Util_1.deleteDestContentInSrcFile)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateDestroyPath);
+        }
+        else {
+            (0, Util_1.insertDestToSrcBehindKey)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateInitPath, AndroidConstants_1.AndroidConstants.AppActivityKeyCodeTemplateInitPath);
+            (0, Util_1.insertDestToSrcBehindKey)(appActivityPath, AndroidConstants_1.AndroidConstants.ImportTemplatePath, AndroidConstants_1.AndroidConstants.ImportKeyCodeTemplatePath);
+            (0, Util_1.insertDestToSrcBehindKey)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateDestroyPath, AndroidConstants_1.AndroidConstants.AppActivityKeyCodeTemplateDestroyPath);
         }
     }
     /**

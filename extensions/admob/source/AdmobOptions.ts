@@ -24,4 +24,10 @@
      * Overwrite all the files exported in the built project by the file in the extension templates.
      */
     overwriteLibrary?: boolean;
+
+    /**
+     * @en
+     * Whether to modify the AppActivity, add import and entry function to it.
+     */
+    modifyAppActivity?: boolean;
 }
