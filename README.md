@@ -4,10 +4,26 @@
 
 If your want to read the English version, please refer to [EN](./README_en.md)。
 
+## 安装
+
+- 下载并安装 [node.js](https://nodejs.org/en)
+- 下载并安装 [Cocos Creator](https://www.cocos.com/en)
+
 ## 使用流程
 
 - 下载示例工程
-- 安装插件到您的项目
+- 在终端进入到扩展所在的目录
+
+    ```bash
+    cd ./extensions/amob
+    ```
+
+    Type `npm install` in the terminal
+
+    ```bash
+    npm install
+    ```
+
 - 打开扩展管理器
 
     ![ext-mgr](documents/images/ext-mgr.png)

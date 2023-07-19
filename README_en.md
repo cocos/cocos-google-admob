@@ -4,13 +4,26 @@ This extension is designed for Cocos Creator to integrate the Google Mobile Ad S
 
 如果你需要中文文档，请移步 [CN](./README_en.md)。
 
-## API 使用说明
+## Requirements
 
-TODO:
+- Download [node.js](https://nodejs.org/en)
+- Download [Cocos Creator](https://www.cocos.com/en)
 
 ## Work Flow
 
 - Download this sample
+- Open the terminal and enter the extension's directory
+
+    ```bash
+    cd ./extensions/amob
+    ```
+
+    Type `npm install` in the terminal
+
+    ```bash
+    npm install
+    ```
+
 - Open the project by Cocos Creator v3.7.3.
 - Open the Extension Manager panel.
 

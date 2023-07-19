@@ -7,10 +7,25 @@ System.register("chunks:///_virtual/AdClient.ts", ['cc'], function (exports) {
     }],
     execute: function () {
       cclegacy._RF.push({}, "913ddXSZoBEo5AGp798igBP", "AdClient", undefined);
+      /**
+       * AdClient
+       * @zh
+       * 所有广告类型的基类
+       * @en
+       * Base class for all ads.
+       */
+
 
       class AdClient extends EventTarget {
         constructor(...args) {
           super(...args);
+          /**
+           * @zh
+           * 广告单元 Id
+           * @en
+           * The unit Id 
+           */
+
           this.unitId = void 0;
         }
 
@@ -646,14 +661,35 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
     }],
     execute: function () {
       cclegacy._RF.push({}, "de391JGZ7RFmILooPgf1Zbb", "AppOpenAdClient", undefined);
+      /**
+       * @zh
+       * 开屏广告的 TS 端实现
+       * @en
+       * Implementing of app open ad.
+       */
+
 
       const module$1 = "[AppOpenAdClient]";
 
       class AppOpenAdClient extends AdClient {
         constructor(...args) {
           super(...args);
+          /**
+           * @zh
+           * 开屏广告的事件接收器，多个类型的联合
+           * @en
+           * The listener of app open ad.
+           */
+
           this._appOpenAdListener = void 0;
         }
+        /**
+         * @zh
+         * 开屏广告的事件接收器，多个类型的联合
+         * @en
+         * The listener of app open ad.
+         */
+
 
         set appOpenAdListener(value) {
           if (this._appOpenAdListener) {
@@ -672,10 +708,30 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
             route.on(ShowAppOpenAdCompleteNTF.name, this.onShowCompleteNTF, this);
           }
         }
+        /**
+         * @zh
+         * 开屏广告的事件接收器，多个类型的联合
+         * @en
+         * The listener of app open ad.
+         */
+
 
         get appOpenAdListener() {
           return this._appOpenAdListener;
         }
+        /**
+         * @zh
+         * 加载开屏广告
+         * @en
+         * load app open ad.
+         * @param unitId 
+         *  @zh 开屏广告的单元 Id
+         *  @en the unit id of app open ad
+         * @param appOpenAdListener 
+         *  @zh 开屏广告监听器
+         *  @en listener for app open ad
+         */
+
 
         loadAd(unitId, appOpenAdListener) {
           this.appOpenAdListener = appOpenAdListener;
@@ -684,6 +740,16 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
             unitId: unitId
           }, LoadAppOpenAdACK.name, ack => {}, this);
         }
+        /**
+         * @zh
+         * 开屏广告是否有效
+         * 要从回调中去判断是否有效，在安卓上，消息是来自其他线程的，因此是异步的。
+         * @en
+         * whether the app open ad is valid.
+         * @param onComplete 
+         * @param thisArg 
+         */
+
 
         isValid(onComplete, thisArg) {
           bridge.sendToNative(IsAdAvailableREQ.name, {
@@ -696,6 +762,16 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
             }
           });
         }
+        /**
+         * @zh
+         *  显示开屏广告
+         * @en
+         *  Show app open ad.
+         * @param onComplete 
+         *  @zh 展示结束
+         *  @en whether the show process is complete
+         */
+
 
         show(onComplete) {
           bridge.sendToNative(ShowAppOpenAdREQ.name, {
@@ -708,6 +784,16 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
             }
           });
         }
+        /**
+         * @zh
+         * 销毁开屏广告
+         * 安卓中没有手动销毁的方法，这里的销毁是事件回调
+         * @en
+         * Destroy the app open ad
+         * Note that there is no 'destroy' method on the app open ad.
+         * Simply deregister all callbacks.
+         */
+
 
         destroy() {
           this.appOpenAdListener = null;
@@ -961,18 +1047,46 @@ System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', '.
     }],
     execute: function () {
       cclegacy._RF.push({}, "67876+xkzJIO6gfVziSiyV8", "BannerClient", undefined);
+      /**
+       * @zh
+       * 横幅的客户端
+       * @en
+       * TS client for Banner ad.
+       */
+
 
       const module$1 = "[BannerClient]";
 
       class BannerClient extends AdClient {
         constructor(...args) {
           super(...args);
+          /**
+           * @zh
+           * Banner 的事件监听器，由多种监听器联合
+           * @en
+           * Union of all banner events listener
+           */
+
           this._adListener = null;
         }
+        /**
+         * @zh
+         * Banner 的事件监听器，由多种监听器联合
+         * @en
+         * Union of all banner events listener
+         */
+
 
         get adListener() {
           return this._adListener;
         }
+        /**
+         * @zh
+         * Banner 的事件监听器，由多种监听器联合
+         * @en
+         * Union of all banner events listener
+         */
+
 
         set adListener(v) {
           if (this._adListener) {
@@ -987,6 +1101,16 @@ System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', '.
             route.on(BannerPaidEventNTF.name, this.onPaidEvent, this);
           }
         }
+        /**
+         * @zh
+         * 展示横幅
+         * @en
+         * Show banner 
+         * @param visible 
+         *  @zh 横幅的可见性
+         *  @en Visibility of the banner
+         */
+
 
         show(visible) {
           let req = new ShowBannerREQ(this.unitId);
@@ -995,6 +1119,18 @@ System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', '.
             unitId: this.unitId
           });
         }
+        /**
+         * @zh
+         * 加载横幅
+         * 加载后会自动展示
+         * @en
+         * Load the banner 
+         * The banner will be visible automatically
+         * @param unitId 
+         * @param adListener 
+         * @param opt 
+         */
+
 
         load(unitId, adListener, opt) {
           this.adListener = adListener;
@@ -1005,6 +1141,13 @@ System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', '.
             alignments: opt != null && opt.alignments ? opt == null ? void 0 : opt.alignments : BottomCenter
           }, LoadBannerACK.name, response => {}, this);
         }
+        /**
+         * @zh
+         * 销毁横幅广告
+         * @en
+         * Destroy the banner id
+         */
+
 
         destroy() {
           log(module$1, "destroy", this.unitId);
@@ -1145,6 +1288,13 @@ System.register("chunks:///_virtual/Bridge.ts", ['cc', './Route.ts', './Version.
     }],
     execute: function () {
       cclegacy._RF.push({}, "9fa2b+aj71GBKZ5Ae4Zxwy/", "Bridge", undefined);
+      /**
+       * @zh
+       * 桥接原生和 TS 
+       * @en
+       * Bridge connect native to ts
+       */
+
 
       const module$1 = "[Bridge]";
 
@@ -1208,6 +1358,13 @@ System.register("chunks:///_virtual/Codec.ts", ['cc'], function (exports) {
     }],
     execute: function () {
       cclegacy._RF.push({}, "5fc3csE8LBMtJ0kAlIAJVfi", "Codec", undefined);
+      /**
+       * @zh
+       * 协议解析器
+       * @en
+       * codec to parse JSON
+       */
+
 
       class Codec {
         decode(content) {
@@ -1644,18 +1801,46 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
     }],
     execute: function () {
       cclegacy._RF.push({}, "0133a1I+utKjZdl7GATzhls", "InterstitialAdClient", undefined);
+      /**
+       * @zh
+       * Interstitial 广告的客户端
+       * @en
+       * The client of Interstitial Ad.
+       */
+
 
       const module$1 = "[InterstitialAdClient]";
 
       class InterstitialAdClient extends AdClient {
         constructor(...args) {
           super(...args);
+          /**
+           * @zh
+           * Interstitial 广告监听器，由多种类型联合
+           * @en
+           * Union of all the InterstitialAd listeners.
+           */
+
           this._interstitialListener = void 0;
         }
+        /**
+         * @zh
+         * Interstitial 广告监听器，由多种类型联合
+         * @en
+         * Union of all the InterstitialAd listeners.
+         */
+
 
         get interstitialListener() {
           return this._interstitialListener;
         }
+        /**
+         * @zh
+         * Interstitial 广告监听器，由多种类型联合
+         * @en
+         * Union of all the InterstitialAd listeners.
+         */
+
 
         set interstitialListener(value) {
           if (!value) {
@@ -1672,6 +1857,19 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
             route.on(InterstitialPaidEventNTF.name, this.onPaidEvent, this);
           }
         }
+        /**
+         * @zh
+         *  加载 Interstitial  广告
+         * @en
+         *  Load the Interstitial Ad
+         * @param unitId  
+         *  @zh 单元Id
+         *  @en the unit id of Interstitial Ad.
+         * @param interstitialListener 
+         *  @zh Interstitial 监听器
+         *  @en Listener for the Interstitial Ad.
+         */
+
 
         load(unitId, interstitialListener) {
           this.destroy();
@@ -1684,11 +1882,28 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
             log(module$1, `load, LoadInterstitialAdACK, ${ack}`);
           });
         }
+        /**
+         * @zh
+         * 销毁 Interstitial  的监听器
+         * @en
+         * Destroy the listener
+         */
+
 
         destroy() {
           log(module$1, `destroy`);
           this.interstitialListener = null;
         }
+        /**
+         * @zh
+         * 展示 Interstitial 广告
+         * 必须先 load 并且在成功后（onAdLoaded）后展示
+         * @en
+         * Show the Interstitial Ad.
+         * Must be loaded first, and show in the onAdLoaded callback.
+         * @param onComplete 
+         */
+
 
         show(onComplete) {
           log(module$1, `show`);
@@ -1872,18 +2087,49 @@ System.register("chunks:///_virtual/NativeAdClient.ts", ['cc', './Bridge.ts', '.
     }],
     execute: function () {
       cclegacy._RF.push({}, "2051einid9F8YRS5orUMZnQ", "NativeAdClient", undefined);
+      /**
+       * @zh
+       * 原生广告客户端
+       * 由于不可销毁，通常来说游戏不会用到
+       * 提供两种类型，请查看 NativeAdTemplateSize
+       * @en
+       * native ad client
+       * Two types are supported, please check NativeAdTemplateSize for more details
+       */
+
 
       const module$1 = "[NativeAdClient]";
 
       class NativeAdClient extends AdClient {
         constructor(...args) {
           super(...args);
+          /**
+           * @zh
+           * 原生广告的监听器
+           * @en
+           * Listener for the native ad
+           */
+
           this._nativeAdListener = void 0;
         }
+        /**
+         * @zh
+         * 原生广告的监听器
+         * @en
+         * Listener for the native ad
+         */
+
 
         get nativeAdListener() {
           return this._nativeAdListener;
         }
+        /**
+         * @zh
+         * 原生广告的监听器
+         * @en
+         * Listener for the native ad
+         */
+
 
         set nativeAdListener(value) {
           if (this._nativeAdListener) {
@@ -1900,6 +2146,22 @@ System.register("chunks:///_virtual/NativeAdClient.ts", ['cc', './Bridge.ts', '.
             route.on(NativePaidEventNTF.name, this.onPaidEvent, this);
           }
         }
+        /**
+         * @zh
+         * 加载原生广告
+         * @en
+         * Load native ad.
+         * @param unitId 
+         *  @zh 单元Id
+         *  @en The unit id
+         * @param size 
+         *  @zh 广告的大小
+         *  @en The ad size
+         * @param nativeListener 
+         *  @zh 监听器
+         *  @en The listener
+         */
+
 
         load(unitId, size, nativeListener) {
           log(module$1, "load", `unitId = ${unitId}`);
@@ -1910,6 +2172,13 @@ System.register("chunks:///_virtual/NativeAdClient.ts", ['cc', './Bridge.ts', '.
             log(module$1, "load", `LoadNativeAdACK: ${ack}`);
           }, this);
         }
+        /**
+         * @zh
+         * 销毁原生广告
+         * @en
+         * Destroy the native ad
+         */
+
 
         destroy() {
           log(module$1, "destroy");
@@ -2182,14 +2451,35 @@ System.register("chunks:///_virtual/RewardedAdClient.ts", ['cc', './Bridge.ts', 
     }],
     execute: function () {
       cclegacy._RF.push({}, "9c823kMEqhG354V3pAi+6bv", "RewardedAdClient", undefined);
+      /**
+       * @zh
+       * 激励广告 Rewarded Ad 客户端
+       * @en
+       * The rewarded ad client
+       */
+
 
       const module$1 = "[RewardedAdClient]";
 
       class RewardedAdClient extends AdClient {
         constructor(...args) {
           super(...args);
+          /**
+           * @zh
+           * 激励广告监听器的联合类型
+           * @en
+           * Union of listeners for rewarded ad.
+           */
+
           this._rewardedListener = void 0;
         }
+        /**
+         * @zh
+         * 激励广告监听器的联合类型
+         * @en
+         * Union of listeners for rewarded ad.
+         */
+
 
         set rewardedListener(value) {
           if (this._rewardedListener) {
@@ -2208,10 +2498,30 @@ System.register("chunks:///_virtual/RewardedAdClient.ts", ['cc', './Bridge.ts', 
             route.on(RewardedPaidEventNTF.name, this.onPaidEvent, this);
           }
         }
+        /**
+         * @zh
+         * 激励广告监听器的联合类型
+         * @en
+         * Union of listeners for rewarded ad.
+         */
+
 
         get rewardedListener() {
           return this._rewardedListener;
         }
+        /**
+         * @zh
+         * 加载记录广告
+         * @en
+         * Load the rewarded ad
+         * @param unitId 
+         *  @zh 单元 Id
+         *  @en the unit id
+         * @param rewardedListener 
+         *  @zh 监听器
+         *  @en The rewarded ad listener
+         */
+
 
         load(unitId, rewardedListener) {
           log(module$1, `load, unitId = ${unitId}`);
@@ -2223,11 +2533,25 @@ System.register("chunks:///_virtual/RewardedAdClient.ts", ['cc', './Bridge.ts', 
             log(module$1, `LoadRewardedAdACK, ${ack}`);
           }, this);
         }
+        /**
+         * @zh
+         * 销毁事件监听
+         * @en
+         * Deregister ad listener
+         */
+
 
         destroy() {
           log(module$1, `destroy`);
           this.rewardedListener = null;
         }
+        /**
+         * @zh
+         * 展示激励广告
+         * @en
+         * Show the rewarded ad.
+         */
+
 
         show() {
           log(module$1, `show`);
@@ -2411,14 +2735,37 @@ System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './
     }],
     execute: function () {
       cclegacy._RF.push({}, "bcd464DuS9EHZFqL+Wv7Zc9", "RewardedInterstitialAdClient", undefined);
+      /**
+       * @zh
+       * 插页式激励广告的广告客户端
+       * https://developers.google.com/admob/android/rewarded-interstitial?hl=zh-cn
+       * 
+       * @en
+       * The RewardedInterstitial Ad Client
+       */
+
 
       const module$1 = "[RewardedInterstitialAdClient]";
 
       class RewardedInterstitialAdClient extends AdClient {
         constructor(...args) {
           super(...args);
+          /**
+           * @zh
+           * 监听器的联合
+           * @en
+           * The union of all listeners
+           */
+
           this._rewardedInterstitialListener = void 0;
         }
+        /**
+         * @zh
+         * 监听器的联合
+         * @en
+         * The union of all listeners
+         */
+
 
         set rewardedInterstitialListener(value) {
           if (this._rewardedInterstitialListener) {
@@ -2435,10 +2782,24 @@ System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './
             route.on(RewardedInterstitialPaidEventNTF.name, this.onPaidEvent, this);
           }
         }
+        /**
+         * @zh
+         * 监听器的联合
+         * @en
+         * The union of all listeners
+         */
+
 
         get rewardedInterstitialListener() {
           return this._rewardedInterstitialListener;
         }
+        /**
+         * @zh
+         * 加载 
+         * @param unitId 
+         * @param listener 
+         */
+
 
         load(unitId, listener) {
           this.destroy();
@@ -2448,10 +2809,24 @@ System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './
             unitId: unitId
           }, LoadRewardedInterstitialAdACK.name, ack => {}, this);
         }
+        /**
+         * @zh
+         * 销毁插页式激励广告注册的事件
+         * @en
+         * Deregister all registered event listeners
+         */
+
 
         destroy() {
           this.rewardedInterstitialListener = null;
         }
+        /**
+         * @zh
+         * 展示已加载插页式激励广告
+         * @en
+         * Show the loaded RewardedInterstitial Ad.
+         */
+
 
         show() {
           bridge.sendToNative(ShowRewardedInterstitialAdREQ.name, {
@@ -2505,6 +2880,13 @@ System.register("chunks:///_virtual/RewardedInterstitialAdLoadCallback.ts", ['cc
     }],
     execute: function () {
       cclegacy._RF.push({}, "31b4agsy/RARJF/0v6HTKzC", "RewardedInterstitialAdLoadCallback", undefined);
+      /**
+       * @zh
+       * 插页式激励广告的加载回调
+       * @en
+       * Listener for Rewarded interstitial ad
+       */
+
 
       class RewardedInterstitialAdLoadCallback {
         constructor() {
@@ -2561,6 +2943,13 @@ System.register("chunks:///_virtual/Route.ts", ['cc', './Codec.ts'], function (e
     }],
     execute: function () {
       cclegacy._RF.push({}, "d7d2caHkbhJx7OojQtGJlDF", "Route", undefined);
+      /**
+       * @zh
+       * 封装 EventTarget，用于事件派发
+       * @en
+       * Encapsulate an event target to dispatch events from native.
+       */
+
 
       const module$1 = "[Route]";
 
