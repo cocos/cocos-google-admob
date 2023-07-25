@@ -33,7 +33,8 @@ export class AdmobTestBanner extends Component {
 
     onClickLoadBanner() {
         if (this.bannerClient != null) {
-            throw new Error("duplicated create of bannerView");
+            log("duplicated create of banner client, destroy the former banner client");
+            this.bannerClient.destroy();
         }
         this.bannerClient = new BannerClient();
         this.bannerClient.load(TestUnitId.BannerAd, {
@@ -52,16 +53,15 @@ export class AdmobTestBanner extends Component {
             },
 
             onAdFailedToLoad: (loadError: LoadAdError) => {
-                log(module, "onClickLoadBanner", "onAdLoaded")
-                throw new Error(`load Ad Error, the error is: ${loadError}.`);
+                log(module, "onClickLoadBanner", "onAdLoaded", `${loadError}`);
             },
 
-            onPaidEvent(paidNTF:BannerPaidEventNTF) {
+            onPaidEvent(paidNTF: BannerPaidEventNTF) {
                 // paid event, you can do your own analysis here.
-                log(module, "onPaidEvent", paidNTF);                
+                log(module, "onPaidEvent", paidNTF);
             },
-            
-        },  { size:BannerSize.BANNER, alignments:TopCenter});
+
+        }, { size: BannerSize.BANNER, alignments: TopCenter });
     }
 
     onClickDestroyBanner() {
