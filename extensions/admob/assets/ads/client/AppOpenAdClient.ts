@@ -7,6 +7,7 @@ import { AdClient } from "./AdClient";
 import { AppOpenAdListener } from "../listener/AppOpenAdListener";
 import { AppOpenPaidEventNTF } from "../../proto/PaidEventNTF";
 import { OnPaidEventListener } from "../listener/OnPaidEventListener";
+import { js } from "cc";
 
 /**
  * @zh
@@ -56,8 +57,8 @@ export class AppOpenAdClient extends AdClient {
      */
     get appOpenAdListener(): AppOpenAdListener {
         return this._appOpenAdListener;
-    }   
-    
+    }
+
     /**
      * @zh
      * 加载开屏广告
@@ -71,10 +72,10 @@ export class AppOpenAdClient extends AdClient {
      *  @en listener for app open ad
      */
     loadAd(unitId: string, appOpenAdListener?: AppOpenAdListener) {
-        this.appOpenAdListener = appOpenAdListener;        
+        this.appOpenAdListener = appOpenAdListener;
         this.unitId = unitId;
 
-        bridge.sendToNative(LoadAppOpenAdREQ.name, { unitId: unitId }, LoadAppOpenAdACK.name, (ack: LoadAppOpenAdACK) => {
+        bridge.sendToNative(js.getClassName(LoadAppOpenAdREQ), { unitId: unitId }, js.getClassName(LoadAppOpenAdACK), (ack: LoadAppOpenAdACK) => {
 
         }, this);
     }
@@ -89,7 +90,7 @@ export class AppOpenAdClient extends AdClient {
      * @param thisArg 
      */
     isValid(onComplete: (valid: boolean) => void, thisArg: any) {
-        bridge.sendToNative(IsAdAvailableREQ.name, { unitId: this.unitId }, IsAdAvailableACK.name, (ack: IsAdAvailableACK) => {
+        bridge.sendToNative(js.getClassName(IsAdAvailableREQ), { unitId: this.unitId }, js.getClassName(IsAdAvailableACK), (ack: IsAdAvailableACK) => {
             log(module, "isValid", ack.valid);
             if (onComplete && thisArg) {
                 onComplete.call(thisArg, ack.valid)
@@ -107,7 +108,7 @@ export class AppOpenAdClient extends AdClient {
      *  @en whether the show process is complete
      */
     show(onComplete?: () => void) {
-        bridge.sendToNative(ShowAppOpenAdREQ.name, { unitId: this.unitId }, ShowAppOpenAdACK.name, (ack: ShowAppOpenAdACK) => {
+        bridge.sendToNative(js.getClassName(ShowAppOpenAdREQ), { unitId: this.unitId }, js.getClassName(ShowAppOpenAdACK), (ack: ShowAppOpenAdACK) => {
             log(module, "showAdIfAvailable", ack);
             if (onComplete) {
                 onComplete();
@@ -126,7 +127,7 @@ export class AppOpenAdClient extends AdClient {
      */
     destroy() {
         this.appOpenAdListener = null;
-    }   
+    }
 
     private onAppOpenAdLoadCallbackNTF(ntf: AppOpenAdLoadCallbackNTF) {
         if (this.appOpenAdListener) {
@@ -148,15 +149,15 @@ export class AppOpenAdClient extends AdClient {
 
     private onShowCompleteNTF(ntf: ShowAppOpenAdCompleteNTF) {
         const c = this.appOpenAdListener as OnShowAdCompleteListener;
-        if( c && c.onShowAdComplete ){
+        if (c && c.onShowAdComplete) {
             c.onShowAdComplete(ntf.unitId);
-        }        
+        }
     }
 
     private onPaidEvent(ntf: AppOpenPaidEventNTF) {
         const listener = this.appOpenAdListener as OnPaidEventListener<AppOpenPaidEventNTF>;
-        if (listener) {
-            listener?.onPaidEvent(ntf);
+        if (listener && listener.onPaidEvent) {
+            listener.onPaidEvent(ntf);
         }
     }
 }

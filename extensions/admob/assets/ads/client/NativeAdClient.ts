@@ -8,6 +8,7 @@ import { route } from "../../core/Route";
 import { OnNativeAdLoadedListener } from "../listener/OnNativeAdLoadedListener";
 import { NativePaidEventNTF } from "../../proto/PaidEventNTF";
 import { OnPaidEventListener } from "../listener/OnPaidEventListener";
+import { js } from "cc";
 
 /**
  * @zh
@@ -80,7 +81,7 @@ export class NativeAdClient extends AdClient {
         this.nativeAdListener = nativeListener;
         let req = new LoadNativeAdREQ(unitId);
         req.size = size;
-        bridge.sendToNative(LoadNativeAdREQ.name, req, LoadNativeAdACK.name, (ack: LoadNativeAdACK) => {
+        bridge.sendToNative(js.getClassName(LoadNativeAdREQ), req, js.getClassName(LoadNativeAdACK), (ack: LoadNativeAdACK) => {
             log(module, "load", `LoadNativeAdACK: ${ack}`);
         }, this);
     }
@@ -94,7 +95,7 @@ export class NativeAdClient extends AdClient {
     destroy() {
         log(module, "destroy");
         this.nativeAdListener = null;
-        bridge.sendToNative(DestroyNativeAdREQ.name, { unitId: this.unitId }, DestroyBannerACK.name, (ack: DestroyNativeAdACK) => {
+        bridge.sendToNative(js.getClassName(DestroyNativeAdREQ), { unitId: this.unitId }, js.getClassName(DestroyBannerACK), (ack: DestroyNativeAdACK) => {
             log(module, "destroy", `DestroyNativeAdACK = ${ack}`);
         })
     }
@@ -117,8 +118,8 @@ export class NativeAdClient extends AdClient {
 
     private onPaidEvent(ntf: NativePaidEventNTF) {
         const paid = this.nativeAdListener as OnPaidEventListener<NativePaidEventNTF>;
-        if (paid) {
-            paid?.onPaidEvent(ntf);
+        if (paid && paid.onPaidEvent) {
+            paid.onPaidEvent(ntf);
         }
     }
 }

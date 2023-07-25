@@ -6,6 +6,7 @@ import { AdClient } from "./AdClient";
 import { InterstitialAdListener } from "../listener/InterstitialAdListener";
 import { InterstitialPaidEventNTF } from "../../proto/PaidEventNTF";
 import { OnPaidEventListener } from "../listener/OnPaidEventListener";
+import { js } from "cc";
 
 /**
  * @zh
@@ -74,7 +75,7 @@ export class InterstitialAdClient extends AdClient {
         this.unitId = unitId;
         this.interstitialListener = interstitialListener;
 
-        bridge.sendToNative(LoadInterstitialAdREQ.name, { unitId: unitId }, LoadInterstitialAdACK.name, (ack: LoadInterstitialAdACK) => {
+        bridge.sendToNative(js.getClassName(LoadInterstitialAdREQ), { unitId: unitId }, js.getClassName(LoadInterstitialAdACK), (ack: LoadInterstitialAdACK) => {
             log(module, `load, LoadInterstitialAdACK, ${ack}`);
         });
     }
@@ -101,7 +102,7 @@ export class InterstitialAdClient extends AdClient {
      */
     show(onComplete?: () => void) {
         log(module, `show`);
-        bridge.sendToNative(ShowInterstitialAdREQ.name, { unitId: this.unitId }, ShowInterstitialAdACK.name, (ack: ShowInterstitialAdACK) => {
+        bridge.sendToNative(js.getClassName(ShowInterstitialAdREQ), { unitId: this.unitId }, js.getClassName(ShowInterstitialAdACK), (ack: ShowInterstitialAdACK) => {
             if (onComplete) {
                 onComplete();
             }
@@ -128,8 +129,8 @@ export class InterstitialAdClient extends AdClient {
 
     private onPaidEvent(ntf:InterstitialPaidEventNTF){
         const listener = this.interstitialListener as OnPaidEventListener<InterstitialPaidEventNTF>;
-        if(listener){
-            listener?.onPaidEvent(ntf);
+        if(listener && listener.onPaidEvent){
+            listener.onPaidEvent(ntf);
         }        
     }
 }

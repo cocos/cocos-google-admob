@@ -7,6 +7,7 @@ import { RewardedInterstitialListener } from "../listener/RewardedInterstitialLi
 import { OnUserEarnedRewardListener } from "../listener/OnUserEarnedRewardListener";
 import { RewardedInterstitialPaidEventNTF } from "../../proto/PaidEventNTF";
 import { OnPaidEventListener } from "../listener/OnPaidEventListener";
+import { js } from "cc";
 
 /**
  * @zh
@@ -68,8 +69,8 @@ export class RewardedInterstitialAdClient extends AdClient {
         this.destroy();
         this.unitId = unitId;
         this.rewardedInterstitialListener = listener;
-        bridge.sendToNative(LoadRewardedInterstitialAdREQ.name, { unitId: unitId },
-            LoadRewardedInterstitialAdACK.name,
+        bridge.sendToNative(js.getClassName(LoadRewardedInterstitialAdREQ), { unitId: unitId },
+            js.getClassName(LoadRewardedInterstitialAdACK),
             (ack: LoadRewardedInterstitialAdACK) => {
 
             }, this);
@@ -92,7 +93,7 @@ export class RewardedInterstitialAdClient extends AdClient {
      * Show the loaded RewardedInterstitial Ad.
      */
     show() {
-        bridge.sendToNative(ShowRewardedInterstitialAdREQ.name, { unitId: this.unitId }, ShowRewardedInterstitialAdACK.name,
+        bridge.sendToNative(js.getClassName(ShowRewardedInterstitialAdREQ), { unitId: this.unitId }, js.getClassName(ShowRewardedInterstitialAdACK),
             (ack: ShowRewardedInterstitialAdACK) => {
 
             }, this);
@@ -118,8 +119,8 @@ export class RewardedInterstitialAdClient extends AdClient {
 
     private onPaidEvent(ntf: RewardedInterstitialPaidEventNTF) {
         const paid = this.rewardedInterstitialListener as OnPaidEventListener<RewardedInterstitialPaidEventNTF>;
-        if (paid) {
-            paid?.onPaidEvent(ntf);
+        if (paid && paid.onPaidEvent) {
+            paid.onPaidEvent(ntf);
         }
     }
 }

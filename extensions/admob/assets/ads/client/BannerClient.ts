@@ -1,5 +1,5 @@
 import { AdClient } from "./AdClient";
-import { BannerAdListenerNTF, ShowBannerREQ, LoadBannerREQ, LoadBannerACK, DestroyBannerREQ, DestroyBannerACK} from "../../proto/BannerAd";
+import { BannerAdListenerNTF, ShowBannerREQ, LoadBannerREQ, LoadBannerACK, DestroyBannerREQ, DestroyBannerACK } from "../../proto/BannerAd";
 import { log } from "cc";
 import { bridge } from "../../core/Bridge";
 import { route } from "../../core/Route";
@@ -9,6 +9,8 @@ import { BannerSizeOption } from "../../misc/BannerSizeOption";
 import { BannerAdListener } from "../listener/BannerAdListener";
 import { BannerPaidEventNTF } from "../../proto/PaidEventNTF";
 import { OnPaidEventListener } from "../listener/OnPaidEventListener";
+import { type } from "os";
+import { js } from "cc";
 
 /**
  * @zh
@@ -26,7 +28,7 @@ export class BannerClient extends AdClient {
      * Union of all banner events listener
      */
     private _adListener: BannerAdListener = null;
-    
+
     /**
      * @zh
      * Banner 的事件监听器，由多种监听器联合
@@ -67,7 +69,7 @@ export class BannerClient extends AdClient {
     show(visible: boolean) {
         let req = new ShowBannerREQ(this.unitId);
         req.visible = visible;
-        bridge.sendToNative(ShowBannerREQ.name, { unitId: this.unitId });
+        bridge.sendToNative(js.getClassName(ShowBannerREQ), req);
     }
 
     /**
@@ -83,14 +85,14 @@ export class BannerClient extends AdClient {
      */
     load(unitId: string, adListener?: BannerAdListener, opt?: BannerSizeOption) {
         this.adListener = adListener;
-        this.unitId = unitId;
-        bridge.sendToNative(LoadBannerREQ.name,
+        this.unitId = unitId
+        bridge.sendToNative(js.getClassName(LoadBannerREQ),
             {
                 unitId: unitId,
                 bannerSize: opt?.size ? opt?.size : BannerSize.BANNER,
-                alignments: opt?.alignments ? opt?.alignments : BottomCenter,                
+                alignments: opt?.alignments ? opt?.alignments : BottomCenter,
             },
-            LoadBannerACK.name, (response: LoadBannerACK) => {
+            js.getClassName(LoadBannerACK), (response: LoadBannerACK) => {
             }, this);
     }
 
@@ -104,7 +106,7 @@ export class BannerClient extends AdClient {
         log(module, "destroy", this.unitId);
         let req = new DestroyBannerREQ(this.unitId);
         this.adListener = null;
-        bridge.sendToNative(DestroyBannerREQ.name, req, DestroyBannerACK.name, (response: DestroyBannerACK) => {
+        bridge.sendToNative(js.getClassName(DestroyBannerREQ), req, DestroyBannerACK.name, (response: DestroyBannerACK) => {
         });
     }
 
@@ -117,10 +119,10 @@ export class BannerClient extends AdClient {
         }
     }
 
-    private onPaidEvent(ntf:BannerPaidEventNTF){
+    private onPaidEvent(ntf: BannerPaidEventNTF) {
         const listener = this.adListener as OnPaidEventListener<BannerPaidEventNTF>;
-        if(listener){
-            listener?.onPaidEvent(ntf);
-        }        
+        if (listener && listener.onPaidEvent) {
+            listener.onPaidEvent(ntf);
+        }
     }
 }

@@ -7,6 +7,7 @@ import { OnUserEarnedRewardListener } from "../listener/OnUserEarnedRewardListen
 import { RewardedAdListener } from "../listener/RewardedAdListener";
 import { RewardedPaidEventNTF } from "../../proto/PaidEventNTF";
 import { OnPaidEventListener } from "../listener/OnPaidEventListener";
+import { js } from "cc";
 
 /**
  * @zh
@@ -74,7 +75,7 @@ export class RewardedAdClient extends AdClient {
         log(module, `load, unitId = ${unitId}`);
         this.unitId = unitId;
         this.rewardedListener = rewardedListener;
-        bridge.sendToNative(LoadRewardedAdREQ.name, { unitId: unitId }, LoadRewardedAdACK.name, (ack: LoadRewardedAdACK) => {
+        bridge.sendToNative(js.getClassName(LoadRewardedAdREQ), { unitId: unitId }, js.getClassName(LoadRewardedAdACK), (ack: LoadRewardedAdACK) => {
             log(module, `LoadRewardedAdACK, ${ack}`);
         }, this);
     }
@@ -98,7 +99,7 @@ export class RewardedAdClient extends AdClient {
      */
     show() {
         log(module, `show`);
-        bridge.sendToNative(ShowRewardedAdREQ.name, { unitId: this.unitId }, ShowRewardedAdACK.name, (ack: ShowRewardedAdACK) => {
+        bridge.sendToNative(js.getClassName(ShowRewardedAdREQ), { unitId: this.unitId }, js.getClassName(ShowRewardedAdACK), (ack: ShowRewardedAdACK) => {
             log(module, `ShowRewardedAdREQ, ${ack}`);            
         }, this);
     }
@@ -135,8 +136,8 @@ export class RewardedAdClient extends AdClient {
 
     private onPaidEvent(ntf: RewardedPaidEventNTF) {
         const paid = this.rewardedListener as OnPaidEventListener<RewardedPaidEventNTF>;
-        if (paid) {
-            paid?.onPaidEvent(ntf);
+        if (paid && paid.onPaidEvent) {
+            paid.onPaidEvent(ntf);
         }
     }
 }

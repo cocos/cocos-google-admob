@@ -563,71 +563,53 @@ System.register("chunks:///_virtual/AdmobTestRewardedInterstitialAd.ts", ['cc', 
 });
 
 System.register("chunks:///_virtual/AppOpenAd.ts", ['cc', './Base.ts'], function (exports) {
-  var cclegacy, Base;
+  var cclegacy, _decorator, Base;
+
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
+      _decorator = module._decorator;
     }, function (module) {
       Base = module.Base;
     }],
     execute: function () {
+      var _dec, _class, _dec2, _class2, _dec3, _class3, _dec4, _class4, _dec5, _class5, _dec6, _class6, _dec7, _class8, _dec8, _class10, _dec9, _class11;
+
       cclegacy._RF.push({}, "1b2e4BJmARLoYFp0UFuCx/t", "AppOpenAd", undefined);
 
-      class LoadAppOpenAdREQ extends Base {}
-
-      exports('LoadAppOpenAdREQ', LoadAppOpenAdREQ);
-
-      class LoadAppOpenAdACK extends Base {}
-
-      exports('LoadAppOpenAdACK', LoadAppOpenAdACK);
-
-      class ShowAppOpenAdREQ extends Base {}
-
-      exports('ShowAppOpenAdREQ', ShowAppOpenAdREQ);
-
-      class ShowAppOpenAdACK extends Base {}
-
-      exports('ShowAppOpenAdACK', ShowAppOpenAdACK);
-
-      class ShowAppOpenAdCompleteNTF extends Base {}
-
-      exports('ShowAppOpenAdCompleteNTF', ShowAppOpenAdCompleteNTF);
-
-      class AppOpenAdFullScreenContentCallbackNTF extends Base {
+      const {
+        ccclass,
+        property
+      } = _decorator;
+      let LoadAppOpenAdREQ = exports('LoadAppOpenAdREQ', (_dec = ccclass("LoadAppOpenAdREQ"), _dec(_class = class LoadAppOpenAdREQ extends Base {}) || _class));
+      let LoadAppOpenAdACK = exports('LoadAppOpenAdACK', (_dec2 = ccclass("LoadAppOpenAdACK"), _dec2(_class2 = class LoadAppOpenAdACK extends Base {}) || _class2));
+      let ShowAppOpenAdREQ = exports('ShowAppOpenAdREQ', (_dec3 = ccclass("ShowAppOpenAdREQ"), _dec3(_class3 = class ShowAppOpenAdREQ extends Base {}) || _class3));
+      let ShowAppOpenAdACK = exports('ShowAppOpenAdACK', (_dec4 = ccclass("ShowAppOpenAdACK"), _dec4(_class4 = class ShowAppOpenAdACK extends Base {}) || _class4));
+      let ShowAppOpenAdCompleteNTF = exports('ShowAppOpenAdCompleteNTF', (_dec5 = ccclass("ShowAppOpenAdCompleteNTF"), _dec5(_class5 = class ShowAppOpenAdCompleteNTF extends Base {}) || _class5));
+      let AppOpenAdFullScreenContentCallbackNTF = exports('AppOpenAdFullScreenContentCallbackNTF', (_dec6 = ccclass("AppOpenAdFullScreenContentCallbackNTF"), _dec6(_class6 = class AppOpenAdFullScreenContentCallbackNTF extends Base {
         constructor(...args) {
           super(...args);
           this.method = void 0;
           this.adError = void 0;
         }
 
-      }
-
-      exports('AppOpenAdFullScreenContentCallbackNTF', AppOpenAdFullScreenContentCallbackNTF);
-
-      class AppOpenAdLoadCallbackNTF extends Base {
+      }) || _class6));
+      let AppOpenAdLoadCallbackNTF = exports('AppOpenAdLoadCallbackNTF', (_dec7 = ccclass("AppOpenAdLoadCallbackNTF"), _dec7(_class8 = class AppOpenAdLoadCallbackNTF extends Base {
         constructor(...args) {
           super(...args);
           this.method = void 0;
           this.loadAdError = void 0;
         }
 
-      }
-
-      exports('AppOpenAdLoadCallbackNTF', AppOpenAdLoadCallbackNTF);
-
-      class IsAdAvailableREQ extends Base {}
-
-      exports('IsAdAvailableREQ', IsAdAvailableREQ);
-
-      class IsAdAvailableACK extends Base {
+      }) || _class8));
+      let IsAdAvailableREQ = exports('IsAdAvailableREQ', (_dec8 = ccclass("IsAdAvailableREQ"), _dec8(_class10 = class IsAdAvailableREQ extends Base {}) || _class10));
+      let IsAdAvailableACK = exports('IsAdAvailableACK', (_dec9 = ccclass("IsAdAvailableACK"), _dec9(_class11 = class IsAdAvailableACK extends Base {
         constructor(...args) {
           super(...args);
           this.valid = false;
         }
 
-      }
-
-      exports('IsAdAvailableACK', IsAdAvailableACK);
+      }) || _class11));
 
       cclegacy._RF.pop();
     }
@@ -635,10 +617,11 @@ System.register("chunks:///_virtual/AppOpenAd.ts", ['cc', './Base.ts'], function
 });
 
 System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', './Route.ts', './AppOpenAd.ts', './AdClient.ts', './PaidEventNTF.ts'], function (exports) {
-  var cclegacy, log, bridge, route, AppOpenAdLoadCallbackNTF, AppOpenAdFullScreenContentCallbackNTF, ShowAppOpenAdCompleteNTF, LoadAppOpenAdREQ, LoadAppOpenAdACK, IsAdAvailableREQ, IsAdAvailableACK, ShowAppOpenAdREQ, ShowAppOpenAdACK, AdClient, AppOpenPaidEventNTF;
+  var cclegacy, js, log, bridge, route, AppOpenAdLoadCallbackNTF, AppOpenAdFullScreenContentCallbackNTF, ShowAppOpenAdCompleteNTF, LoadAppOpenAdREQ, LoadAppOpenAdACK, IsAdAvailableREQ, IsAdAvailableACK, ShowAppOpenAdREQ, ShowAppOpenAdACK, AdClient, AppOpenPaidEventNTF;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
+      js = module.js;
       log = module.log;
     }, function (module) {
       bridge = module.bridge;
@@ -736,9 +719,9 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
         loadAd(unitId, appOpenAdListener) {
           this.appOpenAdListener = appOpenAdListener;
           this.unitId = unitId;
-          bridge.sendToNative(LoadAppOpenAdREQ.name, {
+          bridge.sendToNative(js.getClassName(LoadAppOpenAdREQ), {
             unitId: unitId
-          }, LoadAppOpenAdACK.name, ack => {}, this);
+          }, js.getClassName(LoadAppOpenAdACK), ack => {}, this);
         }
         /**
          * @zh
@@ -752,9 +735,9 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
 
 
         isValid(onComplete, thisArg) {
-          bridge.sendToNative(IsAdAvailableREQ.name, {
+          bridge.sendToNative(js.getClassName(IsAdAvailableREQ), {
             unitId: this.unitId
-          }, IsAdAvailableACK.name, ack => {
+          }, js.getClassName(IsAdAvailableACK), ack => {
             log(module$1, "isValid", ack.valid);
 
             if (onComplete && thisArg) {
@@ -774,9 +757,9 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
 
 
         show(onComplete) {
-          bridge.sendToNative(ShowAppOpenAdREQ.name, {
+          bridge.sendToNative(js.getClassName(ShowAppOpenAdREQ), {
             unitId: this.unitId
-          }, ShowAppOpenAdACK.name, ack => {
+          }, js.getClassName(ShowAppOpenAdACK), ack => {
             log(module$1, "showAdIfAvailable", ack);
 
             if (onComplete) {
@@ -830,8 +813,8 @@ System.register("chunks:///_virtual/AppOpenAdClient.ts", ['cc', './Bridge.ts', '
         onPaidEvent(ntf) {
           const listener = this.appOpenAdListener;
 
-          if (listener) {
-            listener == null ? void 0 : listener.onPaidEvent(ntf);
+          if (listener && listener.onPaidEvent) {
+            listener.onPaidEvent(ntf);
           }
         }
 
@@ -887,17 +870,25 @@ System.register("chunks:///_virtual/AppOpenAdLoadCallback.ts", ['cc'], function 
 });
 
 System.register("chunks:///_virtual/BannerAd.ts", ['cc', './Base.ts'], function (exports) {
-  var cclegacy, Base;
+  var cclegacy, _decorator, Base;
+
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
+      _decorator = module._decorator;
     }, function (module) {
       Base = module.Base;
     }],
     execute: function () {
+      var _dec, _class, _dec2, _class3, _dec3, _class4, _dec4, _class6, _dec5, _class8, _dec6, _class9, _dec7, _class10;
+
       cclegacy._RF.push({}, "a3850FFnhpK8LXjWJ/XukPq", "BannerAd", undefined);
 
-      class LoadBannerREQ extends Base {
+      const {
+        ccclass,
+        property
+      } = _decorator;
+      let LoadBannerREQ = exports('LoadBannerREQ', (_dec = ccclass("LoadBannerREQ"), _dec(_class = class LoadBannerREQ extends Base {
         constructor(...args) {
           super(...args);
           this.bannerSize = void 0;
@@ -907,52 +898,32 @@ System.register("chunks:///_virtual/BannerAd.ts", ['cc', './Base.ts'], function 
           this.alignments = void 0;
         }
 
-      }
-
-      exports('LoadBannerREQ', LoadBannerREQ);
-
-      class LoadBannerACK extends Base {}
-
-      exports('LoadBannerACK', LoadBannerACK);
-
-      class ShowBannerREQ extends Base {
+      }) || _class));
+      let LoadBannerACK = exports('LoadBannerACK', (_dec2 = ccclass("LoadBannerACK"), _dec2(_class3 = class LoadBannerACK extends Base {}) || _class3));
+      let ShowBannerREQ = exports('ShowBannerREQ', (_dec3 = ccclass("ShowBannerREQ"), _dec3(_class4 = class ShowBannerREQ extends Base {
         constructor(...args) {
           super(...args);
           this.visible = void 0;
         }
 
-      }
-
-      exports('ShowBannerREQ', ShowBannerREQ);
-
-      class ShowBannerACK extends Base {
+      }) || _class4));
+      let ShowBannerACK = exports('ShowBannerACK', (_dec4 = ccclass("ShowBannerACK"), _dec4(_class6 = class ShowBannerACK extends Base {
         constructor(...args) {
           super(...args);
           this.visible = void 0;
         }
 
-      }
-
-      exports('ShowBannerACK', ShowBannerACK);
-
-      class DestroyBannerREQ extends Base {}
-
-      exports('DestroyBannerREQ', DestroyBannerREQ);
-
-      class DestroyBannerACK extends Base {}
-
-      exports('DestroyBannerACK', DestroyBannerACK);
-
-      class BannerAdListenerNTF extends Base {
+      }) || _class6));
+      let DestroyBannerREQ = exports('DestroyBannerREQ', (_dec5 = ccclass("DestroyBannerREQ"), _dec5(_class8 = class DestroyBannerREQ extends Base {}) || _class8));
+      let DestroyBannerACK = exports('DestroyBannerACK', (_dec6 = ccclass("DestroyBannerACK"), _dec6(_class9 = class DestroyBannerACK extends Base {}) || _class9));
+      let BannerAdListenerNTF = exports('BannerAdListenerNTF', (_dec7 = ccclass("BannerAdListenerNTF"), _dec7(_class10 = class BannerAdListenerNTF extends Base {
         constructor(...args) {
           super(...args);
           this.method = void 0;
           this.loadAdError = void 0;
         }
 
-      }
-
-      exports('BannerAdListenerNTF', BannerAdListenerNTF);
+      }) || _class10));
 
       cclegacy._RF.pop();
     }
@@ -1020,10 +991,11 @@ System.register("chunks:///_virtual/BannerAlignment.ts", ['cc'], function (expor
 });
 
 System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', './BannerAd.ts', './Bridge.ts', './Route.ts', './BannerSize.ts', './BannerAlignment.ts', './PaidEventNTF.ts'], function (exports) {
-  var cclegacy, log, AdClient, BannerAdListenerNTF, ShowBannerREQ, LoadBannerREQ, LoadBannerACK, DestroyBannerREQ, DestroyBannerACK, bridge, route, BannerSize, BottomCenter, BannerPaidEventNTF;
+  var cclegacy, js, log, AdClient, BannerAdListenerNTF, ShowBannerREQ, LoadBannerREQ, LoadBannerACK, DestroyBannerREQ, DestroyBannerACK, bridge, route, BannerSize, BottomCenter, BannerPaidEventNTF;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
+      js = module.js;
       log = module.log;
     }, function (module) {
       AdClient = module.AdClient;
@@ -1115,9 +1087,7 @@ System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', '.
         show(visible) {
           let req = new ShowBannerREQ(this.unitId);
           req.visible = visible;
-          bridge.sendToNative(ShowBannerREQ.name, {
-            unitId: this.unitId
-          });
+          bridge.sendToNative(js.getClassName(ShowBannerREQ), req);
         }
         /**
          * @zh
@@ -1135,11 +1105,11 @@ System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', '.
         load(unitId, adListener, opt) {
           this.adListener = adListener;
           this.unitId = unitId;
-          bridge.sendToNative(LoadBannerREQ.name, {
+          bridge.sendToNative(js.getClassName(LoadBannerREQ), {
             unitId: unitId,
             bannerSize: opt != null && opt.size ? opt == null ? void 0 : opt.size : BannerSize.BANNER,
             alignments: opt != null && opt.alignments ? opt == null ? void 0 : opt.alignments : BottomCenter
-          }, LoadBannerACK.name, response => {}, this);
+          }, js.getClassName(LoadBannerACK), response => {}, this);
         }
         /**
          * @zh
@@ -1153,7 +1123,7 @@ System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', '.
           log(module$1, "destroy", this.unitId);
           let req = new DestroyBannerREQ(this.unitId);
           this.adListener = null;
-          bridge.sendToNative(DestroyBannerREQ.name, req, DestroyBannerACK.name, response => {});
+          bridge.sendToNative(js.getClassName(DestroyBannerREQ), req, DestroyBannerACK.name, response => {});
         }
 
         onAdListenerEvent(ntf) {
@@ -1169,8 +1139,8 @@ System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', '.
         onPaidEvent(ntf) {
           const listener = this.adListener;
 
-          if (listener) {
-            listener == null ? void 0 : listener.onPaidEvent(ntf);
+          if (listener && listener.onPaidEvent) {
+            listener.onPaidEvent(ntf);
           }
         }
 
@@ -1250,29 +1220,35 @@ System.register("chunks:///_virtual/BannerSizeOption.ts", ['cc', './BannerAlignm
 });
 
 System.register("chunks:///_virtual/Base.ts", ['cc'], function (exports) {
-  var cclegacy;
+  var cclegacy, _decorator;
+
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
+      _decorator = module._decorator;
     }],
     execute: function () {
+      var _dec, _class;
+
       cclegacy._RF.push({}, "83981cFerZAEJC1MboCagJY", "Base", undefined);
 
-      class Base {
+      const {
+        ccclass,
+        property
+      } = _decorator;
+      let Base = exports('Base', (_dec = ccclass("Base"), _dec(_class = class Base {
         constructor(unitId) {
           this.unitId = unitId;
         }
 
-      }
-
-      exports('Base', Base);
+      }) || _class));
 
       cclegacy._RF.pop();
     }
   };
 });
 
-System.register("chunks:///_virtual/Bridge.ts", ['cc', './Route.ts', './Version2.ts', './Version.ts'], function (exports) {
+System.register("chunks:///_virtual/Bridge.ts", ['cc', './Route.ts', './Version.ts', './Version2.ts'], function (exports) {
   var cclegacy, log, native, route, VersionREQ, AdMobVersion;
   return {
     setters: [function (module) {
@@ -1724,53 +1700,44 @@ System.register("chunks:///_virtual/INativeResponse.ts", ['cc'], function () {
 });
 
 System.register("chunks:///_virtual/InterstitailAd.ts", ['cc', './Base.ts'], function (exports) {
-  var cclegacy, Base;
+  var cclegacy, _decorator, Base;
+
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
+      _decorator = module._decorator;
     }, function (module) {
       Base = module.Base;
     }],
     execute: function () {
+      var _dec, _class, _dec2, _class2, _dec3, _class3, _dec4, _class4, _dec5, _class5, _dec6, _class7;
+
       cclegacy._RF.push({}, "351a6cGhWdHlaZa5uq/AsZ8", "InterstitailAd", undefined);
 
-      class LoadInterstitialAdREQ extends Base {}
-
-      exports('LoadInterstitialAdREQ', LoadInterstitialAdREQ);
-
-      class LoadInterstitialAdACK extends Base {}
-
-      exports('LoadInterstitialAdACK', LoadInterstitialAdACK);
-
-      class ShowInterstitialAdREQ extends Base {}
-
-      exports('ShowInterstitialAdREQ', ShowInterstitialAdREQ);
-
-      class ShowInterstitialAdACK extends Base {}
-
-      exports('ShowInterstitialAdACK', ShowInterstitialAdACK);
-
-      class InterstitialAdLoadCalLBackNTF extends Base {
+      const {
+        ccclass,
+        property
+      } = _decorator;
+      let LoadInterstitialAdREQ = exports('LoadInterstitialAdREQ', (_dec = ccclass("LoadInterstitialAdREQ"), _dec(_class = class LoadInterstitialAdREQ extends Base {}) || _class));
+      let LoadInterstitialAdACK = exports('LoadInterstitialAdACK', (_dec2 = ccclass("LoadInterstitialAdACK"), _dec2(_class2 = class LoadInterstitialAdACK extends Base {}) || _class2));
+      let ShowInterstitialAdREQ = exports('ShowInterstitialAdREQ', (_dec3 = ccclass("ShowInterstitialAdREQ"), _dec3(_class3 = class ShowInterstitialAdREQ extends Base {}) || _class3));
+      let ShowInterstitialAdACK = exports('ShowInterstitialAdACK', (_dec4 = ccclass("ShowInterstitialAdACK"), _dec4(_class4 = class ShowInterstitialAdACK extends Base {}) || _class4));
+      let InterstitialAdLoadCalLBackNTF = exports('InterstitialAdLoadCalLBackNTF', (_dec5 = ccclass("InterstitialAdLoadCalLBackNTF"), _dec5(_class5 = class InterstitialAdLoadCalLBackNTF extends Base {
         constructor(...args) {
           super(...args);
           this.method = void 0;
           this.loadAdError = void 0;
         }
 
-      }
-
-      exports('InterstitialAdLoadCalLBackNTF', InterstitialAdLoadCalLBackNTF);
-
-      class InterstitialFullScreenContentCallbackNTF extends Base {
+      }) || _class5));
+      let InterstitialFullScreenContentCallbackNTF = exports('InterstitialFullScreenContentCallbackNTF', (_dec6 = ccclass("InterstitialFullScreenContentCallbackNTF"), _dec6(_class7 = class InterstitialFullScreenContentCallbackNTF extends Base {
         constructor(...args) {
           super(...args);
           this.method = void 0;
           this.loadAdError = void 0;
         }
 
-      }
-
-      exports('InterstitialFullScreenContentCallbackNTF', InterstitialFullScreenContentCallbackNTF);
+      }) || _class7));
 
       cclegacy._RF.pop();
     }
@@ -1778,11 +1745,12 @@ System.register("chunks:///_virtual/InterstitailAd.ts", ['cc', './Base.ts'], fun
 });
 
 System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.ts', './Route.ts', './InterstitailAd.ts', './AdClient.ts', './PaidEventNTF.ts'], function (exports) {
-  var cclegacy, log, bridge, route, InterstitialFullScreenContentCallbackNTF, InterstitialAdLoadCalLBackNTF, LoadInterstitialAdREQ, LoadInterstitialAdACK, ShowInterstitialAdREQ, ShowInterstitialAdACK, AdClient, InterstitialPaidEventNTF;
+  var cclegacy, log, js, bridge, route, InterstitialFullScreenContentCallbackNTF, InterstitialAdLoadCalLBackNTF, LoadInterstitialAdREQ, LoadInterstitialAdACK, ShowInterstitialAdREQ, ShowInterstitialAdACK, AdClient, InterstitialPaidEventNTF;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
       log = module.log;
+      js = module.js;
     }, function (module) {
       bridge = module.bridge;
     }, function (module) {
@@ -1876,9 +1844,9 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
           log(module$1, `load, unitId = ${unitId}`);
           this.unitId = unitId;
           this.interstitialListener = interstitialListener;
-          bridge.sendToNative(LoadInterstitialAdREQ.name, {
+          bridge.sendToNative(js.getClassName(LoadInterstitialAdREQ), {
             unitId: unitId
-          }, LoadInterstitialAdACK.name, ack => {
+          }, js.getClassName(LoadInterstitialAdACK), ack => {
             log(module$1, `load, LoadInterstitialAdACK, ${ack}`);
           });
         }
@@ -1907,9 +1875,9 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
 
         show(onComplete) {
           log(module$1, `show`);
-          bridge.sendToNative(ShowInterstitialAdREQ.name, {
+          bridge.sendToNative(js.getClassName(ShowInterstitialAdREQ), {
             unitId: this.unitId
-          }, ShowInterstitialAdACK.name, ack => {
+          }, js.getClassName(ShowInterstitialAdACK), ack => {
             if (onComplete) {
               onComplete();
             }
@@ -1940,8 +1908,8 @@ System.register("chunks:///_virtual/InterstitialAdClient.ts", ['cc', './Bridge.t
         onPaidEvent(ntf) {
           const listener = this.interstitialListener;
 
-          if (listener) {
-            listener == null ? void 0 : listener.onPaidEvent(ntf);
+          if (listener && listener.onPaidEvent) {
+            listener.onPaidEvent(ntf);
           }
         }
 
@@ -1996,7 +1964,7 @@ System.register("chunks:///_virtual/InterstitialFullScreenContentCallback.ts", [
   };
 });
 
-System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', './AdmobTestAppOpenAd.ts', './AdmobTestBanner.ts', './AdmobTestInterstitialAd.ts', './AdmobTestNative.ts', './AdmobTestRewarded.ts', './AdmobTestRewardedInterstitialAd.ts', './TestScenes.ts', './TypeAlias.ts', './AdClient.ts', './AppOpenAdClient.ts', './BannerClient.ts', './InterstitialAdClient.ts', './NativeAdClient.ts', './RewardedAdClient.ts', './RewardedInterstitialAdClient.ts', './AdListener.ts', './AppOpenAdFullScreenContentCallback.ts', './AppOpenAdListener.ts', './AppOpenAdLoadCallback.ts', './BannerAdListener.ts', './FullScreenContentCallback.ts', './InterstitialAdListener.ts', './InterstitialAdLoadCallback.ts', './InterstitialFullScreenContentCallback.ts', './NativeAdListener.ts', './OnNativeAdLoadedListener.ts', './OnPaidEventListener.ts', './OnShowAdCompleteListener.ts', './OnUserEarnedRewardListener.ts', './RewardedAdFullScreenContentCallback.ts', './RewardedAdListener.ts', './RewardedAdLoadCallback.ts', './RewardedInterstitialAdLoadCallback.ts', './RewardedInterstitialFullScreenContentCallback.ts', './RewardedInterstitialListener.ts', './Bridge.ts', './Codec.ts', './INativeResponse.ts', './Route.ts', './Version.ts', './BannerAlignment.ts', './BannerSize.ts', './BannerSizeOption.ts', './TestUnitId.ts', './AppOpenAd.ts', './BannerAd.ts', './Base.ts', './ICallbackNTF.ts', './InterstitailAd.ts', './NativeAd.ts', './PaidEventNTF.ts', './RewardedAd.ts', './RewardedInterstitialAd.ts', './Version2.ts'], function () {
+System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', './AdmobTestAppOpenAd.ts', './AdmobTestBanner.ts', './AdmobTestInterstitialAd.ts', './AdmobTestNative.ts', './AdmobTestRewarded.ts', './AdmobTestRewardedInterstitialAd.ts', './TestScenes.ts', './TypeAlias.ts', './AdClient.ts', './AppOpenAdClient.ts', './BannerClient.ts', './InterstitialAdClient.ts', './NativeAdClient.ts', './RewardedAdClient.ts', './RewardedInterstitialAdClient.ts', './AdListener.ts', './AppOpenAdFullScreenContentCallback.ts', './AppOpenAdListener.ts', './AppOpenAdLoadCallback.ts', './BannerAdListener.ts', './FullScreenContentCallback.ts', './InterstitialAdListener.ts', './InterstitialAdLoadCallback.ts', './InterstitialFullScreenContentCallback.ts', './NativeAdListener.ts', './OnNativeAdLoadedListener.ts', './OnPaidEventListener.ts', './OnShowAdCompleteListener.ts', './OnUserEarnedRewardListener.ts', './RewardedAdFullScreenContentCallback.ts', './RewardedAdListener.ts', './RewardedAdLoadCallback.ts', './RewardedInterstitialAdLoadCallback.ts', './RewardedInterstitialFullScreenContentCallback.ts', './RewardedInterstitialListener.ts', './Bridge.ts', './Codec.ts', './INativeResponse.ts', './Route.ts', './Version2.ts', './BannerAlignment.ts', './BannerSize.ts', './BannerSizeOption.ts', './TestUnitId.ts', './AppOpenAd.ts', './BannerAd.ts', './Base.ts', './ICallbackNTF.ts', './InterstitailAd.ts', './NativeAd.ts', './PaidEventNTF.ts', './RewardedAd.ts', './RewardedInterstitialAd.ts', './Version.ts'], function () {
   return {
     setters: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
     execute: function () {}
@@ -2004,58 +1972,48 @@ System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', '
 });
 
 System.register("chunks:///_virtual/NativeAd.ts", ['cc', './Base.ts'], function (exports) {
-  var cclegacy, Base;
+  var cclegacy, _decorator, Base;
+
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
+      _decorator = module._decorator;
     }, function (module) {
       Base = module.Base;
     }],
     execute: function () {
+      var _dec, _class, _dec2, _class3, _dec3, _class4, _dec4, _class5, _dec5, _class7, _dec6, _class8;
+
       cclegacy._RF.push({}, "7b7c2Gl5W9GoreLVP8oHwTY", "NativeAd", undefined);
 
+      const {
+        ccclass,
+        property
+      } = _decorator;
       let NativeAdTemplateSize = exports('NativeAdTemplateSize', /*#__PURE__*/function (NativeAdTemplateSize) {
         NativeAdTemplateSize["Small"] = "small";
         NativeAdTemplateSize["Medium"] = "medium";
         return NativeAdTemplateSize;
       }({}));
-
-      class LoadNativeAdREQ extends Base {
+      let LoadNativeAdREQ = exports('LoadNativeAdREQ', (_dec = ccclass("LoadNativeAdREQ"), _dec(_class = class LoadNativeAdREQ extends Base {
         constructor(...args) {
           super(...args);
           this.size = NativeAdTemplateSize.Small;
         }
 
-      }
-
-      exports('LoadNativeAdREQ', LoadNativeAdREQ);
-
-      class LoadNativeAdACK extends Base {}
-
-      exports('LoadNativeAdACK', LoadNativeAdACK);
-
-      class NativeLoadedNTF extends Base {}
-
-      exports('NativeLoadedNTF', NativeLoadedNTF);
-
-      class NativeAdListenerNTF extends Base {
+      }) || _class));
+      let LoadNativeAdACK = exports('LoadNativeAdACK', (_dec2 = ccclass("LoadNativeAdACK"), _dec2(_class3 = class LoadNativeAdACK extends Base {}) || _class3));
+      let NativeLoadedNTF = exports('NativeLoadedNTF', (_dec3 = ccclass("NativeLoadedNTF"), _dec3(_class4 = class NativeLoadedNTF extends Base {}) || _class4));
+      let NativeAdListenerNTF = exports('NativeAdListenerNTF', (_dec4 = ccclass("NativeAdListenerNTF"), _dec4(_class5 = class NativeAdListenerNTF extends Base {
         constructor(...args) {
           super(...args);
           this.method = void 0;
           this.loadAdError = void 0;
         }
 
-      }
-
-      exports('NativeAdListenerNTF', NativeAdListenerNTF);
-
-      class DestroyNativeAdREQ extends Base {}
-
-      exports('DestroyNativeAdREQ', DestroyNativeAdREQ);
-
-      class DestroyNativeAdACK extends Base {}
-
-      exports('DestroyNativeAdACK', DestroyNativeAdACK);
+      }) || _class5));
+      let DestroyNativeAdREQ = exports('DestroyNativeAdREQ', (_dec5 = ccclass("DestroyNativeAdREQ"), _dec5(_class7 = class DestroyNativeAdREQ extends Base {}) || _class7));
+      let DestroyNativeAdACK = exports('DestroyNativeAdACK', (_dec6 = ccclass("DestroyNativeAdACK"), _dec6(_class8 = class DestroyNativeAdACK extends Base {}) || _class8));
 
       cclegacy._RF.pop();
     }
@@ -2063,11 +2021,12 @@ System.register("chunks:///_virtual/NativeAd.ts", ['cc', './Base.ts'], function 
 });
 
 System.register("chunks:///_virtual/NativeAdClient.ts", ['cc', './Bridge.ts', './BannerAd.ts', './NativeAd.ts', './AdClient.ts', './Route.ts', './PaidEventNTF.ts'], function (exports) {
-  var cclegacy, log, bridge, DestroyBannerACK, NativeLoadedNTF, NativeAdListenerNTF, LoadNativeAdREQ, LoadNativeAdACK, DestroyNativeAdREQ, AdClient, route, NativePaidEventNTF;
+  var cclegacy, log, js, bridge, DestroyBannerACK, NativeLoadedNTF, NativeAdListenerNTF, LoadNativeAdREQ, LoadNativeAdACK, DestroyNativeAdREQ, AdClient, route, NativePaidEventNTF;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
       log = module.log;
+      js = module.js;
     }, function (module) {
       bridge = module.bridge;
     }, function (module) {
@@ -2168,7 +2127,7 @@ System.register("chunks:///_virtual/NativeAdClient.ts", ['cc', './Bridge.ts', '.
           this.nativeAdListener = nativeListener;
           let req = new LoadNativeAdREQ(unitId);
           req.size = size;
-          bridge.sendToNative(LoadNativeAdREQ.name, req, LoadNativeAdACK.name, ack => {
+          bridge.sendToNative(js.getClassName(LoadNativeAdREQ), req, js.getClassName(LoadNativeAdACK), ack => {
             log(module$1, "load", `LoadNativeAdACK: ${ack}`);
           }, this);
         }
@@ -2183,9 +2142,9 @@ System.register("chunks:///_virtual/NativeAdClient.ts", ['cc', './Bridge.ts', '.
         destroy() {
           log(module$1, "destroy");
           this.nativeAdListener = null;
-          bridge.sendToNative(DestroyNativeAdREQ.name, {
+          bridge.sendToNative(js.getClassName(DestroyNativeAdREQ), {
             unitId: this.unitId
-          }, DestroyBannerACK.name, ack => {
+          }, js.getClassName(DestroyBannerACK), ack => {
             log(module$1, "destroy", `DestroyNativeAdACK = ${ack}`);
           });
         }
@@ -2211,8 +2170,8 @@ System.register("chunks:///_virtual/NativeAdClient.ts", ['cc', './Bridge.ts', '.
         onPaidEvent(ntf) {
           const paid = this.nativeAdListener;
 
-          if (paid) {
-            paid == null ? void 0 : paid.onPaidEvent(ntf);
+          if (paid && paid.onPaidEvent) {
+            paid.onPaidEvent(ntf);
           }
         }
 
@@ -2296,17 +2255,25 @@ System.register("chunks:///_virtual/OnUserEarnedRewardListener.ts", ['cc'], func
 });
 
 System.register("chunks:///_virtual/PaidEventNTF.ts", ['cc', './Base.ts'], function (exports) {
-  var cclegacy, Base;
+  var cclegacy, _decorator, Base;
+
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
+      _decorator = module._decorator;
     }, function (module) {
       Base = module.Base;
     }],
     execute: function () {
+      var _dec, _class, _dec2, _class3, _dec3, _class4, _dec4, _class5, _dec5, _class6, _dec6, _class7, _dec7, _class8;
+
       cclegacy._RF.push({}, "e2d81qcvaVBva080tOWZBU/", "PaidEventNTF", undefined);
 
-      class PaidEventNTF extends Base {
+      const {
+        ccclass,
+        property
+      } = _decorator;
+      let PaidEventNTF = exports('PaidEventNTF', (_dec = ccclass("PaidEventNTF"), _dec(_class = class PaidEventNTF extends Base {
         constructor(...args) {
           super(...args);
           this.valueMicros = void 0;
@@ -2321,33 +2288,13 @@ System.register("chunks:///_virtual/PaidEventNTF.ts", ['cc', './Base.ts'], funct
           this.mediationABTestVariant = void 0;
         }
 
-      }
-
-      exports('PaidEventNTF', PaidEventNTF);
-
-      class BannerPaidEventNTF extends PaidEventNTF {}
-
-      exports('BannerPaidEventNTF', BannerPaidEventNTF);
-
-      class InterstitialPaidEventNTF extends PaidEventNTF {}
-
-      exports('InterstitialPaidEventNTF', InterstitialPaidEventNTF);
-
-      class NativePaidEventNTF extends PaidEventNTF {}
-
-      exports('NativePaidEventNTF', NativePaidEventNTF);
-
-      class AppOpenPaidEventNTF extends PaidEventNTF {}
-
-      exports('AppOpenPaidEventNTF', AppOpenPaidEventNTF);
-
-      class RewardedPaidEventNTF extends PaidEventNTF {}
-
-      exports('RewardedPaidEventNTF', RewardedPaidEventNTF);
-
-      class RewardedInterstitialPaidEventNTF extends PaidEventNTF {}
-
-      exports('RewardedInterstitialPaidEventNTF', RewardedInterstitialPaidEventNTF);
+      }) || _class));
+      let BannerPaidEventNTF = exports('BannerPaidEventNTF', (_dec2 = ccclass("BannerPaidEventNTF"), _dec2(_class3 = class BannerPaidEventNTF extends PaidEventNTF {}) || _class3));
+      let InterstitialPaidEventNTF = exports('InterstitialPaidEventNTF', (_dec3 = ccclass("InterstitialPaidEventNTF"), _dec3(_class4 = class InterstitialPaidEventNTF extends PaidEventNTF {}) || _class4));
+      let NativePaidEventNTF = exports('NativePaidEventNTF', (_dec4 = ccclass("NativePaidEventNTF"), _dec4(_class5 = class NativePaidEventNTF extends PaidEventNTF {}) || _class5));
+      let AppOpenPaidEventNTF = exports('AppOpenPaidEventNTF', (_dec5 = ccclass("AppOpenPaidEventNTF"), _dec5(_class6 = class AppOpenPaidEventNTF extends PaidEventNTF {}) || _class6));
+      let RewardedPaidEventNTF = exports('RewardedPaidEventNTF', (_dec6 = ccclass("RewardedPaidEventNTF"), _dec6(_class7 = class RewardedPaidEventNTF extends PaidEventNTF {}) || _class7));
+      let RewardedInterstitialPaidEventNTF = exports('RewardedInterstitialPaidEventNTF', (_dec7 = ccclass("RewardedInterstitialPaidEventNTF"), _dec7(_class8 = class RewardedInterstitialPaidEventNTF extends PaidEventNTF {}) || _class8));
 
       cclegacy._RF.pop();
     }
@@ -2355,71 +2302,59 @@ System.register("chunks:///_virtual/PaidEventNTF.ts", ['cc', './Base.ts'], funct
 });
 
 System.register("chunks:///_virtual/RewardedAd.ts", ['cc', './Base.ts'], function (exports) {
-  var cclegacy, Base;
+  var cclegacy, _decorator, Base;
+
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
+      _decorator = module._decorator;
     }, function (module) {
       Base = module.Base;
     }],
     execute: function () {
+      var _dec, _class, _dec2, _class2, _dec3, _class4, _dec4, _class5, _dec5, _class6, _dec6, _class8, _dec7, _class10;
+
       cclegacy._RF.push({}, "a19d623UwdAurbcHSnuSt4c", "RewardedAd", undefined);
 
-      class LoadRewardedAdREQ extends Base {}
-
-      exports('LoadRewardedAdREQ', LoadRewardedAdREQ);
-
-      class LoadRewardedAdACK extends Base {
+      const {
+        ccclass,
+        property
+      } = _decorator;
+      let LoadRewardedAdREQ = exports('LoadRewardedAdREQ', (_dec = ccclass("LoadRewardedAdREQ"), _dec(_class = class LoadRewardedAdREQ extends Base {}) || _class));
+      let LoadRewardedAdACK = exports('LoadRewardedAdACK', (_dec2 = ccclass("LoadRewardedAdACK"), _dec2(_class2 = class LoadRewardedAdACK extends Base {
         constructor(...args) {
           super(...args);
           this.method = void 0;
           this.loadAdError = void 0;
         }
 
-      }
-
-      exports('LoadRewardedAdACK', LoadRewardedAdACK);
-
-      class ShowRewardedAdREQ extends Base {}
-
-      exports('ShowRewardedAdREQ', ShowRewardedAdREQ);
-
-      class ShowRewardedAdACK extends Base {}
-
-      exports('ShowRewardedAdACK', ShowRewardedAdACK);
-
-      class OnUserEarnedRewardListenerNTF extends Base {
+      }) || _class2));
+      let ShowRewardedAdREQ = exports('ShowRewardedAdREQ', (_dec3 = ccclass("ShowRewardedAdREQ"), _dec3(_class4 = class ShowRewardedAdREQ extends Base {}) || _class4));
+      let ShowRewardedAdACK = exports('ShowRewardedAdACK', (_dec4 = ccclass("ShowRewardedAdACK"), _dec4(_class5 = class ShowRewardedAdACK extends Base {}) || _class5));
+      let OnUserEarnedRewardListenerNTF = exports('OnUserEarnedRewardListenerNTF', (_dec5 = ccclass("OnUserEarnedRewardListenerNTF"), _dec5(_class6 = class OnUserEarnedRewardListenerNTF extends Base {
         constructor(...args) {
           super(...args);
           this.rewardType = void 0;
           this.rewardAmount = void 0;
         }
 
-      }
-
-      exports('OnUserEarnedRewardListenerNTF', OnUserEarnedRewardListenerNTF);
-
-      class RewardedAdLoadCallbackNTF extends Base {
+      }) || _class6));
+      let RewardedAdLoadCallbackNTF = exports('RewardedAdLoadCallbackNTF', (_dec6 = ccclass("RewardedAdLoadCallbackNTF"), _dec6(_class8 = class RewardedAdLoadCallbackNTF extends Base {
         constructor(...args) {
           super(...args);
           this.method = void 0;
           this.loadAdError = void 0;
         }
 
-      }
-
-      exports('RewardedAdLoadCallbackNTF', RewardedAdLoadCallbackNTF);
-
-      class RewardedFullScreenContentCallbackNTF extends Base {
+      }) || _class8));
+      let RewardedFullScreenContentCallbackNTF = exports('RewardedFullScreenContentCallbackNTF', (_dec7 = ccclass("RewardedFullScreenContentCallbackNTF"), _dec7(_class10 = class RewardedFullScreenContentCallbackNTF extends Base {
         constructor(...args) {
           super(...args);
           this.method = void 0;
           this.adError = void 0;
         }
 
-      }
-
-      exports('RewardedFullScreenContentCallbackNTF', RewardedFullScreenContentCallbackNTF);
+      }) || _class10));
 
       cclegacy._RF.pop();
     }
@@ -2427,11 +2362,12 @@ System.register("chunks:///_virtual/RewardedAd.ts", ['cc', './Base.ts'], functio
 });
 
 System.register("chunks:///_virtual/RewardedAdClient.ts", ['cc', './Bridge.ts', './RewardedAd.ts', './AdClient.ts', './Route.ts', './PaidEventNTF.ts'], function (exports) {
-  var cclegacy, log, bridge, RewardedAdLoadCallbackNTF, RewardedFullScreenContentCallbackNTF, OnUserEarnedRewardListenerNTF, LoadRewardedAdREQ, LoadRewardedAdACK, ShowRewardedAdREQ, ShowRewardedAdACK, AdClient, route, RewardedPaidEventNTF;
+  var cclegacy, log, js, bridge, RewardedAdLoadCallbackNTF, RewardedFullScreenContentCallbackNTF, OnUserEarnedRewardListenerNTF, LoadRewardedAdREQ, LoadRewardedAdACK, ShowRewardedAdREQ, ShowRewardedAdACK, AdClient, route, RewardedPaidEventNTF;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
       log = module.log;
+      js = module.js;
     }, function (module) {
       bridge = module.bridge;
     }, function (module) {
@@ -2527,9 +2463,9 @@ System.register("chunks:///_virtual/RewardedAdClient.ts", ['cc', './Bridge.ts', 
           log(module$1, `load, unitId = ${unitId}`);
           this.unitId = unitId;
           this.rewardedListener = rewardedListener;
-          bridge.sendToNative(LoadRewardedAdREQ.name, {
+          bridge.sendToNative(js.getClassName(LoadRewardedAdREQ), {
             unitId: unitId
-          }, LoadRewardedAdACK.name, ack => {
+          }, js.getClassName(LoadRewardedAdACK), ack => {
             log(module$1, `LoadRewardedAdACK, ${ack}`);
           }, this);
         }
@@ -2555,9 +2491,9 @@ System.register("chunks:///_virtual/RewardedAdClient.ts", ['cc', './Bridge.ts', 
 
         show() {
           log(module$1, `show`);
-          bridge.sendToNative(ShowRewardedAdREQ.name, {
+          bridge.sendToNative(js.getClassName(ShowRewardedAdREQ), {
             unitId: this.unitId
-          }, ShowRewardedAdACK.name, ack => {
+          }, js.getClassName(ShowRewardedAdACK), ack => {
             log(module$1, `ShowRewardedAdREQ, ${ack}`);
           }, this);
         }
@@ -2601,8 +2537,8 @@ System.register("chunks:///_virtual/RewardedAdClient.ts", ['cc', './Bridge.ts', 
         onPaidEvent(ntf) {
           const paid = this.rewardedListener;
 
-          if (paid) {
-            paid == null ? void 0 : paid.onPaidEvent(ntf);
+          if (paid && paid.onPaidEvent) {
+            paid.onPaidEvent(ntf);
           }
         }
 
@@ -2658,53 +2594,44 @@ System.register("chunks:///_virtual/RewardedAdLoadCallback.ts", ['cc'], function
 });
 
 System.register("chunks:///_virtual/RewardedInterstitialAd.ts", ['cc', './Base.ts'], function (exports) {
-  var cclegacy, Base;
+  var cclegacy, _decorator, Base;
+
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
+      _decorator = module._decorator;
     }, function (module) {
       Base = module.Base;
     }],
     execute: function () {
+      var _dec, _class, _dec2, _class2, _dec3, _class3, _dec4, _class4, _dec5, _class5, _dec6, _class7;
+
       cclegacy._RF.push({}, "f35b0ZWnitHd4mL4VnNo7Th", "RewardedInterstitialAd", undefined);
 
-      class LoadRewardedInterstitialAdREQ extends Base {}
-
-      exports('LoadRewardedInterstitialAdREQ', LoadRewardedInterstitialAdREQ);
-
-      class LoadRewardedInterstitialAdACK extends Base {}
-
-      exports('LoadRewardedInterstitialAdACK', LoadRewardedInterstitialAdACK);
-
-      class ShowRewardedInterstitialAdREQ extends Base {}
-
-      exports('ShowRewardedInterstitialAdREQ', ShowRewardedInterstitialAdREQ);
-
-      class ShowRewardedInterstitialAdACK extends Base {}
-
-      exports('ShowRewardedInterstitialAdACK', ShowRewardedInterstitialAdACK);
-
-      class RewardedInterstitialAdLoadCallbackNTF extends Base {
+      const {
+        ccclass,
+        property
+      } = _decorator;
+      let LoadRewardedInterstitialAdREQ = exports('LoadRewardedInterstitialAdREQ', (_dec = ccclass("LoadRewardedInterstitialAdREQ"), _dec(_class = class LoadRewardedInterstitialAdREQ extends Base {}) || _class));
+      let LoadRewardedInterstitialAdACK = exports('LoadRewardedInterstitialAdACK', (_dec2 = ccclass("LoadRewardedInterstitialAdACK"), _dec2(_class2 = class LoadRewardedInterstitialAdACK extends Base {}) || _class2));
+      let ShowRewardedInterstitialAdREQ = exports('ShowRewardedInterstitialAdREQ', (_dec3 = ccclass("ShowRewardedInterstitialAdREQ"), _dec3(_class3 = class ShowRewardedInterstitialAdREQ extends Base {}) || _class3));
+      let ShowRewardedInterstitialAdACK = exports('ShowRewardedInterstitialAdACK', (_dec4 = ccclass("ShowRewardedInterstitialAdACK"), _dec4(_class4 = class ShowRewardedInterstitialAdACK extends Base {}) || _class4));
+      let RewardedInterstitialAdLoadCallbackNTF = exports('RewardedInterstitialAdLoadCallbackNTF', (_dec5 = ccclass("RewardedInterstitialAdLoadCallbackNTF"), _dec5(_class5 = class RewardedInterstitialAdLoadCallbackNTF extends Base {
         constructor(...args) {
           super(...args);
           this.method = void 0;
           this.loadAdError = void 0;
         }
 
-      }
-
-      exports('RewardedInterstitialAdLoadCallbackNTF', RewardedInterstitialAdLoadCallbackNTF);
-
-      class OnUserEarnedRewardedInterstitialListenerNTF extends Base {
+      }) || _class5));
+      let OnUserEarnedRewardedInterstitialListenerNTF = exports('OnUserEarnedRewardedInterstitialListenerNTF', (_dec6 = ccclass("OnUserEarnedRewardedInterstitialListenerNTF"), _dec6(_class7 = class OnUserEarnedRewardedInterstitialListenerNTF extends Base {
         constructor(...args) {
           super(...args);
           this.rewardType = void 0;
           this.rewardAmount = void 0;
         }
 
-      }
-
-      exports('OnUserEarnedRewardedInterstitialListenerNTF', OnUserEarnedRewardedInterstitialListenerNTF);
+      }) || _class7));
 
       cclegacy._RF.pop();
     }
@@ -2712,10 +2639,11 @@ System.register("chunks:///_virtual/RewardedInterstitialAd.ts", ['cc', './Base.t
 });
 
 System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './AdClient.ts', './RewardedInterstitialAd.ts', './Bridge.ts', './Route.ts', './PaidEventNTF.ts'], function (exports) {
-  var cclegacy, log, AdClient, RewardedInterstitialAdLoadCallbackNTF, OnUserEarnedRewardedInterstitialListenerNTF, LoadRewardedInterstitialAdREQ, LoadRewardedInterstitialAdACK, ShowRewardedInterstitialAdREQ, ShowRewardedInterstitialAdACK, bridge, route, RewardedInterstitialPaidEventNTF;
+  var cclegacy, js, log, AdClient, RewardedInterstitialAdLoadCallbackNTF, OnUserEarnedRewardedInterstitialListenerNTF, LoadRewardedInterstitialAdREQ, LoadRewardedInterstitialAdACK, ShowRewardedInterstitialAdREQ, ShowRewardedInterstitialAdACK, bridge, route, RewardedInterstitialPaidEventNTF;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
+      js = module.js;
       log = module.log;
     }, function (module) {
       AdClient = module.AdClient;
@@ -2805,9 +2733,9 @@ System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './
           this.destroy();
           this.unitId = unitId;
           this.rewardedInterstitialListener = listener;
-          bridge.sendToNative(LoadRewardedInterstitialAdREQ.name, {
+          bridge.sendToNative(js.getClassName(LoadRewardedInterstitialAdREQ), {
             unitId: unitId
-          }, LoadRewardedInterstitialAdACK.name, ack => {}, this);
+          }, js.getClassName(LoadRewardedInterstitialAdACK), ack => {}, this);
         }
         /**
          * @zh
@@ -2829,9 +2757,9 @@ System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './
 
 
         show() {
-          bridge.sendToNative(ShowRewardedInterstitialAdREQ.name, {
+          bridge.sendToNative(js.getClassName(ShowRewardedInterstitialAdREQ), {
             unitId: this.unitId
-          }, ShowRewardedInterstitialAdACK.name, ack => {}, this);
+          }, js.getClassName(ShowRewardedInterstitialAdACK), ack => {}, this);
         }
 
         onRewardedInterstitialAdLoadCallbackNTF(ntf) {
@@ -2858,8 +2786,8 @@ System.register("chunks:///_virtual/RewardedInterstitialAdClient.ts", ['cc', './
         onPaidEvent(ntf) {
           const paid = this.rewardedInterstitialListener;
 
-          if (paid) {
-            paid == null ? void 0 : paid.onPaidEvent(ntf);
+          if (paid && paid.onPaidEvent) {
+            paid.onPaidEvent(ntf);
           }
         }
 
@@ -3055,7 +2983,39 @@ System.register("chunks:///_virtual/TypeAlias.ts", ['cc'], function () {
   };
 });
 
-System.register("chunks:///_virtual/Version.ts", ['cc'], function (exports) {
+System.register("chunks:///_virtual/Version.ts", ['cc', './Base.ts'], function (exports) {
+  var cclegacy, _decorator, Base;
+
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+      _decorator = module._decorator;
+    }, function (module) {
+      Base = module.Base;
+    }],
+    execute: function () {
+      var _dec, _class;
+
+      cclegacy._RF.push({}, "54026AUb3NNTbcYO88Ecs9i", "Version", undefined);
+
+      const {
+        ccclass,
+        property
+      } = _decorator;
+      let VersionREQ = exports('VersionREQ', (_dec = ccclass("VersionREQ"), _dec(_class = class VersionREQ extends Base {
+        constructor(unitId, engineVersion) {
+          super(unitId);
+          this.engineVersion = engineVersion;
+        }
+
+      }) || _class));
+
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/Version2.ts", ['cc'], function (exports) {
   var cclegacy;
   return {
     setters: [function (module) {
@@ -3065,32 +3025,6 @@ System.register("chunks:///_virtual/Version.ts", ['cc'], function (exports) {
       cclegacy._RF.push({}, "aca25+juFNMM5K8dGC0LPU/", "Version", undefined);
 
       const AdMobVersion = exports('AdMobVersion', "0.0.1");
-
-      cclegacy._RF.pop();
-    }
-  };
-});
-
-System.register("chunks:///_virtual/Version2.ts", ['cc', './Base.ts'], function (exports) {
-  var cclegacy, Base;
-  return {
-    setters: [function (module) {
-      cclegacy = module.cclegacy;
-    }, function (module) {
-      Base = module.Base;
-    }],
-    execute: function () {
-      cclegacy._RF.push({}, "54026AUb3NNTbcYO88Ecs9i", "Version", undefined);
-
-      class VersionREQ extends Base {
-        constructor(unitId, engineVersion) {
-          super(unitId);
-          this.engineVersion = engineVersion;
-        }
-
-      }
-
-      exports('VersionREQ', VersionREQ);
 
       cclegacy._RF.pop();
     }
