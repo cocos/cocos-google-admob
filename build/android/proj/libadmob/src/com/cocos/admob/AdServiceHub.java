@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.cocos.admob.core.Bridge;
 import com.cocos.admob.core.Codec;
-import com.cocos.admob.core.IScriptHandler;
 import com.cocos.admob.proto.VersionREQ;
 import com.cocos.admob.service.AppOpenAdService;
 import com.cocos.admob.service.BannerService;
@@ -17,12 +16,12 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
-public final class AdManager {
+public final class AdServiceHub {
 
     private static final String TAG = "AdManager";
-    private static AdManager instance = new AdManager();
+    private static AdServiceHub instance = new AdServiceHub();
 
-    public static AdManager instance() {
+    public static AdServiceHub instance() {
 
         return instance;
     }

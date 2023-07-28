@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 
-import com.cocos.admob.AdManager;
+import com.cocos.admob.AdServiceHub;
 import com.cocos.admob.core.Bridge;
 import com.cocos.admob.proto.banner.BannerAdListenerNTF;
 import com.cocos.admob.proto.banner.BannerPaidEventNTF;
@@ -26,7 +26,6 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.AdapterResponseInfo;
 import com.google.android.gms.ads.LoadAdError;
-import com.google.gson.Gson;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -137,7 +136,7 @@ public final class BannerService extends Service {
         AdView adview = bannerMap.get(unitId);
         // Create an ad request.
         AdRequest adRequest = new AdRequest.Builder()
-                .setRequestAgent(AdManager.engineVersion)
+                .setRequestAgent(AdServiceHub.engineVersion)
                 .build();
         String method = BannerAdListenerNTF.class.getSimpleName();
         adview.setAdListener(new AdListener() {

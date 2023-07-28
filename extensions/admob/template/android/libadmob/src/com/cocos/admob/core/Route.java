@@ -2,7 +2,7 @@ package com.cocos.admob.core;
 
 import android.util.Log;
 
-import com.cocos.admob.AdManager;
+import com.cocos.admob.AdServiceHub;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -17,10 +17,10 @@ public class Route {
     }
 
     private Map<String, IScriptHandler> handlers = new HashMap<>();
-    AdManager adManager;
+    AdServiceHub adServiceHub;
 
-    public void init(AdManager adManager, Codec codec) {
-        this.adManager = adManager;
+    public void init(AdServiceHub adServiceHub, Codec codec) {
+        this.adServiceHub = adServiceHub;
         this.codec = codec;
     }
 
@@ -43,7 +43,7 @@ public class Route {
 
     public void dispatch(String arg0, String arg1) {
         Log.d(TAG, "dispatch: " + arg0);
-        adManager.sendToUIThread(new Runnable() {
+        adServiceHub.sendToUIThread(new Runnable() {
             @Override
             public void run() {
                 if (!handlers.containsKey(arg0)) {

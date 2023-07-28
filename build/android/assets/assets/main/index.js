@@ -1248,7 +1248,7 @@ System.register("chunks:///_virtual/Base.ts", ['cc'], function (exports) {
   };
 });
 
-System.register("chunks:///_virtual/Bridge.ts", ['cc', './Route.ts', './Version.ts', './Version2.ts'], function (exports) {
+System.register("chunks:///_virtual/Bridge.ts", ['cc', './Route.ts', './Version2.ts', './Version.ts'], function (exports) {
   var cclegacy, log, native, route, VersionREQ, AdMobVersion;
   return {
     setters: [function (module) {
@@ -1964,7 +1964,7 @@ System.register("chunks:///_virtual/InterstitialFullScreenContentCallback.ts", [
   };
 });
 
-System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', './AdmobTestAppOpenAd.ts', './AdmobTestBanner.ts', './AdmobTestInterstitialAd.ts', './AdmobTestNative.ts', './AdmobTestRewarded.ts', './AdmobTestRewardedInterstitialAd.ts', './TestScenes.ts', './TypeAlias.ts', './AdClient.ts', './AppOpenAdClient.ts', './BannerClient.ts', './InterstitialAdClient.ts', './NativeAdClient.ts', './RewardedAdClient.ts', './RewardedInterstitialAdClient.ts', './AdListener.ts', './AppOpenAdFullScreenContentCallback.ts', './AppOpenAdListener.ts', './AppOpenAdLoadCallback.ts', './BannerAdListener.ts', './FullScreenContentCallback.ts', './InterstitialAdListener.ts', './InterstitialAdLoadCallback.ts', './InterstitialFullScreenContentCallback.ts', './NativeAdListener.ts', './OnNativeAdLoadedListener.ts', './OnPaidEventListener.ts', './OnShowAdCompleteListener.ts', './OnUserEarnedRewardListener.ts', './RewardedAdFullScreenContentCallback.ts', './RewardedAdListener.ts', './RewardedAdLoadCallback.ts', './RewardedInterstitialAdLoadCallback.ts', './RewardedInterstitialFullScreenContentCallback.ts', './RewardedInterstitialListener.ts', './Bridge.ts', './Codec.ts', './INativeResponse.ts', './Route.ts', './Version2.ts', './BannerAlignment.ts', './BannerSize.ts', './BannerSizeOption.ts', './TestUnitId.ts', './AppOpenAd.ts', './BannerAd.ts', './Base.ts', './ICallbackNTF.ts', './InterstitailAd.ts', './NativeAd.ts', './PaidEventNTF.ts', './RewardedAd.ts', './RewardedInterstitialAd.ts', './Version.ts'], function () {
+System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', './AdmobTestAppOpenAd.ts', './AdmobTestBanner.ts', './AdmobTestInterstitialAd.ts', './AdmobTestNative.ts', './AdmobTestRewarded.ts', './AdmobTestRewardedInterstitialAd.ts', './TestScenes.ts', './TypeAlias.ts', './AdClient.ts', './AppOpenAdClient.ts', './BannerClient.ts', './InterstitialAdClient.ts', './NativeAdClient.ts', './RewardedAdClient.ts', './RewardedInterstitialAdClient.ts', './AdListener.ts', './AppOpenAdFullScreenContentCallback.ts', './AppOpenAdListener.ts', './AppOpenAdLoadCallback.ts', './BannerAdListener.ts', './FullScreenContentCallback.ts', './InterstitialAdListener.ts', './InterstitialAdLoadCallback.ts', './InterstitialFullScreenContentCallback.ts', './NativeAdListener.ts', './OnNativeAdLoadedListener.ts', './OnPaidEventListener.ts', './OnShowAdCompleteListener.ts', './OnUserEarnedRewardListener.ts', './RewardedAdFullScreenContentCallback.ts', './RewardedAdListener.ts', './RewardedAdLoadCallback.ts', './RewardedInterstitialAdLoadCallback.ts', './RewardedInterstitialFullScreenContentCallback.ts', './RewardedInterstitialListener.ts', './Bridge.ts', './Codec.ts', './INativeResponse.ts', './Route.ts', './Version.ts', './BannerAlignment.ts', './BannerSize.ts', './BannerSizeOption.ts', './TestUnitId.ts', './AppOpenAd.ts', './BannerAd.ts', './Base.ts', './ICallbackNTF.ts', './InterstitailAd.ts', './NativeAd.ts', './PaidEventNTF.ts', './RewardedAd.ts', './RewardedInterstitialAd.ts', './Version2.ts'], function () {
   return {
     setters: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
     execute: function () {}
@@ -2983,7 +2983,23 @@ System.register("chunks:///_virtual/TypeAlias.ts", ['cc'], function () {
   };
 });
 
-System.register("chunks:///_virtual/Version.ts", ['cc', './Base.ts'], function (exports) {
+System.register("chunks:///_virtual/Version.ts", ['cc'], function (exports) {
+  var cclegacy;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+    }],
+    execute: function () {
+      cclegacy._RF.push({}, "aca25+juFNMM5K8dGC0LPU/", "Version", undefined);
+
+      const AdMobVersion = exports('AdMobVersion', "0.0.1");
+
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/Version2.ts", ['cc', './Base.ts'], function (exports) {
   var cclegacy, _decorator, Base;
 
   return {
@@ -3009,22 +3025,6 @@ System.register("chunks:///_virtual/Version.ts", ['cc', './Base.ts'], function (
         }
 
       }) || _class));
-
-      cclegacy._RF.pop();
-    }
-  };
-});
-
-System.register("chunks:///_virtual/Version2.ts", ['cc'], function (exports) {
-  var cclegacy;
-  return {
-    setters: [function (module) {
-      cclegacy = module.cclegacy;
-    }],
-    execute: function () {
-      cclegacy._RF.push({}, "aca25+juFNMM5K8dGC0LPU/", "Version", undefined);
-
-      const AdMobVersion = exports('AdMobVersion', "0.0.1");
 
       cclegacy._RF.pop();
     }

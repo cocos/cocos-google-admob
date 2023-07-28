@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.cocos.admob.AdManager;
+import com.cocos.admob.AdServiceHub;
 import com.cocos.admob.core.Bridge;
 import com.cocos.admob.core.IScriptHandler;
 import com.cocos.admob.proto.rewarded.LoadRewardedAdACK;
@@ -65,7 +65,7 @@ public final class RewardedAdService  extends  Service{
     private void loadAd(String unitId) {
         this.unitId = unitId;
         AdRequest adRequest = new AdRequest.Builder()
-                .setRequestAgent(AdManager.engineVersion)
+                .setRequestAgent(AdServiceHub.engineVersion)
                 .build();
         RewardedAd.load(activity, unitId,
                 adRequest, new RewardedAdLoadCallback() {

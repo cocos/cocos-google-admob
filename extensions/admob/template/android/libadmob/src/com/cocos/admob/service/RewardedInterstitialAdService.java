@@ -5,7 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.cocos.admob.AdManager;
+import com.cocos.admob.AdServiceHub;
 import com.cocos.admob.core.Bridge;
 import com.cocos.admob.proto.rewardedinterstitial.LoadRewardedInterstitialAdACK;
 import com.cocos.admob.proto.rewardedinterstitial.LoadRewardedInterstitialAdREQ;
@@ -57,7 +57,7 @@ public final class RewardedInterstitialAdService extends Service {
         this.unitId = unitId;
         RewardedInterstitialAd.load(activity, unitId,
                 new AdRequest.Builder()
-                        .setRequestAgent(AdManager.engineVersion)
+                        .setRequestAgent(AdServiceHub.engineVersion)
                         .build(), new RewardedInterstitialAdLoadCallback() {
                     @Override
                     public void onAdLoaded(RewardedInterstitialAd ad) {

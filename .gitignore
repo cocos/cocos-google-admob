@@ -24,3 +24,4 @@ node_modules/
 /build/android/proj/libadmob/build
 /build/android/proj/libservice/build
 /extensions/admob/template/android/.gradle
+build/

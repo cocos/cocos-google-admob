@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.cocos.admob.AdManager;
+import com.cocos.admob.AdServiceHub;
 import com.cocos.admob.AdMobApplication;
 import com.cocos.admob.core.Bridge;
 import com.cocos.admob.proto.appopen.AppOpenAdLoadCallbackNTF;
@@ -81,7 +81,7 @@ public final class AppOpenAdService extends Service {
 
         isLoadingAd = true;
         AdRequest request = new AdRequest.Builder()
-                .setRequestAgent(AdManager.engineVersion)
+                .setRequestAgent(AdServiceHub.engineVersion)
                 .build();
         AppOpenAd.load(
                 activity,

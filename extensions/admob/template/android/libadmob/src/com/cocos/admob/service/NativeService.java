@@ -10,10 +10,8 @@ import android.view.Window;
 import androidx.annotation.NonNull;
 
 import com.cocos.admob.R;
-import com.cocos.admob.AdManager;
+import com.cocos.admob.AdServiceHub;
 import com.cocos.admob.core.Bridge;
-import com.cocos.admob.proto.banner.BannerPaidEventNTF;
-import com.cocos.admob.proto.interstitial.InterstitialPaidEventNTF;
 import com.cocos.admob.proto.nativead.DestroyNativeAdACK;
 import com.cocos.admob.proto.nativead.DestroyNativeAdREQ;
 import com.cocos.admob.proto.nativead.LoadNativeAdACK;
@@ -172,7 +170,7 @@ public final class NativeService extends Service {
 
 
         adLoader.loadAd(new AdRequest.Builder()
-                .setRequestAgent(AdManager.engineVersion)
+                .setRequestAgent(AdServiceHub.engineVersion)
                 .build());
     }
 }

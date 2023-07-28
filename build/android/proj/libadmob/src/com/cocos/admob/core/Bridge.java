@@ -2,7 +2,7 @@ package com.cocos.admob.core;
 
 import android.util.Log;
 
-import com.cocos.admob.AdManager;
+import com.cocos.admob.AdServiceHub;
 import com.cocos.lib.JsbBridge;
 
 public class Bridge {
@@ -20,10 +20,10 @@ public class Bridge {
 
     }
 
-    public void init(AdManager adManager, Codec codec) {
+    public void init(AdServiceHub adServiceHub, Codec codec) {
         Log.d(TAG, "init");
         this.codec = codec;
-        route.init(adManager, codec);
+        route.init(adServiceHub, codec);
         overwriteCallback();
     }
 

@@ -1,2 +1,2 @@
 
-import com.cocos.admob.AdManager;
+import com.cocos.admob.AdServiceHub;
