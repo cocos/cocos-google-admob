@@ -64,37 +64,38 @@ public final class InterstitialAdService extends Service{
         InterstitialAd.load(activity, unitId, adRequest,
                 new InterstitialAdLoadCallback() {
                     @Override
-                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                    public void onAdLoaded(@NonNull InterstitialAd ad) {
                         // The mInterstitialAd reference will be null until
                         // an ad is loaded.
-                        InterstitialAdService.this.interstitialAd = interstitialAd;
+                        interstitialAd = ad;
                         Toast.makeText(activity, "Interstitial ad loaded", Toast.LENGTH_SHORT).show();
-                        Log.i(TAG, "onAdLoaded");
                         bridge.sendToScript(InterstitialAdLoadCalLBackNTF.class.getSimpleName(), new InterstitialAdLoadCalLBackNTF(unitId, "onAdLoaded"));
 
-                        InterstitialAdService.this.interstitialAd.setOnPaidEventListener(adValue -> {
+                        interstitialAd.setOnPaidEventListener(adValue -> {
                             InterstitialPaidEventNTF interstitialPaidEventNTF = new InterstitialPaidEventNTF(unitId);
 
                             interstitialPaidEventNTF.valueMicros = adValue.getValueMicros();
                             interstitialPaidEventNTF.currencyCode = adValue.getCurrencyCode();
                             interstitialPaidEventNTF.precision = adValue.getPrecisionType();
 
-                            AdapterResponseInfo loadedAdapterResponseInfo = InterstitialAdService.this.interstitialAd.getResponseInfo().
-                                    getLoadedAdapterResponseInfo();
-                            interstitialPaidEventNTF.adSourceName = loadedAdapterResponseInfo.getAdSourceName();
-                            interstitialPaidEventNTF.adSourceId = loadedAdapterResponseInfo.getAdSourceId();
-                            interstitialPaidEventNTF.adSourceInstanceName = loadedAdapterResponseInfo.getAdSourceInstanceName();
-                            interstitialPaidEventNTF.adSourceInstanceId = loadedAdapterResponseInfo.getAdSourceInstanceId();
+                            if(interstitialAd != null){
+                                AdapterResponseInfo loadedAdapterResponseInfo = interstitialAd.getResponseInfo().
+                                        getLoadedAdapterResponseInfo();
+                                interstitialPaidEventNTF.adSourceName = loadedAdapterResponseInfo.getAdSourceName();
+                                interstitialPaidEventNTF.adSourceId = loadedAdapterResponseInfo.getAdSourceId();
+                                interstitialPaidEventNTF.adSourceInstanceName = loadedAdapterResponseInfo.getAdSourceInstanceName();
+                                interstitialPaidEventNTF.adSourceInstanceId = loadedAdapterResponseInfo.getAdSourceInstanceId();
 
-                            Bundle extras = InterstitialAdService.this.interstitialAd.getResponseInfo().getResponseExtras();
-                            interstitialPaidEventNTF.mediationGroupName = extras.getString("mediation_group_name");
-                            interstitialPaidEventNTF.mediationABTestName = extras.getString("mediation_ab_test_name");
-                            interstitialPaidEventNTF.mediationABTestVariant = extras.getString("mediation_ab_test_variant");
+                                Bundle extras = InterstitialAdService.this.interstitialAd.getResponseInfo().getResponseExtras();
+                                interstitialPaidEventNTF.mediationGroupName = extras.getString("mediation_group_name");
+                                interstitialPaidEventNTF.mediationABTestName = extras.getString("mediation_ab_test_name");
+                                interstitialPaidEventNTF.mediationABTestVariant = extras.getString("mediation_ab_test_variant");
+                            }
 
                             bridge.sendToScript(InterstitialPaidEventNTF.class.getSimpleName(), interstitialPaidEventNTF);
                         });
 
-                        InterstitialAdService.this.interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                        interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
                             @Override
                             public void onAdClicked() {
                                 // Called when a click is recorded for an ad.
@@ -107,7 +108,7 @@ public final class InterstitialAdService extends Service{
                                 // Called when ad is dismissed.
                                 // Set the ad reference to null so you don't show the ad a second time.
                                 Log.d(TAG, "Ad dismissed fullscreen content.");
-                                InterstitialAdService.this.interstitialAd = null;
+                                interstitialAd = null;
                                 bridge.sendToScript(InterstitialFullScreenContentCallbackNTF.class.getSimpleName(), new InterstitialAdLoadCalLBackNTF(unitId, "onAdDismissedFullScreenContent"));
                             }
 
@@ -115,7 +116,7 @@ public final class InterstitialAdService extends Service{
                             public void onAdFailedToShowFullScreenContent(AdError adError) {
                                 // Called when ad fails to show.
                                 Log.e(TAG, "Ad failed to show fullscreen content.");
-                                InterstitialAdService.this.interstitialAd = null;
+                                interstitialAd = null;
                                 bridge.sendToScript(InterstitialFullScreenContentCallbackNTF.class.getSimpleName(), new InterstitialFullScreenContentCallbackNTF(unitId, "onAdFailedToShowFullScreenContent", adError.toString()));
                             }
 
