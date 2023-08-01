@@ -47,13 +47,13 @@ export class BannerClient extends AdClient {
      */
     public set adListener(v: BannerAdListener) {
         if (this._adListener) {
-            route.off(BannerAdListenerNTF.name, this.onAdListenerEvent, this);
-            route.off(BannerPaidEventNTF.name, this.onPaidEvent, this);
+            route.off(js.getClassName(BannerAdListenerNTF), this.onAdListenerEvent, this);
+            route.off(js.getClassName(BannerPaidEventNTF), this.onPaidEvent, this);
         }
         this._adListener = v;
         if (this._adListener) {
-            route.on(BannerAdListenerNTF.name, this.onAdListenerEvent, this);
-            route.on(BannerPaidEventNTF.name, this.onPaidEvent, this);
+            route.on(js.getClassName(BannerAdListenerNTF), this.onAdListenerEvent, this);
+            route.on(js.getClassName(BannerPaidEventNTF), this.onPaidEvent, this);
         }
     }
 
@@ -106,7 +106,7 @@ export class BannerClient extends AdClient {
         log(module, "destroy", this.unitId);
         let req = new DestroyBannerREQ(this.unitId);
         this.adListener = null;
-        bridge.sendToNative(js.getClassName(DestroyBannerREQ), req, DestroyBannerACK.name, (response: DestroyBannerACK) => {
+        bridge.sendToNative(js.getClassName(DestroyBannerREQ), req, js.getClassName(DestroyBannerACK), (response: DestroyBannerACK) => {
         });
     }
 

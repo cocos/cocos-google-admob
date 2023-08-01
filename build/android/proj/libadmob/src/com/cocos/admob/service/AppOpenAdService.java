@@ -81,7 +81,7 @@ public final class AppOpenAdService extends Service {
 
         isLoadingAd = true;
         AdRequest request = new AdRequest.Builder()
-                .setRequestAgent(AdServiceHub.engineVersion)
+                .setRequestAgent(AdServiceHub.extensionVersion)
                 .build();
         AppOpenAd.load(
                 activity,

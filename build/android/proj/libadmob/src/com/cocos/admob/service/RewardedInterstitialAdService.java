@@ -57,7 +57,7 @@ public final class RewardedInterstitialAdService extends Service {
         this.unitId = unitId;
         RewardedInterstitialAd.load(activity, unitId,
                 new AdRequest.Builder()
-                        .setRequestAgent(AdServiceHub.engineVersion)
+                        .setRequestAgent(AdServiceHub.extensionVersion)
                         .build(), new RewardedInterstitialAdLoadCallback() {
                     @Override
                     public void onAdLoaded(RewardedInterstitialAd ad) {

@@ -59,7 +59,7 @@ public final class InterstitialAdService extends Service{
     private void loadAd(String unitId) {
         this.unitId = unitId;
         AdRequest adRequest = new AdRequest.Builder()
-                .setRequestAgent(AdServiceHub.engineVersion)
+                .setRequestAgent(AdServiceHub.extensionVersion)
                 .build();
         InterstitialAd.load(activity, unitId, adRequest,
                 new InterstitialAdLoadCallback() {

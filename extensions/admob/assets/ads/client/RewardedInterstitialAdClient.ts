@@ -36,16 +36,16 @@ export class RewardedInterstitialAdClient extends AdClient {
      */
     set rewardedInterstitialListener(value: RewardedInterstitialListener) {
         if (this._rewardedInterstitialListener) {
-            route.off(RewardedInterstitialAdLoadCallbackNTF.name, this.onRewardedInterstitialAdLoadCallbackNTF, this);
-            route.off(OnUserEarnedRewardedInterstitialListenerNTF.name, this.onOnUserEarnedRewardListenerNTF, this);
-            route.off(RewardedInterstitialPaidEventNTF.name, this.onPaidEvent, this);
+            route.off(js.getClassName(RewardedInterstitialAdLoadCallbackNTF), this.onRewardedInterstitialAdLoadCallbackNTF, this);
+            route.off(js.getClassName(OnUserEarnedRewardedInterstitialListenerNTF), this.onOnUserEarnedRewardListenerNTF, this);
+            route.off(js.getClassName(RewardedInterstitialPaidEventNTF), this.onPaidEvent, this);
         }
 
         this._rewardedInterstitialListener = value;
         if (this._rewardedInterstitialListener) {
-            route.on(RewardedInterstitialAdLoadCallbackNTF.name, this.onRewardedInterstitialAdLoadCallbackNTF, this);
-            route.on(OnUserEarnedRewardedInterstitialListenerNTF.name, this.onOnUserEarnedRewardListenerNTF, this);
-            route.on(RewardedInterstitialPaidEventNTF.name, this.onPaidEvent, this);
+            route.on(js.getClassName(RewardedInterstitialAdLoadCallbackNTF), this.onRewardedInterstitialAdLoadCallbackNTF, this);
+            route.on(js.getClassName(OnUserEarnedRewardedInterstitialListenerNTF), this.onOnUserEarnedRewardListenerNTF, this);
+            route.on(js.getClassName(RewardedInterstitialPaidEventNTF), this.onPaidEvent, this);
         }
     }
 

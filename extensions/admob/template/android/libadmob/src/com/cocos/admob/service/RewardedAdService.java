@@ -65,7 +65,7 @@ public final class RewardedAdService  extends  Service{
     private void loadAd(String unitId) {
         this.unitId = unitId;
         AdRequest adRequest = new AdRequest.Builder()
-                .setRequestAgent(AdServiceHub.engineVersion)
+                .setRequestAgent(AdServiceHub.extensionVersion)
                 .build();
         RewardedAd.load(activity, unitId,
                 adRequest, new RewardedAdLoadCallback() {

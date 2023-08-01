@@ -48,16 +48,16 @@ export class NativeAdClient extends AdClient {
      */
     set nativeAdListener(value: NativeAdListener) {
         if (this._nativeAdListener) {
-            route.off(NativeLoadedNTF.name, this.onNativeLoadedNTF, this);
-            route.off(NativeAdListenerNTF.name, this.onNativeAdListenerNTF, this);
-            route.off(NativePaidEventNTF.name, this.onPaidEvent, this);
+            route.off(js.getClassName(NativeLoadedNTF), this.onNativeLoadedNTF, this);
+            route.off(js.getClassName(NativeAdListenerNTF), this.onNativeAdListenerNTF, this);
+            route.off(js.getClassName(NativePaidEventNTF), this.onPaidEvent, this);
 
         }
         this._nativeAdListener = value;
         if (this._nativeAdListener) {
-            route.on(NativeLoadedNTF.name, this.onNativeLoadedNTF, this);
-            route.on(NativeAdListenerNTF.name, this.onNativeAdListenerNTF, this);
-            route.on(NativePaidEventNTF.name, this.onPaidEvent, this);
+            route.on(js.getClassName(NativeLoadedNTF), this.onNativeLoadedNTF, this);
+            route.on(js.getClassName(NativeAdListenerNTF), this.onNativeAdListenerNTF, this);
+            route.on(js.getClassName(NativePaidEventNTF), this.onPaidEvent, this);
         }
     }
 

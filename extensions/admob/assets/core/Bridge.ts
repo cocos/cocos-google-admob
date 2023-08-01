@@ -6,6 +6,7 @@ import { route } from "./Route";
 import { Base } from "../proto/Base";
 import { VersionREQ } from "../proto/Version";
 import { AdMobVersion } from "./Version";
+import { js } from "cc";
 
 /**
  * @zh
@@ -22,7 +23,7 @@ export class Bridge {
 
         const engineVersion = `cocos-${AdMobVersion}`;
         console.log(module, "init", `report engineVersion: ${engineVersion}.`);
-        this.sendToNative(VersionREQ.name, new VersionREQ('', engineVersion), null, null);
+        this.sendToNative(js.getClassName(VersionREQ), new VersionREQ('', engineVersion), null, null);
         return this;
     }
 

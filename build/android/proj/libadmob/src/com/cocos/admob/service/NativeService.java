@@ -170,7 +170,7 @@ public final class NativeService extends Service {
 
 
         adLoader.loadAd(new AdRequest.Builder()
-                .setRequestAgent(AdServiceHub.engineVersion)
+                .setRequestAgent(AdServiceHub.extensionVersion)
                 .build());
     }
 }

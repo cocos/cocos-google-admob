@@ -136,7 +136,7 @@ public final class BannerService extends Service {
         AdView adview = bannerMap.get(unitId);
         // Create an ad request.
         AdRequest adRequest = new AdRequest.Builder()
-                .setRequestAgent(AdServiceHub.engineVersion)
+                .setRequestAgent(AdServiceHub.extensionVersion)
                 .build();
         String method = BannerAdListenerNTF.class.getSimpleName();
         adview.setAdListener(new AdListener() {

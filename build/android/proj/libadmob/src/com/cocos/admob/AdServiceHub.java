@@ -41,7 +41,7 @@ public final class AdServiceHub {
     private RewardedInterstitialAdService rewardedInterstitialAdService = new RewardedInterstitialAdService();
     private NativeService nativeService = new NativeService();
 
-    public static String engineVersion;
+    public static String extensionVersion;
 
     public void init(CocosActivity activity) {
         Log.d(TAG, String.format("onCreate {0}", initialized));
@@ -57,7 +57,7 @@ public final class AdServiceHub {
         bridge.init(this, new Codec());
         bridge.getRoute().on(VersionREQ.class.getSimpleName(), VersionREQ.class, arg -> {
             VersionREQ req = (VersionREQ)arg;
-            engineVersion = req.engineVersion;
+            extensionVersion = req.engineVersion;
         });
         bannerService.init(bridge, activity);
         appOpenAdService.init(bridge, activity);

@@ -1,13 +1,1 @@
-System.register(['./instantiated-36cb212e.js'], function (exports) {
-	'use strict';
-	return {
-		setters: [function (module) {
-			exports('default', module.gZ);
-		}],
-		execute: function () {
-
-
-
-		}
-	};
-});
+System.register(["./instantiated-f81d8504.js"],(function(t){"use strict";return{setters:[function(e){t("default",e.gZ)}],execute:function(){}}}));

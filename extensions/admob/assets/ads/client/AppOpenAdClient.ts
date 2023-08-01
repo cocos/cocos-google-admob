@@ -34,18 +34,18 @@ export class AppOpenAdClient extends AdClient {
      */
     set appOpenAdListener(value: AppOpenAdListener) {
         if (this._appOpenAdListener) {
-            route.off(AppOpenAdLoadCallbackNTF.name, this.onAppOpenAdLoadCallbackNTF, this);
-            route.off(AppOpenPaidEventNTF.name, this.onPaidEvent, this);
-            route.off(AppOpenAdFullScreenContentCallbackNTF.name, this.onFullScreenContentCallbackNTF, this);
-            route.off(ShowAppOpenAdCompleteNTF.name, this.onShowCompleteNTF, this);
+            route.off(js.getClassName(AppOpenAdLoadCallbackNTF), this.onAppOpenAdLoadCallbackNTF, this);
+            route.off(js.getClassName(AppOpenPaidEventNTF), this.onPaidEvent, this);
+            route.off(js.getClassName(AppOpenAdFullScreenContentCallbackNTF), this.onFullScreenContentCallbackNTF, this);
+            route.off(js.getClassName(ShowAppOpenAdCompleteNTF), this.onShowCompleteNTF, this);
         }
 
         this._appOpenAdListener = value;
         if (value) {
-            route.on(AppOpenAdLoadCallbackNTF.name, this.onAppOpenAdLoadCallbackNTF, this);
-            route.on(AppOpenPaidEventNTF.name, this.onPaidEvent, this);
-            route.on(AppOpenAdFullScreenContentCallbackNTF.name, this.onFullScreenContentCallbackNTF, this);
-            route.on(ShowAppOpenAdCompleteNTF.name, this.onShowCompleteNTF, this);
+            route.on(js.getClassName(AppOpenAdLoadCallbackNTF), this.onAppOpenAdLoadCallbackNTF, this);
+            route.on(js.getClassName(AppOpenPaidEventNTF), this.onPaidEvent, this);
+            route.on(js.getClassName(AppOpenAdFullScreenContentCallbackNTF), this.onFullScreenContentCallbackNTF, this);
+            route.on(js.getClassName(ShowAppOpenAdCompleteNTF), this.onShowCompleteNTF, this);
         }
     }
 

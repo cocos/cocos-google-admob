@@ -34,18 +34,18 @@ export class RewardedAdClient extends AdClient {
      */
     public set rewardedListener(value: RewardedAdListener) {
         if (this._rewardedListener) {
-            route.off(RewardedAdLoadCallbackNTF.name, this.onRewardedAdLoadCallbackNTF, this);
-            route.off(RewardedFullScreenContentCallbackNTF.name, this.onFullScreenContentCallback, this);
-            route.off(OnUserEarnedRewardListenerNTF.name, this.onOnUserEarnedRewardListenerNTF, this);
-            route.off(RewardedPaidEventNTF.name, this.onPaidEvent, this);
+            route.off(js.getClassName(RewardedAdLoadCallbackNTF), this.onRewardedAdLoadCallbackNTF, this);
+            route.off(js.getClassName(RewardedFullScreenContentCallbackNTF), this.onFullScreenContentCallback, this);
+            route.off(js.getClassName(OnUserEarnedRewardListenerNTF), this.onOnUserEarnedRewardListenerNTF, this);
+            route.off(js.getClassName(RewardedPaidEventNTF), this.onPaidEvent, this);
         }
         this._rewardedListener = value;
 
         if (this._rewardedListener) {
-            route.on(RewardedAdLoadCallbackNTF.name, this.onRewardedAdLoadCallbackNTF, this);
-            route.on(RewardedFullScreenContentCallbackNTF.name, this.onFullScreenContentCallback, this);
-            route.on(OnUserEarnedRewardListenerNTF.name, this.onOnUserEarnedRewardListenerNTF, this);
-            route.on(RewardedPaidEventNTF.name, this.onPaidEvent, this);
+            route.on(js.getClassName(RewardedAdLoadCallbackNTF), this.onRewardedAdLoadCallbackNTF, this);
+            route.on(js.getClassName(RewardedFullScreenContentCallbackNTF), this.onFullScreenContentCallback, this);
+            route.on(js.getClassName(OnUserEarnedRewardListenerNTF), this.onOnUserEarnedRewardListenerNTF, this);
+            route.on(js.getClassName(RewardedPaidEventNTF), this.onPaidEvent, this);
         }
     }
     

@@ -43,17 +43,17 @@ export class InterstitialAdClient extends AdClient {
      */
     set interstitialListener(value: InterstitialAdListener) {
         if (!value) {
-            route.off(InterstitialFullScreenContentCallbackNTF.name, this.onInterstitialFullScreenContentCallback, this);
-            route.off(InterstitialAdLoadCalLBackNTF.name, this.onInterstitialAdLoadCalLBackNTF, this);
-            route.off(InterstitialPaidEventNTF.name, this.onPaidEvent, this);
+            route.off(js.getClassName(InterstitialFullScreenContentCallbackNTF), this.onInterstitialFullScreenContentCallback, this);
+            route.off(js.getClassName(InterstitialAdLoadCalLBackNTF), this.onInterstitialAdLoadCalLBackNTF, this);
+            route.off(js.getClassName(InterstitialPaidEventNTF), this.onPaidEvent, this);
         }
 
         this._interstitialListener = value;
 
         if (value) {
-            route.on(InterstitialFullScreenContentCallbackNTF.name, this.onInterstitialFullScreenContentCallback, this);
-            route.on(InterstitialAdLoadCalLBackNTF.name, this.onInterstitialAdLoadCalLBackNTF, this);
-            route.on(InterstitialPaidEventNTF.name, this.onPaidEvent, this);
+            route.on(js.getClassName(InterstitialFullScreenContentCallbackNTF), this.onInterstitialFullScreenContentCallback, this);
+            route.on(js.getClassName(InterstitialAdLoadCalLBackNTF), this.onInterstitialAdLoadCalLBackNTF, this);
+            route.on(js.getClassName(InterstitialPaidEventNTF), this.onPaidEvent, this);
         }
     }
 

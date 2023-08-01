@@ -110,8 +110,8 @@ Swig 更适合一些需要频繁调用的部分。
 因此插件在设计时，采用了 [使用 JsbBridge 实现 JavaScript 与 Java 通信](https://docs.cocos.com/creator/manual/zh/advanced-topics/js-java-bridge.html) 方法。通过两个 `String` 类型的参数来作为传递的内容：
 
 - arg0： 方法名称，用类名作为定义
-  - 在 JAVA 端，使用 class.getSimpleName() 获取
-  - 在 TS  端，使用 type.name 来获取
+  - 在 JAVA 端，使用 `class.getSimpleName()` 获取
+  - 在 TS  端，使用 `js.getClassName` 来获取，注
   - 没有引入其他的用于解析的类型，如果开发者需要自定义，也可以使用如 protobuf 等序列化的库
 - arg1： 具体的协议，将 java 的 class 以及 ts 的 class 序列化为 JSON 传递。  
 

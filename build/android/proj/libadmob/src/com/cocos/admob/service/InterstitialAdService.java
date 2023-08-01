@@ -59,7 +59,7 @@ public final class InterstitialAdService extends Service{
     private void loadAd(String unitId) {
         this.unitId = unitId;
         AdRequest adRequest = new AdRequest.Builder()
-                .setRequestAgent(AdServiceHub.engineVersion)
+                .setRequestAgent(AdServiceHub.extensionVersion)
                 .build();
         InterstitialAd.load(activity, unitId, adRequest,
                 new InterstitialAdLoadCallback() {
@@ -115,7 +115,7 @@ public final class InterstitialAdService extends Service{
                             @Override
                             public void onAdFailedToShowFullScreenContent(AdError adError) {
                                 // Called when ad fails to show.
-                                Log.e(TAG, "Ad failed to show fullscreen content." + adError.toString());
+                                Log.e(TAG, "Ad failed to show fullscreen content.");
                                 interstitialAd = null;
                                 bridge.sendToScript(InterstitialFullScreenContentCallbackNTF.class.getSimpleName(), new InterstitialFullScreenContentCallbackNTF(unitId, "onAdFailedToShowFullScreenContent", adError.toString()));
                             }
