@@ -1,11 +1,12 @@
 package com.cocos.admob.service;
 
-
 import android.os.Bundle;
 import android.util.Log;
+import android.view.DisplayCutout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowInsets;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,14 @@ import java.util.HashMap;
  * Internal class for banner ads.
  */
 public final class BannerService extends Service {
+
+    private class Insets {
+        public int top = 0;
+        public int bottom = 0;
+        public int left = 0;
+        public int right = 0;
+    }
+
     private static final String TAG = "BannerService";
     HashMap<String, AdView> bannerMap = new HashMap<>();
 
@@ -75,6 +84,29 @@ public final class BannerService extends Service {
         }
         bannerMap.clear();
     }
+    private Insets getSafeInsets(Window w) {
+        Insets i = new Insets();
+
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M) {
+            return i;
+        }
+
+        WindowInsets wi = w.getDecorView().getRootWindowInsets();
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.P) {
+            return i;
+        }
+
+        DisplayCutout dc = wi.getDisplayCutout();
+        if (dc == null) {
+            return i;
+        }
+
+        i.top = dc.getSafeInsetTop();
+        i.bottom = dc.getSafeInsetBottom();
+        i.left = dc.getSafeInsetLeft();
+        i.right = dc.getSafeInsetRight();
+        return i;
+    }
 
     private AdView createBannerView(LoadBannerREQ req) {
         String unitId = req.unitId;
@@ -82,6 +114,7 @@ public final class BannerService extends Service {
         String[] alignments = req.alignments;
 
         Window w = activity.getWindow();
+        Insets insets = getSafeInsets(w);
         ViewGroup vg = (ViewGroup) w.getDecorView();
 
         // create banner view and container manually
@@ -94,26 +127,18 @@ public final class BannerService extends Service {
         vg.addView(rl);
 
         AdView adview = new AdView(activity);
-        RelativeLayout.LayoutParams bannerLp = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-
-        try {
-            if (alignments != null) {
-                for (int i = 0; i < alignments.length; i++) {
-                    Field filed = RelativeLayout.class.getDeclaredField(alignments[i]);
-                    int rule = filed.getInt(RelativeLayout.class);
-                    bannerLp.addRule(rule);
-                }
-            }
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
         rl.addView(adview);
 
+        adview.setAdUnitId(unitId);
+        AdSize adSize = getAdSize(bannerSize);
+        adview.setAdSize(adSize);
+        RelativeLayout.LayoutParams bannerLp = getLayoutParams(alignments, insets);
+        adview.setLayoutParams(bannerLp);
+        bannerMap.put(unitId, adview);
+        return adview;
+    }
+
+    private  AdSize getAdSize(String bannerSize){
         AdSize adSize;
 
         try {
@@ -124,12 +149,39 @@ public final class BannerService extends Service {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+        return adSize;
+    }
 
-        adview.setAdUnitId(unitId);
-        adview.setAdSize(adSize);
-        adview.setLayoutParams(bannerLp);
-        bannerMap.put(unitId, adview);
-        return adview;
+    private RelativeLayout.LayoutParams getLayoutParams(String[] alignments, Insets insets){
+        RelativeLayout.LayoutParams bannerLp = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+
+        try {
+            if (alignments != null) {
+                for (int i = 0; i < alignments.length; i++) {
+                    String a = alignments[i];
+                    Field filed = RelativeLayout.class.getDeclaredField(a);
+                    int rule = filed.getInt(RelativeLayout.class);
+                    if( rule == RelativeLayout.ALIGN_TOP ){
+                        bannerLp.topMargin = insets.top;
+                    }else if( rule == RelativeLayout.ALIGN_BOTTOM){
+                        bannerLp.bottomMargin = insets.bottom;
+                    }else if( rule == RelativeLayout.ALIGN_LEFT){
+                        bannerLp.leftMargin = insets.left;
+                    }else if( rule == RelativeLayout.ALIGN_RIGHT){
+                        bannerLp.rightMargin = insets.right;
+                    }
+                    bannerLp.addRule(rule);
+                }
+            }
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return bannerLp;
     }
 
     private void loadBannerAd(String unitId) {
@@ -179,7 +231,7 @@ public final class BannerService extends Service {
                 BannerAdListenerNTF ntf = new BannerAdListenerNTF(unitId, "onAdLoaded");
                 bridge.sendToScript(method, ntf);
 
-                adview.setOnPaidEventListener( adValue -> {
+                adview.setOnPaidEventListener(adValue -> {
 
                     BannerPaidEventNTF bannerPaidEventNTF = new BannerPaidEventNTF(unitId);
 

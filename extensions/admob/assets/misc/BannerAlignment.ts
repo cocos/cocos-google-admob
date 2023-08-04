@@ -21,28 +21,7 @@ export enum BannerAlignment {
      * Rule that aligns a child's bottom edge with another child's bottom edge.
      */
     ALIGN_BOTTOM = "ALIGN_BOTTOM",
-    /**
-     * Rule that aligns the child's left edge with its RelativeLayout
-     * parent's left edge.
-     */
-    ALIGN_PARENT_LEFT = "ALIGN_PARENT_LEFT",
-    /**
-     * Rule that aligns the child's top edge with its RelativeLayout
-     * parent's top edge.
-     */
-    ALIGN_PARENT_TOP = "ALIGN_PARENT_TOP",
-    /**
-     * Rule that aligns the child's bottom edge with its RelativeLayout
-     * parent's bottom edge.
-     */
-    ALIGN_PARENT_BOTTOM = "ALIGN_PARENT_BOTTOM",
-
-    /**
-     * Rule that centers the child with respect to the bounds of its
-     * RelativeLayout parent.
-     */
-    CENTER_IN_PARENT = "CENTER_IN_PARENT",
-    /**
+    /** 
      * Rule that centers the child horizontally with respect to the
      * bounds of its RelativeLayout parent.
      */
