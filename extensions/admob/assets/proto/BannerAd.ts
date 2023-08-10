@@ -1,6 +1,7 @@
 import { LoadAdError } from "../ads/alias/TypeAlias";
 import { BannerAlignment } from "../misc/BannerAlignment";
 import { BannerSize } from "../misc/BannerSize";
+import { BannerSizeType } from "../misc/BannerSizeType";
 import { Base } from "./Base";
 import { ILoadAdError } from "./ICallbackNTF";
 import { _decorator  } from "cc";
@@ -8,10 +9,8 @@ const { ccclass, property } = _decorator;
 
 @ccclass("LoadBannerREQ")
 export class LoadBannerREQ extends Base {
-    bannerSize: BannerSize;
-    method:string;
-    width:number;
-    maxWidth:number;
+    bannerSizeType: BannerSizeType;
+    bannerSize: BannerSize;    
     alignments:BannerAlignment[];
 }
 

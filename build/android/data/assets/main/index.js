@@ -128,8 +128,8 @@ System.register("chunks:///_virtual/AdmobTestAppOpenAd.ts", ['cc', './TestScenes
   };
 });
 
-System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc', './TestScenes.ts', './BannerClient.ts', './TestUnitId.ts', './BannerSize.ts', './BannerAlignment.ts'], function (exports) {
-  var _applyDecoratedDescriptor, _initializerDefineProperty, cclegacy, Button, _decorator, Component, log, director, TestScenes, BannerClient, TestUnitId, BannerSize, TopCenter;
+System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc', './TestScenes.ts', './BannerClient.ts', './TestUnitId.ts', './BannerSize.ts', './BannerAlignment.ts', './BannerSizeType.ts'], function (exports) {
+  var _applyDecoratedDescriptor, _initializerDefineProperty, cclegacy, Button, _decorator, Component, log, director, TestScenes, BannerClient, TestUnitId, BannerSize, TopCenter, BottomCenter, BannerSizeType;
 
   return {
     setters: [function (module) {
@@ -152,6 +152,9 @@ System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBa
       BannerSize = module.BannerSize;
     }, function (module) {
       TopCenter = module.TopCenter;
+      BottomCenter = module.BottomCenter;
+    }, function (module) {
+      BannerSizeType = module.BannerSizeType;
     }],
     execute: function () {
       var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2;
@@ -172,6 +175,7 @@ System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBa
           _initializerDefineProperty(this, "buttonHideBanner", _descriptor2, this);
 
           this.bannerClient = void 0;
+          this.currentAlignment = TopCenter;
         }
 
         start() {
@@ -186,6 +190,10 @@ System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBa
           (_this$bannerClient2 = this.bannerClient) == null ? void 0 : _this$bannerClient2.destroy();
         }
 
+        onAlignmentToggleChanged(toggle) {
+          this.currentAlignment = toggle.isChecked ? TopCenter : BottomCenter;
+        }
+
         onClickLoadBanner() {
           if (this.bannerClient != null) {
             log("duplicated create of banner client, destroy the former banner client");
@@ -196,8 +204,6 @@ System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBa
           this.bannerClient.load(TestUnitId.BannerAd, {
             onAdImpression: () => {
               log(module$1, "onAdImpression", "onAdClicked", this);
-              this.buttonShowBanner.interactable = true;
-              this.buttonHideBanner.interactable = true;
             },
             onAdClicked: () => {
               log(module$1, "onClickLoadBanner", "onAdClicked");
@@ -216,7 +222,8 @@ System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBa
 
           }, {
             size: BannerSize.BANNER,
-            alignments: TopCenter
+            alignments: this.currentAlignment,
+            type: BannerSizeType.Builtin
           });
         }
 
@@ -229,6 +236,102 @@ System.register("chunks:///_virtual/AdmobTestBanner.ts", ['./rollupPluginModLoBa
 
         onNextScene() {
           director.loadScene(TestScenes[1]);
+        }
+
+        onClickLoadLandscape() {
+          if (this.bannerClient != null) {
+            log("duplicated create of banner client, destroy the former banner client");
+            this.bannerClient.destroy();
+          }
+
+          this.bannerClient = new BannerClient();
+          this.bannerClient.load(TestUnitId.BannerAd, {
+            onAdImpression: () => {
+              log(module$1, "onAdImpression", "onAdClicked", this);
+            },
+            onAdClicked: () => {
+              log(module$1, "onClickLoadBanner", "onAdClicked");
+            },
+            onAdLoaded: () => {
+              log(module$1, "onClickLoadBanner", "onAdLoaded");
+            },
+            onAdFailedToLoad: loadError => {
+              log(module$1, "onClickLoadBanner", "onAdLoaded", `${loadError}`);
+            },
+
+            onPaidEvent(paidNTF) {
+              // paid event, you can do your own analysis here.
+              log(module$1, "onPaidEvent", paidNTF);
+            }
+
+          }, {
+            alignments: this.currentAlignment,
+            type: BannerSizeType.Landscape
+          });
+        }
+
+        onClickLoadPortrait() {
+          if (this.bannerClient != null) {
+            log("duplicated create of banner client, destroy the former banner client");
+            this.bannerClient.destroy();
+          }
+
+          this.bannerClient = new BannerClient();
+          this.bannerClient.load(TestUnitId.BannerAd, {
+            onAdImpression: () => {
+              log(module$1, "onAdImpression", "onAdClicked", this);
+            },
+            onAdClicked: () => {
+              log(module$1, "onClickLoadBanner", "onAdClicked");
+            },
+            onAdLoaded: () => {
+              log(module$1, "onClickLoadBanner", "onAdLoaded");
+            },
+            onAdFailedToLoad: loadError => {
+              log(module$1, "onClickLoadBanner", "onAdLoaded", `${loadError}`);
+            },
+
+            onPaidEvent(paidNTF) {
+              // paid event, you can do your own analysis here.
+              log(module$1, "onPaidEvent", paidNTF);
+            }
+
+          }, {
+            alignments: this.currentAlignment,
+            type: BannerSizeType.Portrait
+          });
+        }
+
+        onClickLoadCurrent() {
+          if (this.bannerClient != null) {
+            log("duplicated create of banner client, destroy the former banner client");
+            this.bannerClient.destroy();
+          }
+
+          this.bannerClient = new BannerClient();
+          this.bannerClient.load(TestUnitId.BannerAd, {
+            onAdImpression: () => {
+              log(module$1, "onAdImpression", "onAdClicked", this);
+            },
+            onAdClicked: () => {
+              log(module$1, "onClickLoadBanner", "onAdClicked");
+            },
+            onAdLoaded: () => {
+              log(module$1, "onClickLoadBanner", "onAdLoaded");
+            },
+            onAdFailedToLoad: loadError => {
+              log(module$1, "onClickLoadBanner", "onAdLoaded", `${loadError}`);
+            },
+
+            onPaidEvent(paidNTF) {
+              // paid event, you can do your own analysis here.
+              log(module$1, "onPaidEvent", paidNTF);
+            }
+
+          }, {
+            alignments: this.currentAlignment,
+            type: BannerSizeType.Current
+          });
         }
 
       }, (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "buttonShowBanner", [_dec2], {
@@ -891,10 +994,8 @@ System.register("chunks:///_virtual/BannerAd.ts", ['cc', './Base.ts'], function 
       let LoadBannerREQ = exports('LoadBannerREQ', (_dec = ccclass("LoadBannerREQ"), _dec(_class = class LoadBannerREQ extends Base {
         constructor(...args) {
           super(...args);
+          this.bannerSizeType = void 0;
           this.bannerSize = void 0;
-          this.method = void 0;
-          this.width = void 0;
-          this.maxWidth = void 0;
           this.alignments = void 0;
         }
 
@@ -966,6 +1067,7 @@ System.register("chunks:///_virtual/BannerAlignment.ts", ['cc'], function (expor
         BannerAlignment["ALIGN_BOTTOM"] = "ALIGN_BOTTOM";
         BannerAlignment["CENTER_HORIZONTAL"] = "CENTER_HORIZONTAL";
         BannerAlignment["CENTER_VERTICAL"] = "CENTER_VERTICAL";
+        BannerAlignment["ALIGN_PARENT_BOTTOM"] = "ALIGN_PARENT_BOTTOM";
         return BannerAlignment;
       }({}));
       /**
@@ -973,7 +1075,7 @@ System.register("chunks:///_virtual/BannerAlignment.ts", ['cc'], function (expor
        * Put the banner at bottom-center of the screen
        */
 
-      const BottomCenter = exports('BottomCenter', [BannerAlignment.ALIGN_BOTTOM, BannerAlignment.CENTER_HORIZONTAL]);
+      const BottomCenter = exports('BottomCenter', [BannerAlignment.ALIGN_PARENT_BOTTOM, BannerAlignment.CENTER_HORIZONTAL]);
       /**
        * @en
        * Put the banner at the top-center of the screen.
@@ -986,8 +1088,8 @@ System.register("chunks:///_virtual/BannerAlignment.ts", ['cc'], function (expor
   };
 });
 
-System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', './BannerAd.ts', './Bridge.ts', './Route.ts', './BannerSize.ts', './BannerAlignment.ts', './PaidEventNTF.ts'], function (exports) {
-  var cclegacy, js, log, AdClient, BannerAdListenerNTF, ShowBannerREQ, LoadBannerREQ, LoadBannerACK, DestroyBannerREQ, DestroyBannerACK, bridge, route, BannerSize, BottomCenter, BannerPaidEventNTF;
+System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', './BannerAd.ts', './Bridge.ts', './Route.ts', './BannerSize.ts', './BannerAlignment.ts', './PaidEventNTF.ts', './BannerSizeType.ts'], function (exports) {
+  var cclegacy, js, log, AdClient, BannerAdListenerNTF, ShowBannerREQ, LoadBannerREQ, LoadBannerACK, DestroyBannerREQ, DestroyBannerACK, bridge, route, BannerSize, BottomCenter, BannerPaidEventNTF, BannerSizeType;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
@@ -1012,6 +1114,8 @@ System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', '.
       BottomCenter = module.BottomCenter;
     }, function (module) {
       BannerPaidEventNTF = module.BannerPaidEventNTF;
+    }, function (module) {
+      BannerSizeType = module.BannerSizeType;
     }],
     execute: function () {
       cclegacy._RF.push({}, "67876+xkzJIO6gfVziSiyV8", "BannerClient", undefined);
@@ -1104,7 +1208,8 @@ System.register("chunks:///_virtual/BannerClient.ts", ['cc', './AdClient.ts', '.
           bridge.sendToNative(js.getClassName(LoadBannerREQ), {
             unitId: unitId,
             bannerSize: opt != null && opt.size ? opt == null ? void 0 : opt.size : BannerSize.BANNER,
-            alignments: opt != null && opt.alignments ? opt == null ? void 0 : opt.alignments : BottomCenter
+            alignments: opt != null && opt.alignments ? opt == null ? void 0 : opt.alignments : BottomCenter,
+            bannerSizeType: opt != null && opt.type ? opt == null ? void 0 : opt.type : BannerSizeType.Builtin
           }, js.getClassName(LoadBannerACK), response => {}, this);
         }
         /**
@@ -1182,8 +1287,8 @@ System.register("chunks:///_virtual/BannerSize.ts", ['cc'], function (exports) {
   };
 });
 
-System.register("chunks:///_virtual/BannerSizeOption.ts", ['cc', './BannerAlignment.ts', './BannerSize.ts'], function (exports) {
-  var cclegacy, BottomCenter, BannerSize;
+System.register("chunks:///_virtual/BannerSizeOption.ts", ['cc', './BannerAlignment.ts', './BannerSize.ts', './BannerSizeType.ts'], function (exports) {
+  var cclegacy, BottomCenter, BannerSize, BannerSizeType;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
@@ -1191,24 +1296,83 @@ System.register("chunks:///_virtual/BannerSizeOption.ts", ['cc', './BannerAlignm
       BottomCenter = module.BottomCenter;
     }, function (module) {
       BannerSize = module.BannerSize;
+    }, function (module) {
+      BannerSizeType = module.BannerSizeType;
     }],
     execute: function () {
       cclegacy._RF.push({}, "5616bT5rtJEcY/73XVD9E9f", "BannerSizeOption", undefined);
       /**
+       * @cn
+       * banner size 的创建选项
+       * 如果 type 为  BannerSizeType.Builtin，则会使用 size 属性来创建banner， 否则走自适应创建banner。
+       * 详情参考： https://developers.google.com/admob/android/banner/anchored-adaptive
        * @en
-       * 
+       * options of the banner size.
+       * if the type attribute equals to BannerSizeType.Builtin, the size attribute will be used to create the banner.
+       * Otherwise if the type equals to BannerSizeType.AnchoredAdaptive, an Anchored adaptive banner will be created.
+       * For more details, please refer to https://developers.google.com/admob/android/banner/anchored-adaptive
        */
 
 
       class BannerSizeOption {
         constructor() {
+          /**
+           * @zh
+           * banner size 的类型
+           * @en
+           * type of the banner size
+           */
+          this.type = BannerSizeType.Builtin;
+          /**
+           * @zh
+           * 谷歌 Admob 库内预定义的 AdSize， 中转定义在 {BannerSizeType} 类中
+           * @en
+           * a serial of builtin banner size define in google admob.
+           */
+
           this.size = BannerSize.BANNER;
+          /**
+           * @zh
+           * 预定义少量可用的对齐用于创建 banner 的容器
+           * @en
+           * Predefined alignments for the container of the banner ad.
+           */
+
           this.alignments = BottomCenter;
         }
 
       }
 
       exports('BannerSizeOption', BannerSizeOption);
+
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/BannerSizeType.ts", ['cc'], function (exports) {
+  var cclegacy;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+    }],
+    execute: function () {
+      cclegacy._RF.push({}, "79ab0Av5oNO2r9VQTvixCOn", "BannerSizeType", undefined);
+      /**
+       * @zh
+       * Banner 的大小类型 
+       * @en
+       * Banner Size Type 
+       */
+
+
+      let BannerSizeType = exports('BannerSizeType', /*#__PURE__*/function (BannerSizeType) {
+        BannerSizeType["Builtin"] = "Builtin";
+        BannerSizeType["Landscape"] = "Landscape";
+        BannerSizeType["Portrait"] = "Portrait";
+        BannerSizeType["Current"] = "Current";
+        return BannerSizeType;
+      }({}));
 
       cclegacy._RF.pop();
     }
@@ -1961,9 +2125,9 @@ System.register("chunks:///_virtual/InterstitialFullScreenContentCallback.ts", [
   };
 });
 
-System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', './AdmobTestAppOpenAd.ts', './AdmobTestBanner.ts', './AdmobTestInterstitialAd.ts', './AdmobTestNative.ts', './AdmobTestRewarded.ts', './AdmobTestRewardedInterstitialAd.ts', './TestScenes.ts', './TypeAlias.ts', './AdClient.ts', './AppOpenAdClient.ts', './BannerClient.ts', './InterstitialAdClient.ts', './NativeAdClient.ts', './RewardedAdClient.ts', './RewardedInterstitialAdClient.ts', './AdListener.ts', './AppOpenAdFullScreenContentCallback.ts', './AppOpenAdListener.ts', './AppOpenAdLoadCallback.ts', './BannerAdListener.ts', './FullScreenContentCallback.ts', './InterstitialAdListener.ts', './InterstitialAdLoadCallback.ts', './InterstitialFullScreenContentCallback.ts', './NativeAdListener.ts', './OnNativeAdLoadedListener.ts', './OnPaidEventListener.ts', './OnShowAdCompleteListener.ts', './OnUserEarnedRewardListener.ts', './RewardedAdFullScreenContentCallback.ts', './RewardedAdListener.ts', './RewardedAdLoadCallback.ts', './RewardedInterstitialAdLoadCallback.ts', './RewardedInterstitialFullScreenContentCallback.ts', './RewardedInterstitialListener.ts', './Bridge.ts', './Codec.ts', './INativeResponse.ts', './Route.ts', './Version2.ts', './BannerAlignment.ts', './BannerSize.ts', './BannerSizeOption.ts', './TestUnitId.ts', './AppOpenAd.ts', './BannerAd.ts', './Base.ts', './ICallbackNTF.ts', './InterstitailAd.ts', './NativeAd.ts', './PaidEventNTF.ts', './RewardedAd.ts', './RewardedInterstitialAd.ts', './Version.ts'], function () {
+System.register("chunks:///_virtual/main", ['./debug-view-runtime-control.ts', './AdmobTestAppOpenAd.ts', './AdmobTestBanner.ts', './AdmobTestInterstitialAd.ts', './AdmobTestNative.ts', './AdmobTestRewarded.ts', './AdmobTestRewardedInterstitialAd.ts', './TestScenes.ts', './TypeAlias.ts', './AdClient.ts', './AppOpenAdClient.ts', './BannerClient.ts', './InterstitialAdClient.ts', './NativeAdClient.ts', './RewardedAdClient.ts', './RewardedInterstitialAdClient.ts', './AdListener.ts', './AppOpenAdFullScreenContentCallback.ts', './AppOpenAdListener.ts', './AppOpenAdLoadCallback.ts', './BannerAdListener.ts', './FullScreenContentCallback.ts', './InterstitialAdListener.ts', './InterstitialAdLoadCallback.ts', './InterstitialFullScreenContentCallback.ts', './NativeAdListener.ts', './OnNativeAdLoadedListener.ts', './OnPaidEventListener.ts', './OnShowAdCompleteListener.ts', './OnUserEarnedRewardListener.ts', './RewardedAdFullScreenContentCallback.ts', './RewardedAdListener.ts', './RewardedAdLoadCallback.ts', './RewardedInterstitialAdLoadCallback.ts', './RewardedInterstitialFullScreenContentCallback.ts', './RewardedInterstitialListener.ts', './Bridge.ts', './Codec.ts', './INativeResponse.ts', './Route.ts', './Version2.ts', './BannerAlignment.ts', './BannerSize.ts', './BannerSizeOption.ts', './BannerSizeType.ts', './TestUnitId.ts', './AppOpenAd.ts', './BannerAd.ts', './Base.ts', './ICallbackNTF.ts', './InterstitailAd.ts', './NativeAd.ts', './PaidEventNTF.ts', './RewardedAd.ts', './RewardedInterstitialAd.ts', './Version.ts'], function () {
   return {
-    setters: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    setters: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
     execute: function () {}
   };
 });

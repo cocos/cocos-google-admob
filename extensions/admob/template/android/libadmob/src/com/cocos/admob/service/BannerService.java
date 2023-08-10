@@ -1,12 +1,18 @@
 package com.cocos.admob.service;
 
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DisplayCutout;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowInsets;
+import android.view.WindowManager;
+import android.view.WindowMetrics;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -130,12 +136,23 @@ public final class BannerService extends Service {
         rl.addView(adview);
 
         adview.setAdUnitId(unitId);
-        AdSize adSize = getAdSize(bannerSize);
+        adview.setBackgroundColor(Color.TRANSPARENT);
+        AdSize adSize = getAdSize(vg, req.bannerSizeType, req.bannerSize);
+        //AdSize adSize = getAdSize(vg);
         adview.setAdSize(adSize);
         RelativeLayout.LayoutParams bannerLp = getLayoutParams(alignments, insets);
         adview.setLayoutParams(bannerLp);
         bannerMap.put(unitId, adview);
         return adview;
+    }
+
+    private AdSize getAdSize(ViewGroup viewGroup, String bannerSizeType, String bannerSize){
+        switch (bannerSizeType){
+            case LoadBannerREQ.Builtin:
+                return getAdSize(bannerSize);
+            default: // LoadBannerREQ.AnchoredAdaptive
+                return getAdSize(viewGroup, bannerSizeType);
+        }
     }
 
     private  AdSize getAdSize(String bannerSize){
@@ -150,6 +167,35 @@ public final class BannerService extends Service {
             throw new RuntimeException(e);
         }
         return adSize;
+    }
+
+    private AdSize getAdSize(ViewGroup adContainerView, String bannerSizeType ) {
+        if( android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R ){
+            Log.w(TAG, "getAdSize: SDK version is not matched");
+            return  AdSize.BANNER;
+        }
+        WindowMetrics windowMetrics = getWindowManager().getCurrentWindowMetrics();
+        Rect bounds = windowMetrics.getBounds();
+
+        float adWidthPixels = adContainerView.getWidth();
+        // If the ad hasn't been laid out, default to the full screen width.
+        if (adWidthPixels == 0f) {
+            adWidthPixels = bounds.width();
+        }
+
+        float density = getResources().getDisplayMetrics().density;
+        int adWidth = (int) (adWidthPixels / density);
+
+        switch (bannerSizeType){
+            case LoadBannerREQ.Portrait:
+                return AdSize.getPortraitAnchoredAdaptiveBannerAdSize(activity, adWidth);
+            case LoadBannerREQ.Landscape:
+                return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(activity, adWidth);
+            case LoadBannerREQ.Current:
+                return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth);
+            default:
+                return AdSize.BANNER;
+        }
     }
 
     private RelativeLayout.LayoutParams getLayoutParams(String[] alignments, Insets insets){
@@ -292,5 +338,13 @@ public final class BannerService extends Service {
             adView.destroy();
             bannerMap.remove(unitId);
         }
+    }
+
+    private WindowManager getWindowManager(){
+        return activity.getWindowManager();
+    }
+
+    private Resources getResources(){
+        return activity.getResources();
     }
 }

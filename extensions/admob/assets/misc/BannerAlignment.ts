@@ -31,13 +31,17 @@ export enum BannerAlignment {
      * bounds of its RelativeLayout parent.
      */
     CENTER_VERTICAL = "CENTER_VERTICAL",
+    /**
+     * Rule that aligns the child's bottom edge with its RelativeLayout parent's bottom edge.
+     */
+    ALIGN_PARENT_BOTTOM = "ALIGN_PARENT_BOTTOM",
 }
 
 /**
  * @en
  * Put the banner at bottom-center of the screen
  */
-export const BottomCenter = [BannerAlignment.ALIGN_BOTTOM, BannerAlignment.CENTER_HORIZONTAL];
+export const BottomCenter = [BannerAlignment.ALIGN_PARENT_BOTTOM, BannerAlignment.CENTER_HORIZONTAL];
 
 /**
  * @en

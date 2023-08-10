@@ -1,6 +1,6 @@
 import { AdClient } from "./AdClient";
 import { BannerAdListenerNTF, ShowBannerREQ, LoadBannerREQ, LoadBannerACK, DestroyBannerREQ, DestroyBannerACK } from "../../proto/BannerAd";
-import { log } from "cc";
+import { log,js } from "cc";
 import { bridge } from "../../core/Bridge";
 import { route } from "../../core/Route";
 import { BannerSize } from "../../misc/BannerSize";
@@ -9,8 +9,7 @@ import { BannerSizeOption } from "../../misc/BannerSizeOption";
 import { BannerAdListener } from "../listener/BannerAdListener";
 import { BannerPaidEventNTF } from "../../proto/PaidEventNTF";
 import { OnPaidEventListener } from "../listener/OnPaidEventListener";
-import { type } from "os";
-import { js } from "cc";
+import { BannerSizeType } from "../../misc/BannerSizeType";
 
 /**
  * @zh
@@ -91,6 +90,7 @@ export class BannerClient extends AdClient {
                 unitId: unitId,
                 bannerSize: opt?.size ? opt?.size : BannerSize.BANNER,
                 alignments: opt?.alignments ? opt?.alignments : BottomCenter,
+                bannerSizeType:opt?.type ? opt?.type : BannerSizeType.Builtin,
             },
             js.getClassName(LoadBannerACK), (response: LoadBannerACK) => {
             }, this);
