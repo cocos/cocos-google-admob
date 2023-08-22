@@ -74,7 +74,7 @@
         ]
     },
     "launch": {
-        "launchScene": "db://assets/scene/1.banner.scene"
+        "launchScene": "db://admob/examples/scene/1.banner.scene"
     },
     "screen": {
         "exactFitScreen": true,

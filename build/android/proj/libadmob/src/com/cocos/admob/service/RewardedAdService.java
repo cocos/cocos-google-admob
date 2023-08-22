@@ -73,7 +73,7 @@ public final class RewardedAdService  extends  Service{
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         // Handle the error.
                         Log.d(TAG, loadAdError.toString());
-                        Toast.makeText(activity, "Rewarded ad failed to load.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(activity, "Rewarded ad failed to load.", Toast.LENGTH_SHORT).show();
                         rewardedAd = null;
                         bridge.sendToScript(RewardedAdLoadCallbackNTF.class.getSimpleName(), new RewardedAdLoadCallbackNTF(unitId, "onAdFailedToLoad", loadAdError.toString()));
                     }
@@ -82,7 +82,7 @@ public final class RewardedAdService  extends  Service{
                     public void onAdLoaded(@NonNull RewardedAd ad) {
                         rewardedAd = ad;
                         Log.d(TAG, "Ad was loaded.");
-                        Toast.makeText(activity, "Rewarded ad loaded.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(activity, "Rewarded ad loaded.", Toast.LENGTH_SHORT).show();
                         bridge.sendToScript(RewardedAdLoadCallbackNTF.class.getSimpleName(), new RewardedAdLoadCallbackNTF(unitId, "onAdLoaded"));
 
                         rewardedAd.setOnPaidEventListener(adValue -> {

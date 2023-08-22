@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 
 import com.cocos.admob.AdServiceHub;
 import com.cocos.admob.core.Bridge;
+import com.cocos.admob.misc.BannerSizeType;
 import com.cocos.admob.proto.banner.BannerAdListenerNTF;
 import com.cocos.admob.proto.banner.BannerPaidEventNTF;
 import com.cocos.admob.proto.banner.DestroyBannerACK;
@@ -148,7 +149,7 @@ public final class BannerService extends Service {
 
     private AdSize getAdSize(ViewGroup viewGroup, String bannerSizeType, String bannerSize){
         switch (bannerSizeType){
-            case LoadBannerREQ.Builtin:
+            case BannerSizeType.Builtin:
                 return getAdSize(bannerSize);
             default: // LoadBannerREQ.AnchoredAdaptive
                 return getAdSize(viewGroup, bannerSizeType);
@@ -187,11 +188,11 @@ public final class BannerService extends Service {
         int adWidth = (int) (adWidthPixels / density);
 
         switch (bannerSizeType){
-            case LoadBannerREQ.Portrait:
+            case BannerSizeType.Portrait:
                 return AdSize.getPortraitAnchoredAdaptiveBannerAdSize(activity, adWidth);
-            case LoadBannerREQ.Landscape:
+            case BannerSizeType.Landscape:
                 return AdSize.getLandscapeAnchoredAdaptiveBannerAdSize(activity, adWidth);
-            case LoadBannerREQ.Current:
+            case BannerSizeType.Current:
                 return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth);
             default:
                 return AdSize.BANNER;

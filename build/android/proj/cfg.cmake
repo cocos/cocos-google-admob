@@ -5,7 +5,7 @@ set(NET_MODE 0)
 
 set(CC_ENABLE_SWAPPY OFF)
 set(APP_NAME cocos-google-admob)
-set(COCOS_X_PATH "C:/ProgramData/cocos/editors/Creator/3.7.3/resources/resources/3d/engine/native")
+set(COCOS_X_PATH "D:/cocos-dashboard-editors/editors/Creator/3.7.3/resources/resources/3d/engine/native")
 set(USE_JOB_SYSTEM_TASKFLOW OFF)
 set(USE_JOB_SYSTEM_TBB OFF)
 set(ENABLE_ANTIALIAS_FXAA OFF)

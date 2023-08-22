@@ -68,7 +68,7 @@ public final class InterstitialAdService extends Service{
                         // The mInterstitialAd reference will be null until
                         // an ad is loaded.
                         interstitialAd = ad;
-                        Toast.makeText(activity, "Interstitial ad loaded", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(activity, "Interstitial ad loaded", Toast.LENGTH_SHORT).show();
                         bridge.sendToScript(InterstitialAdLoadCalLBackNTF.class.getSimpleName(), new InterstitialAdLoadCalLBackNTF(unitId, "onAdLoaded"));
 
                         interstitialAd.setOnPaidEventListener(adValue -> {
@@ -140,7 +140,7 @@ public final class InterstitialAdService extends Service{
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                         // Handle the error
                         Log.d(TAG, loadAdError.toString());
-                        Toast.makeText(activity, "Interstitial ad failed to load.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(activity, "Interstitial ad failed to load.", Toast.LENGTH_SHORT).show();
                         interstitialAd = null;
                         bridge.sendToScript(InterstitialAdLoadCalLBackNTF.class.getSimpleName(), new InterstitialAdLoadCalLBackNTF(unitId, "onAdFailedToLoad", loadAdError.toString()));
                     }

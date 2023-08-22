@@ -59,12 +59,12 @@
         ]
     },
     "scenes": {
-        "db://assets/scene/3.appOpenAd.scene": "37fcdf8a-d36c-43d6-8a35-e8af115f954f",
-        "db://assets/scene/4.rewardedAd.scene": "58be7eb8-2414-46ed-bdd0-37814caa2a2a",
-        "db://assets/scene/5.interstitialRewardedAd.scene": "98db9230-707d-4653-9c73-7e332b22dcc2",
-        "db://assets/scene/6.nativeAd.scene": "d885dea7-90a4-4f45-b1d0-7aef086bd4d6",
-        "db://assets/scene/1.banner.scene": "da769c39-aa2e-4e9d-ba54-e5c6c5d01c94",
-        "db://assets/scene/2.interstitial.scene": "f8f9e279-a244-491f-b8c1-10517f6f85ad"
+        "db://admob/examples/scene/3.appOpenAd.scene": "37fcdf8a-d36c-43d6-8a35-e8af115f954f",
+        "db://admob/examples/scene/4.rewardedAd.scene": "58be7eb8-2414-46ed-bdd0-37814caa2a2a",
+        "db://admob/examples/scene/5.interstitialRewardedAd.scene": "98db9230-707d-4653-9c73-7e332b22dcc2",
+        "db://admob/examples/scene/6.nativeAd.scene": "d885dea7-90a4-4f45-b1d0-7aef086bd4d6",
+        "db://admob/examples/scene/1.banner.scene": "da769c39-aa2e-4e9d-ba54-e5c6c5d01c94",
+        "db://admob/examples/scene/2.interstitial.scene": "f8f9e279-a244-491f-b8c1-10517f6f85ad"
     },
     "packs": {
         "062e2e36c": [
