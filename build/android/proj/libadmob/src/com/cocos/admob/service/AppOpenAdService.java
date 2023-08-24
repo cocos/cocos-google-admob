@@ -100,7 +100,7 @@ public final class AppOpenAdService extends Service {
                         loadTime = (new Date()).getTime();
 
                         Log.d(TAG, "onAdLoaded.");
-                        //Toast.makeText(activity, "App open ad loaded", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "App open ad loaded", Toast.LENGTH_SHORT).show();
                         AppOpenAdLoadCallbackNTF ntf = new AppOpenAdLoadCallbackNTF(unitId);
                         ntf.method = "onAdLoaded";
                         bridge.sendToScript(AppOpenAdLoadCallbackNTF.class.getSimpleName(), ntf);
@@ -137,7 +137,7 @@ public final class AppOpenAdService extends Service {
                     public void onAdFailedToLoad(LoadAdError loadAdError) {
                         isLoadingAd = false;
                         Log.d(TAG, "onAdFailedToLoad: " + loadAdError.getMessage());
-                        //Toast.makeText(activity, "App open ad failed to load", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "App open ad failed to load", Toast.LENGTH_SHORT).show();
 
                         AppOpenAdLoadCallbackNTF ntf = new AppOpenAdLoadCallbackNTF(unitId);
                         ntf.method = "onAdLoaded";

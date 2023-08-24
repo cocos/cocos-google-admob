@@ -47,14 +47,40 @@ This extension is designed for Cocos Creator to integrate the Google Mobile Ad S
 
 ## Options
 
-- Application Id: The application Id is generated in the back-end of google admobile console.
+- Application Id: The application Id is generated in the back-end of Google admobile console.
 - EnableAdmob: Whether to enable the extension  
   - When enabled, releated files include the gradle files and Android project configs will be modified.
   - When disabled, all configurations will be removed from the generated project.
-- Modify AppActivity: Whether to modify the AppActivity.java file.
-  - **Enabled**：This option will add the admob create and destroy function to the `onCreate` and `onDestroy` method in the AppActivity.java automatically.
-  - **Disenabled**：No code will be add the AppActivity.java, if you want to enable admob, please add the following code with manual.
-        - onCreate: Add AdServiceHub.instance().init(this);
-        - onDestroy: Add AdServiceHub.instance().destroy();
 - Force overwrite the libadmob: This option overwrites the libadmob project in the build directory with the extension's template, so don't check this option if you have modified libadmob in the build.
       - If you want to customize libadmob, it is recommended to modify the libadmob project in extension/admob/template, which will be **copied** to the corresponding project in the build.
+
+## Integrate in JAVA
+
+- Find the AppActivity.java in your generated Android Project
+- Add the following code to the correct method:
+  - onCreate: Add AdServiceHub.instance().init(this);
+  - onDestroy: Add AdServiceHub.instance().destroy();
+
+Code example:
+
+```java
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+    // DO OTHER INITIALIZATION BELOW
+    SDKWrapper.shared().init(this);
+    // start the admob extension
+    AdServiceHub.instance().init(this);
+}
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+    // Workaround in https://stackoverflow.com/questions/16283079/re-launch-of-activity-on-home-button-but-only-the-first-time/16447508
+    if (!isTaskRoot()) {
+        return;
+    }
+    SDKWrapper.shared().onDestroy();        
+    // destroy the admob extension
+    AdServiceHub.instance().destroy();    
+}
+```

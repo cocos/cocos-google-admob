@@ -2,11 +2,11 @@
 
 本插件为使 Cocos Creator 工程可以快捷方便的接入谷歌 Mobile Advertisement SDK 而设计。
 
-If your want to read the English version, please refer to [EN](../en/README.md)。
+If you want to read the English version, please refer to [EN](../en/README.md)。
 
 ## 安装
 
-- 下载并安装 [node.js](https://nodejs.org/en)
+- 下载并安装 [node.js](https://nodejs.org/en)(推荐 v18.17.0)
 - 下载并安装 [Cocos Creator](https://www.cocos.com/en) (最低支持为 v3.7.3 的 Cocos Creator)
 
 ## 使用流程
@@ -52,13 +52,39 @@ If your want to read the English version, please refer to [EN](../en/README.md)�
 - EnableAdmob：是否启用 Admob
   - 启用后会修改对应的项目工程的文件以及相关
   - 不启动后点击生成会删除对应修改的项  
-- Modify AppActivity 是否修改项目的 AppActivity.java 文件。
-  - **勾选**：会将 Admob 的初始化代码导入到 AppActivity 内的 onCreate 和 onDestroy 方法内，如果你的项目修改了 AppActivity，这里建议不勾选。
-  - **不勾选**：如果要启动，请自行添加如下的代码：
-        - onCreate 中添加： AdServiceHub.instance().init(this);
-        - onDestroy 中添加：AdServiceHub.instance().destroy();
 - Force overwrite the libadmob：该选项会使用插件的模板覆盖 build 目录内的 libadmob 项目，因此如果你修改了 build 内的 libadmob，那么不要勾选此选项
       - 如果要自定义 libadmob，建议修改 extension/admob/template 内的 libadmob 工程，发布时该项目会 **拷贝** 到 build 内对应的工程内。
+
+## 构建后如何初始化
+
+找到 Android 工程的 AppActivity.java 文件，添加如下的代码：
+
+    - onCreate 中添加： AdServiceHub.instance().init(this);
+    - onDestroy 中添加：AdServiceHub.instance().destroy();
+
+代码示例如下：
+
+```java
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+    // DO OTHER INITIALIZATION BELOW
+    SDKWrapper.shared().init(this);
+    // 初始化 Admob 插件
+    AdServiceHub.instance().init(this);
+}
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+    // Workaround in https://stackoverflow.com/questions/16283079/re-launch-of-activity-on-home-button-but-only-the-first-time/16447508
+    if (!isTaskRoot()) {
+        return;
+    }
+    SDKWrapper.shared().onDestroy();        
+    // 销毁 Admob 插件
+    AdServiceHub.instance().destroy();    
+}
+```
 
 ## 示例
 

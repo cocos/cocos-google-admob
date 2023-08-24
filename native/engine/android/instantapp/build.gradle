@@ -17,7 +17,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.test.abmob"
+        applicationId "com.cocos.admob"
         minSdkVersion PROP_MIN_SDK_VERSION
         targetSdkVersion PROP_TARGET_SDK_VERSION
         versionCode 1

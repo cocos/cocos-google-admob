@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:dist="http://schemas.android.com/apk/distribution"
-          package="com.test.abmob"
+          package="com.cocos.admob"
           android:installLocation="auto">
     <dist:module dist:instant="true" />
 
@@ -24,7 +24,7 @@
 
         <activity
                 android:name="com.cocos.game.InstantActivity"
-                android:screenOrientation="portrait"
+                android:screenOrientation="sensorLandscape"
                 android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
                 android:label="@string/app_name"
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
