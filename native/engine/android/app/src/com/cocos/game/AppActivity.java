@@ -38,9 +38,7 @@ public class AppActivity extends CocosActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // DO OTHER INITIALIZATION BELOW
-        SDKWrapper.shared().init(this);
-
-        AdServiceHub.instance().init(this);
+        SDKWrapper.shared().init(this);    
     }
 
     @Override
@@ -63,7 +61,7 @@ public class AppActivity extends CocosActivity {
         if (!isTaskRoot()) {
             return;
         }
-        SDKWrapper.shared().onDestroy();
+        SDKWrapper.shared().onDestroy();   
     }
 
     @Override
