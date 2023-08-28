@@ -1,3 +1,5 @@
+import { deprecate } from "util";
+
 /**
  * @en
  * AdmobOption, used to store the configurations in the build panel.
@@ -25,9 +27,9 @@
      */
     overwriteLibrary?: boolean;
 
-    /**
-     * @en
-     * Whether to modify the AppActivity, add import and entry function to it.
-     */
-    modifyAppActivity?: boolean;
+    // /**
+    //  * @en
+    //  * Whether to modify the AppActivity, add import and entry function to it.
+    //  */    
+    // modifyAppActivity?: boolean;
 }

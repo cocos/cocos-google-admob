@@ -1,1 +1,0 @@
-export const AdMobVersion = "0.0.1";

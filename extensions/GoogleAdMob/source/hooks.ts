@@ -54,7 +54,7 @@ export const onAfterCompressSettings: BuildHook.onAfterCompressSettings = async 
 };
 
 export const onAfterBuild: BuildHook.onAfterBuild = async function (options: ITaskOptions, result: IBuildResult) {
-    console.log("onAfterBuild", "options:", JSON.stringify(options));
+    console.log("onAfterBuild", "options:", JSON.stringify(options));    
     buildTaskAndroid.android.executePostBuildTasks(options, result);
 };
 

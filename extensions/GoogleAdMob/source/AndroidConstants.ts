@@ -1,6 +1,6 @@
-import { PACKAGE_NAME } from "./builder";
 
 export class AndroidConstants {
+
     /**
      * @en
      * The native path of this project.
@@ -15,7 +15,7 @@ export class AndroidConstants {
      * @en
      * template directory of the extension 
      */
-    static readonly AdmobTemplatePath = `${Editor.Project.path}/extensions/${PACKAGE_NAME}/template/android`;
+    static readonly AdmobTemplatePath = `${__dirname}/../template/android`;
     /**
      * @en
      * the template gradle files in extension.

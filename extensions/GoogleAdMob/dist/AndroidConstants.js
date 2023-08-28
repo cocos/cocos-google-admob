@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AndroidConstants = void 0;
-const builder_1 = require("./builder");
 class AndroidConstants {
 }
 exports.AndroidConstants = AndroidConstants;
@@ -19,7 +18,7 @@ AndroidConstants.AppBuildGradle = `${AndroidConstants.NativePath}/app/build.grad
  * @en
  * template directory of the extension
  */
-AndroidConstants.AdmobTemplatePath = `${Editor.Project.path}/extensions/${builder_1.PACKAGE_NAME}/template/android`;
+AndroidConstants.AdmobTemplatePath = `${__dirname}/../template/android`;
 /**
  * @en
  * the template gradle files in extension.

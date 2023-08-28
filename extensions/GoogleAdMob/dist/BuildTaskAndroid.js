@@ -130,20 +130,19 @@ class BuildTaskAndroid {
      * @param buildResult
      */
     handleAppActivity(options, buildResult) {
-        console.log(TAG, "handleAppActivity");
-        const adMobOption = options.packages[builder_1.PACKAGE_NAME];
-        const appActivityPath = AndroidConstants_1.AndroidConstants.AppActivityPath;
-        const { enableAdMob, modifyAppActivity } = adMobOption;
-        if (!enableAdMob || !modifyAppActivity) {
-            (0, Util_1.deleteDestContentInSrcFile)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateInitPath);
-            (0, Util_1.deleteDestContentInSrcFile)(appActivityPath, AndroidConstants_1.AndroidConstants.ImportTemplatePath);
-            (0, Util_1.deleteDestContentInSrcFile)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateDestroyPath);
-        }
-        else {
-            (0, Util_1.insertDestToSrcBehindKey)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateInitPath, AndroidConstants_1.AndroidConstants.AppActivityKeyCodeTemplateInitPath);
-            (0, Util_1.insertDestToSrcBehindKey)(appActivityPath, AndroidConstants_1.AndroidConstants.ImportTemplatePath, AndroidConstants_1.AndroidConstants.ImportKeyCodeTemplatePath);
-            (0, Util_1.insertDestToSrcBehindKey)(appActivityPath, AndroidConstants_1.AndroidConstants.AppActivityTemplateDestroyPath, AndroidConstants_1.AndroidConstants.AppActivityKeyCodeTemplateDestroyPath);
-        }
+        // console.log(TAG, "handleAppActivity");
+        // const adMobOption = options.packages[PACKAGE_NAME] as AdmobOption;        
+        // const appActivityPath = AndroidConstants.AppActivityPath;
+        // const { enableAdMob, modifyAppActivity} = adMobOption;
+        // if (!enableAdMob || !modifyAppActivity) {
+        //     deleteDestContentInSrcFile(appActivityPath, AndroidConstants.AppActivityTemplateInitPath);
+        //     deleteDestContentInSrcFile(appActivityPath, AndroidConstants.ImportTemplatePath);
+        //     deleteDestContentInSrcFile(appActivityPath, AndroidConstants.AppActivityTemplateDestroyPath);            
+        // } else {
+        //     insertDestToSrcBehindKey(appActivityPath, AndroidConstants.AppActivityTemplateInitPath, AndroidConstants.AppActivityKeyCodeTemplateInitPath);
+        //     insertDestToSrcBehindKey(appActivityPath, AndroidConstants.ImportTemplatePath, AndroidConstants.ImportKeyCodeTemplatePath);
+        //     insertDestToSrcBehindKey(appActivityPath, AndroidConstants.AppActivityTemplateDestroyPath, AndroidConstants.AppActivityKeyCodeTemplateDestroyPath);            
+        // }
     }
     /**
      * @en
