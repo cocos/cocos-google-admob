@@ -1,0 +1,43 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion PROP_COMPILE_SDK_VERSION.toInteger()
+
+    defaultConfig {
+        minSdkPreview PROP_MIN_SDK_VERSION
+        targetSdkPreview PROP_TARGET_SDK_VERSION
+        versionCode 1
+        versionName "1.0"
+    }
+
+    sourceSets.main {
+        java.srcDirs "src"
+        res.srcDirs 'res'
+        jniLibs.srcDirs 'libs'
+        manifest.srcFile "AndroidManifest.xml"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation project(':libcocos')
+    implementation 'com.google.android.gms:play-services-ads:22.1.0'
+    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-runtime:2.5.1"
+    implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.5.1"
+    implementation project(':nativetemplates')
+}

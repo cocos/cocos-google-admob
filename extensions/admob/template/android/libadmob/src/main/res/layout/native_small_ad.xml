@@ -1,0 +1,15 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="ExtraText">
+
+    <!--  This is your template view -->
+    <com.google.android.ads.nativetemplates.TemplateView
+        android:id="@+id/native_ad_type"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:gnt_template_type="@layout/gnt_small_template_view" />
+
+</LinearLayout>

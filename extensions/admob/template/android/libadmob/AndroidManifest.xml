@@ -1,0 +1,15 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.cocos.admob">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application android:name="com.cocos.admob.AdMobApplication" android:hardwareAccelerated="true">
+
+        <!-- Tell CocosNativeActivity the name of our .so -->
+        <meta-data android:name="android.app.lib_name" android:value="cocos"/>
+
+        <!-- Google admob application ID-->
+        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-9551622059571494~6666273017"/>
+
+    </application>
+
+</manifest>
