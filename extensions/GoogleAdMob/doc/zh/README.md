@@ -208,4 +208,4 @@ Swig 更适合一些需要频繁调用的部分。
 - [开屏](./AppOpenAd.md)
 - [激励广告](./Rewarded.md)
 - [插页式激励广告](./InterstistualRewadedAd.md)
-- 原生（不适合游戏项目使用）
+- [原生](./NativeAd.md)
