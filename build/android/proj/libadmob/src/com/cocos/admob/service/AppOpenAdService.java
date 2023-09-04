@@ -222,7 +222,7 @@ public final class AppOpenAdService extends Service {
                         //Toast.makeText(activity, "onAdFailedToShowFullScreenContent", Toast.LENGTH_SHORT).show();
 
                         onShowAdCompleteListener.onShowAdComplete();
-                        bridge.sendToScript(AppOpenAdFullScreenContentCallbackNTF.class.getSimpleName(), new AppOpenAdFullScreenContentCallbackNTF(unitId, "onAdDismissedFullScreenContent", adError.toString()));
+                        bridge.sendToScript(AppOpenAdFullScreenContentCallbackNTF.class.getSimpleName(), new AppOpenAdFullScreenContentCallbackNTF(unitId, "onAdFailedToShowFullScreenContent", adError.toString()));
                     }
 
                     /** Called when fullscreen content is shown. */
