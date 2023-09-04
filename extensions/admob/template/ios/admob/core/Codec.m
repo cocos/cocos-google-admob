@@ -74,7 +74,7 @@
     return nil;
 }
 
-- (NSDictionary *)objectToDictionary:(id)object {
+- (NSMutableDictionary *)objectToDictionary:(id)object {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     
     Class currentClass = [object class];
@@ -86,19 +86,19 @@
             objc_property_t property = properties[i];
             const char *propertyName = property_getName(property);
             NSString *key = [NSString stringWithUTF8String:propertyName];
-            
-            id value = [object valueForKey:key];
-            
-            if (value) {
-                [dictionary setObject:value forKey:key];
+            if (![key isEqualToString:@"hash"] && ![key isEqualToString:@"description"] && ![key isEqualToString:@"superclass"] && ![key isEqualToString:@"debugDescription"]) {
+                id value = [object valueForKey:key];
+                
+                if (value) {
+                    [dictionary setObject:value forKey:key];
+                }
             }
         }
         
         free(properties);
         
-        currentClass = [currentClass superclass];
+        currentClass = class_getSuperclass(currentClass);
     }
-    
     return dictionary;
 }
 
