@@ -31,7 +31,6 @@ you.
 
 @interface Bridge ()
 
-@property (nonatomic, strong) AdServiceHub *adServiceHub;
 @property (nonatomic, strong) Codec *codec;
 @property (nonatomic, strong) JsbBridge *jsbBridge;
 
@@ -39,12 +38,13 @@ you.
 
 @implementation Bridge
 
-- (instancetype)initWithAdServiceHub:(AdServiceHub *)adServiceHub codec:(Codec *)codec {
+static ICallback cb = nil;
+
+- (instancetype)initWithCodec:(Codec *)codec {
     self = [super init];
     if (self) {
-        _adServiceHub = adServiceHub;
         _codec = codec;
-        _route = [[Route alloc] initWithAdServiceHub:adServiceHub codec:codec];
+        _route = [[Route alloc] initWithCodec:codec];
         _jsbBridge = [JsbBridge sharedInstance];
         [self initBridge];
     }
@@ -52,11 +52,14 @@ you.
 }
 
 - (void)initBridge {
-    
-    [self.jsbBridge setCallback:^(NSString *arg0, NSString *arg1) {
+    __weak typeof(self) wself = self;
+    cb = ^void (NSString *arg0, NSString *arg1) {
         NSLog(@"onScript: %@ | %@", arg0, arg1);
-        [self.route dispatch:arg0 arg1:arg1];
-    }];
+        if(wself) {
+            [wself.route dispatch:arg0 arg1:arg1];
+        }
+    };
+    [self.jsbBridge setCallback:cb];
 }
 
 - (void)destroy {

@@ -26,11 +26,24 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "AppOpenAdService.h"
+#import "../core/Route.h"
+#import "../core/IScriptHandler.h"
+#import "../proto/appopen/AppOpenAdFullScreenContentCallbackNTF.h"
+#import "../proto/appopen/AppOpenAdLoadCallbackNTF.h"
+#import "../proto/appopen/AppOpenPaidEventNTF.h"
+#import "../proto/appopen/IsAdAvailableACK.h"
+#import "../proto/appopen/IsAdAvailableREQ.h"
+#import "../proto/appopen/LoadAppOpenAdACK.h"
+#import "../proto/appopen/LoadAppOpenAdREQ.h"
+#import "../proto/appopen/ShowAppOpenAdREQ.h"
+#import "../proto/appopen/ShowAppOpenAdCompleteNTF.h"
 
 @interface AppOpenAdService() <GADFullScreenContentDelegate>
 
 @property(strong, nonatomic) GADAppOpenAd* appOpenAd;
 @property(strong, nonatomic) NSDate *loadTime;
+
+@property (nonatomic, weak) Bridge *bridge;
 
 @property (nonatomic, assign) BOOL isLoading;
 @property (nonatomic, assign) BOOL isShowing;
@@ -38,6 +51,46 @@
 @end
 
 @implementation AppOpenAdService
+
+- (instancetype)initWithBridge:(Bridge *)bridge {
+    self = [super init];
+    if (self) {
+        self.bridge = bridge;
+        __weak typeof(self) wself = self;
+        ScriptHandlerBlock *loadAdBlock = [[ScriptHandlerBlock alloc] init];
+        loadAdBlock.storedScriptBlock = ^(id arg) {
+            LoadAppOpenAdREQ *req = (LoadAppOpenAdREQ *)arg;
+            [wself loadAd:req.unitId];
+            LoadAppOpenAdACK *ack = [[LoadAppOpenAdACK alloc] initWithUnitId:req.unitId];
+            [bridge sendToScript:[LoadAppOpenAdACK class].description src:ack];
+        };
+        [bridge.route on:[LoadAppOpenAdREQ class].description
+                    type:[LoadAppOpenAdREQ class]
+                 handler:loadAdBlock];
+
+        ScriptHandlerBlock *showAdBlock = [[ScriptHandlerBlock alloc] init];
+        showAdBlock.storedScriptBlock = ^(id arg) {
+            ShowAppOpenAdREQ *ack = (ShowAppOpenAdREQ *)arg;
+            [wself showAdIfAvailable];
+            [bridge sendToScript:[LoadAppOpenAdACK class].description src:ack];
+        };
+        [bridge.route on:[ShowAppOpenAdREQ class].description
+                    type:[ShowAppOpenAdREQ class]
+                 handler:showAdBlock];
+
+        ScriptHandlerBlock *availableBlock = [[ScriptHandlerBlock alloc] init];
+        availableBlock.storedScriptBlock = ^(id arg) {
+            IsAdAvailableREQ *req = (IsAdAvailableREQ *)arg;
+            BOOL valid = [wself isAdAvailable];
+            IsAdAvailableACK *ack = [[IsAdAvailableACK alloc] initWithUnitId:req.unitId valid:valid];
+            [bridge sendToScript:[LoadAppOpenAdACK class].description src:ack];
+        };
+        [bridge.route on:[IsAdAvailableREQ class].description
+                    type:[IsAdAvailableREQ class]
+                 handler:availableBlock];
+    }
+    return self;
+}
 
 - (void)loadAd: (NSString*)unitId {
     self.unitId = unitId;
@@ -55,11 +108,43 @@
         self.isLoading = false;
         if (error) {
             NSLog(@"Failed to load app open ad: %@", error);
+            AppOpenAdLoadCallbackNTF *ntf = [[AppOpenAdLoadCallbackNTF alloc] initWithUnitId: self.unitId];
+            ntf.method = @"onAdLoaded";
+            ntf.loadAdError = [error localizedDescription];
+            if(self.bridge) {
+                [self.bridge sendToScript:[AppOpenAdLoadCallbackNTF class].description src:ntf];
+            }
             return;
         }
         self.appOpenAd = appOpenAd;
         self.appOpenAd.fullScreenContentDelegate = self;
         self.loadTime = [NSDate date];
+        
+        AppOpenAdLoadCallbackNTF *ntf = [[AppOpenAdLoadCallbackNTF alloc] initWithUnitId: self.unitId];
+        ntf.method = @"onAdLoaded";
+        if(self.bridge) {
+            [self.bridge sendToScript:[AppOpenAdLoadCallbackNTF class].description src:ntf];
+        }
+        
+        __weak typeof(self) wself = self;
+        self.appOpenAd.paidEventHandler = ^void(GADAdValue *_Nonnull adValue){
+            AppOpenPaidEventNTF *ntf = [[AppOpenPaidEventNTF alloc] initWithUnitId:wself.unitId];
+
+            ntf.valueMicros = [[adValue value] longValue];
+            ntf.currencyCode = adValue.currencyCode;
+            ntf.precision = (int)adValue.precision;
+
+            GADAdNetworkResponseInfo *loadedAdNetworkResponseInfo = wself.appOpenAd.responseInfo.loadedAdNetworkResponseInfo;
+            ntf.adSourceName = loadedAdNetworkResponseInfo.adSourceName;
+            ntf.adSourceId = loadedAdNetworkResponseInfo.adSourceID;
+            ntf.adSourceInstanceName = loadedAdNetworkResponseInfo.adSourceInstanceName;
+            ntf.adSourceInstanceId = loadedAdNetworkResponseInfo.adSourceInstanceID;
+            
+            NSDictionary<NSString *, id> *extras = wself.appOpenAd.responseInfo.extrasDictionary;
+            ntf.mediationGroupName = extras[@"mediation_group_name"];
+            ntf.mediationABTestName = extras[@"mediation_ab_test_name"];
+            ntf.mediationABTestVariant = extras[@"mediation_ab_test_variant"];
+          };
     }];
 }
 
@@ -75,7 +160,7 @@
     return self.appOpenAd != nil && [self wasLoadTimeLessThanNHoursAgo:4];
 }
 
-- (void)showAdIfAvailable:(nonnull UIViewController*)viewController {
+- (void)showAdIfAvailable {
     if(self.isShowing) {
         NSLog(@"App open ad is not ready yet.");
         return;
@@ -85,13 +170,34 @@
     // it is considered to be complete in this example. Call the adDidComplete method
     // and load a new ad.
     if (![self isAdAvailable]) {
-      NSLog(@"App open ad is not ready yet.");
-    //todo 监听返回
-      return;
+        NSLog(@"App open ad is not ready yet.");
+        ShowAppOpenAdCompleteNTF *ntf = [[ShowAppOpenAdCompleteNTF alloc] initWithUnitId:self.unitId];
+        [self.bridge sendToScript:[ShowAppOpenAdCompleteNTF class].description src:ntf];
+        return;
     }
-    NSLog(@"App open ad will be displayed.");
-    _isShowing = true;
-    [_appOpenAd presentFromRootViewController:viewController];
+        
+    NSSet<UIScene *> *connectedScenes = UIApplication.sharedApplication.connectedScenes;
+    NSMutableArray<UIWindowScene *> *windowScenes = [NSMutableArray array];
+    for (UIScene *scene in connectedScenes) {
+        if ([scene isKindOfClass:[UIWindowScene class]]) {
+            [windowScenes addObject:(UIWindowScene *)scene];
+        }
+    }
+    for (UIWindowScene *scene in windowScenes) {
+        if (scene.activationState == UISceneActivationStateForegroundActive) {
+            UIWindow *keyWindow = scene.windows.firstObject;
+            UIViewController *rootViewController = keyWindow.rootViewController;
+            if (!rootViewController) {
+                return;
+            }
+            
+            _isShowing = true;
+            [_appOpenAd presentFromRootViewController:rootViewController];
+            
+            break;
+        }
+    }
+    
 }
 
 #pragma mark - GADFullScreenContentDelegate
@@ -100,18 +206,34 @@
 - (void)ad:(nonnull id<GADFullScreenPresentingAd>)ad
 didFailToPresentFullScreenContentWithError:(nonnull NSError *)error {
     NSLog(@"didFailToPresentFullScreenContentWithError");
-    _isShowing = false;    
+    _isShowing = false;
+    
+    ShowAppOpenAdCompleteNTF *ntf = [[ShowAppOpenAdCompleteNTF alloc] initWithUnitId:self.unitId];
+    [self.bridge sendToScript:[ShowAppOpenAdCompleteNTF class].description src:ntf];
+    
+    AppOpenAdFullScreenContentCallbackNTF *dissNtf = [[AppOpenAdFullScreenContentCallbackNTF alloc] initWithUnitId:self.unitId method:@"onAdFailedToShowFullScreenContent" adError:[error localizedDescription]];
+    [self.bridge sendToScript:[AppOpenAdFullScreenContentCallbackNTF class].description src:dissNtf];
 }
 
 /// Tells the delegate that the ad will present full screen content.
 - (void)adWillPresentFullScreenContent:(nonnull id<GADFullScreenPresentingAd>)ad {
     NSLog(@"adWillPresentFullScreenContent");
+    
+    AppOpenAdFullScreenContentCallbackNTF *ntf = [[AppOpenAdFullScreenContentCallbackNTF alloc] initWithUnitId:self.unitId method:@"onAdShowedFullScreenContent"];
+    [self.bridge sendToScript:[AppOpenAdFullScreenContentCallbackNTF class].description src:ntf];
 }
 
 /// Tells the delegate that the ad dismissed full screen content.
 - (void)adDidDismissFullScreenContent:(nonnull id<GADFullScreenPresentingAd>)ad {
     NSLog(@"adDidDismissFullScreenContent");
     _isShowing = false;
+    _appOpenAd = nil;
+    
+    ShowAppOpenAdCompleteNTF *ntf = [[ShowAppOpenAdCompleteNTF alloc] initWithUnitId:self.unitId];
+    [self.bridge sendToScript:[ShowAppOpenAdCompleteNTF class].description src:ntf];
+    
+    AppOpenAdFullScreenContentCallbackNTF *dissNtf = [[AppOpenAdFullScreenContentCallbackNTF alloc] initWithUnitId:self.unitId method:@"onAdDismissedFullScreenContent"];
+    [self.bridge sendToScript:[AppOpenAdFullScreenContentCallbackNTF class].description src:dissNtf];
 }
 
 @end

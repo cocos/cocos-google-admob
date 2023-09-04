@@ -28,14 +28,13 @@ you.
 #import <Foundation/Foundation.h>
 #import "IScriptHandler.h"
 
-@class AdServiceHub;
 @class Codec;
 
 @interface Route : NSObject
 
 @property (nonatomic, strong, readonly) Codec *codec;
 
-- (instancetype)initWithAdServiceHub:(AdServiceHub *)adServiceHub codec:(Codec *)codec;
+- (instancetype)initWithCodec:(Codec *)codec;
 - (void)destroy;
 - (void)on:(NSString *)method type:(Class)type handler:(id<IScriptHandler>)handler;
 - (void)off:(NSString *)method;

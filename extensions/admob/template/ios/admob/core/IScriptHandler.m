@@ -23,48 +23,15 @@ you.
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 ****************************************************************************/
-#import <GoogleMobileAds/GoogleMobileAds.h>
+#import "IScriptHandler.h"
 
-#import "AdServiceHub.h"
-#import "service/AppOpenAdService.h"
-#import "core/Bridge.h"
-#import "core/Codec.h"
+@implementation ScriptHandlerBlock
 
-@interface AdServiceHub()
-
-@property (nonatomic, strong) Bridge *bridge;
-@property (nonatomic, strong) Codec *codec;
-
-@property (nonatomic, strong) AppOpenAdService *appOpenAdService;
-
-@end
-
-@implementation AdServiceHub
-
-static AdServiceHub *sharedInstance = nil;
-
-+ (instancetype)sharedInstance {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[super allocWithZone:NULL] init];
-    });
-    return sharedInstance;
-}
-
-+ (id)allocWithZone:(struct _NSZone *)zone {
-    return [AdServiceHub sharedInstance];
-}
-
-+ (id)copyWithZone:(struct _NSZone *)zone {
-    return [AdServiceHub sharedInstance];
-}
-
-- (void)initAdService {
-    // Initialize Google Mobile Ads SDK.
-    [GADMobileAds.sharedInstance startWithCompletionHandler:nil];
-    _codec = [[Codec alloc] init];
-    _bridge = [[Bridge alloc] initWithCodec:_codec];
-    _appOpenAdService = [[AppOpenAdService alloc] initWithBridge:_bridge];
+- (void)onMessage:(id)arg {
+    if(self.storedScriptBlock) {
+        self.storedScriptBlock(arg);
+    }
 }
 
 @end
+

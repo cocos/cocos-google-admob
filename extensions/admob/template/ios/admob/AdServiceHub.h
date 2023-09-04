@@ -29,7 +29,7 @@ you.
 
 @interface AdServiceHub : NSObject
 
-+ (instancetype)instance;
++ (instancetype)sharedInstance;
 
 - (void)initAdService;
 

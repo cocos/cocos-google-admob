@@ -30,16 +30,14 @@ you.
 @interface Route ()
 
 @property (nonatomic, strong) NSMutableDictionary<NSString *, id<IScriptHandler>> *handlers;
-@property (nonatomic, strong) AdServiceHub *adServiceHub;
 
 @end
 
 @implementation Route
 
-- (instancetype)initWithAdServiceHub:(AdServiceHub *)adServiceHub codec:(Codec *)codec {
+- (instancetype)initWithCodec:(Codec *)codec {
     self = [super init];
     if (self) {
-        _adServiceHub = adServiceHub;
         _codec = codec;
         _handlers = [NSMutableDictionary dictionary];
     }
@@ -60,14 +58,14 @@ you.
 }
 
 - (void)dispatch:(NSString *)arg0 arg1:(NSString *)arg1 {
-    [self.adServiceHub sendToUIThread:^{
+//    [self.adServiceHub sendToUIThread:^{
         id<IScriptHandler> handler = [self.handlers objectForKey:arg0];
         if (!handler) {
             NSLog(@"missing handler: %@", arg0);
             return;
         }
         [handler onMessage:[self.codec decode:arg0 data:arg1]];
-    }];
+//    }];
 }
 
 @end

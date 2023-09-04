@@ -26,8 +26,11 @@ you.
 #pragma once
 
 #import <Foundation/Foundation.h>
+#import "../core/Bridge.h"
 
 @interface AppOpenAdService : NSObject
+
+- (instancetype)initWithBridge:(Bridge *)bridge;
 
 @end
 

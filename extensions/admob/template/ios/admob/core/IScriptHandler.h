@@ -33,4 +33,8 @@ you.
 
 @end
 
+@interface ScriptHandlerBlock : NSObject <IScriptHandler>
 
+@property (nonatomic, copy) void (^storedScriptBlock)(id);
+
+@end

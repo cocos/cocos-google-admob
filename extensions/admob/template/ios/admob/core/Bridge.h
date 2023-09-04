@@ -27,15 +27,14 @@ you.
 
 #import <Foundation/Foundation.h>
 
-@class AdServiceHub;
 @class Codec;
 @class Route;
 
 @interface Bridge : NSObject
 
-@property (nonatomic, strong, readonly) Route *route;
+@property (nonatomic, strong) Route *route;
 
-- (instancetype)initWithAdServiceHub:(AdServiceHub *)adServiceHub codec:(Codec *)codec;
+- (instancetype)initWithCodec:(Codec *)codec;
 - (void)initBridge;
 - (void)destroy;
 

@@ -21,6 +21,11 @@ list(APPEND ADMOB_PROJ_SOURCES ${OTHER_FILES})
 
 source_group(TREE ${CMAKE_CURRENT_LIST_DIR} PREFIX "Source Files" FILES ${ADMOB_PROJ_SOURCES})
 
+foreach(file ${ADMOB_PROJ_SOURCES})
+    get_filename_component(file_directory ${file} DIRECTORY)
+    set_source_files_properties(${file} PROPERTIES COMPILE_OPTIONS "-fobjc-arc")
+endforeach()
+
 add_library(admob ${ADMOB_PROJ_SOURCES})
 
 # google admob sdk 引入
@@ -56,10 +61,10 @@ foreach(XCFRAMEWORK_FILE ${GOOGLE_ADMOB_XCFRAMEWORK_FILES})
     endforeach()
 endforeach()
 
-set_target_properties(admob PROPERTIES
-    XCODE_ATTRIBUTE_OTHER_LDFLAGS "-ObjC"
-)
+target_link_options(admob PRIVATE -ObjC)
 
 target_link_libraries(admob ${ENGINE_NAME})
+target_include_directories(${EXECUTABLE_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+
 
 target_link_libraries(${EXECUTABLE_NAME} admob)
