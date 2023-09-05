@@ -83,7 +83,7 @@
             IsAdAvailableREQ *req = (IsAdAvailableREQ *)arg;
             BOOL valid = [wself isAdAvailable];
             IsAdAvailableACK *ack = [[IsAdAvailableACK alloc] initWithUnitId:req.unitId valid:valid];
-            [bridge sendToScript:[LoadAppOpenAdACK class].description src:ack];
+            [bridge sendToScript:[IsAdAvailableACK class].description src:ack];
         };
         [bridge.route on:[IsAdAvailableREQ class].description
                     type:[IsAdAvailableREQ class]
