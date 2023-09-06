@@ -54,7 +54,7 @@
         self.bannerMap = [NSMutableDictionary dictionary];
         
         __weak typeof(self) wself = self;
-        ScriptHandlerBlock *loadBannerBlock =  [[ScriptHandlerBlock alloc] init];
+        ScriptHandlerBlock *loadBannerBlock = [[ScriptHandlerBlock alloc] init];
         loadBannerBlock.storedScriptBlock = ^(id arg) {
             LoadBannerREQ *req = (LoadBannerREQ *) arg;
             if(![wself.bannerMap objectForKey:req.unitId]) {
