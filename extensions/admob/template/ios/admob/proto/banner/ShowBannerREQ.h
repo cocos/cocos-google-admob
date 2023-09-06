@@ -28,7 +28,9 @@ you.
 #import <Foundation/Foundation.h>
 #import "Base.h"
 
-@interface LoadAppOpenAdACK : Base
+@interface ShowBannerREQ : Base
+
+@property (nonatomic, assign) BOOL visible;
 
 - (instancetype)initWithUnitId:(NSString *)unitId;
 

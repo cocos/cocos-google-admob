@@ -28,15 +28,15 @@
 
 #import <objc/runtime.h>
 
-#import "../proto/appopen/AppOpenAdFullScreenContentCallbackNTF.h"
-#import "../proto/appopen/AppOpenAdLoadCallbackNTF.h"
-#import "../proto/appopen/AppOpenPaidEventNTF.h"
-#import "../proto/appopen/IsAdAvailableACK.h"
-#import "../proto/appopen/IsAdAvailableREQ.h"
-#import "../proto/appopen/LoadAppOpenAdACK.h"
-#import "../proto/appopen/LoadAppOpenAdREQ.h"
-#import "../proto/appopen/ShowAppOpenAdREQ.h"
-#import "../proto/appopen/ShowAppOpenAdCompleteNTF.h"
+#import "AppOpenAdFullScreenContentCallbackNTF.h"
+#import "AppOpenAdLoadCallbackNTF.h"
+#import "AppOpenPaidEventNTF.h"
+#import "IsAdAvailableACK.h"
+#import "IsAdAvailableREQ.h"
+#import "LoadAppOpenAdACK.h"
+#import "LoadAppOpenAdREQ.h"
+#import "ShowAppOpenAdREQ.h"
+#import "ShowAppOpenAdCompleteNTF.h"
 
 @interface Codec ()
 

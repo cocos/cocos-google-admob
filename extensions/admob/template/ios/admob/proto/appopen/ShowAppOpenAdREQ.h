@@ -27,7 +27,7 @@ you.
 
 #import <Foundation/Foundation.h>
 
-#import "../Base.h"
+#import "Base.h"
 
 @interface ShowAppOpenAdREQ : Base
 

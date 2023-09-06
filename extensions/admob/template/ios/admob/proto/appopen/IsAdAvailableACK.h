@@ -26,7 +26,7 @@ you.
 #pragma once
 
 #import <Foundation/Foundation.h>
-#import "../Base.h"
+#import "Base.h"
 
 @interface IsAdAvailableACK : Base
 

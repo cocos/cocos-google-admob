@@ -26,10 +26,12 @@ you.
 #pragma once
 
 #import <Foundation/Foundation.h>
-#import "Base.h"
+#import "Bridge.h"
 
-@interface LoadAppOpenAdACK : Base
+@interface BannerService : NSObject
 
-- (instancetype)initWithUnitId:(NSString *)unitId;
+- (instancetype)initWithBridge:(Bridge *)bridge;
 
 @end
+
+

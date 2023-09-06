@@ -26,7 +26,7 @@ you.
 #pragma once
 
 #import <Foundation/Foundation.h>
-#import "../PaidEventNTF.h"
+#import "PaidEventNTF.h"
 
 @interface AppOpenPaidEventNTF : PaidEventNTF
 

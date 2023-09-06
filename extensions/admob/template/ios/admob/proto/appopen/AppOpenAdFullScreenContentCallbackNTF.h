@@ -26,7 +26,7 @@ you.
 #pragma once
 
 #import <Foundation/Foundation.h>
-#import "../IAdError.h"
+#import "IAdError.h"
 
 @interface AppOpenAdFullScreenContentCallbackNTF : IAdError
 

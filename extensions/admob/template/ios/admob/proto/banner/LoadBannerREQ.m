@@ -23,13 +23,12 @@ you.
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 ****************************************************************************/
-#pragma once
+#import "LoadBannerREQ.h"
 
-#import <Foundation/Foundation.h>
-#import "Base.h"
+@implementation LoadBannerREQ
 
-@interface LoadAppOpenAdACK : Base
-
-- (instancetype)initWithUnitId:(NSString *)unitId;
+- (instancetype)initWithUnitId:(NSString *)unitId {
+    return [super initWithUnitId:unitId];;
+}
 
 @end

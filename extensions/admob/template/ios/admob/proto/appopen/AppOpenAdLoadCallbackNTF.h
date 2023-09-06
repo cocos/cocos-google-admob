@@ -27,7 +27,7 @@ you.
 
 #import <Foundation/Foundation.h>
 
-#import "../ILoadAdError.h"
+#import "ILoadAdError.h"
 
 @interface AppOpenAdLoadCallbackNTF : ILoadAdError
 

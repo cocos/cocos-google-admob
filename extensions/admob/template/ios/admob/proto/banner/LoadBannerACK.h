@@ -26,9 +26,10 @@ you.
 #pragma once
 
 #import <Foundation/Foundation.h>
+
 #import "Base.h"
 
-@interface LoadAppOpenAdACK : Base
+@interface LoadBannerACK : Base
 
 - (instancetype)initWithUnitId:(NSString *)unitId;
 

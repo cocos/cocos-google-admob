@@ -26,10 +26,11 @@ you.
 #pragma once
 
 #import <Foundation/Foundation.h>
-#import "Base.h"
+#import "ILoadAdError.h"
 
-@interface LoadAppOpenAdACK : Base
+@interface BannerAdListenerNTF : ILoadAdError
 
-- (instancetype)initWithUnitId:(NSString *)unitId;
+- (instancetype)initWithUnitId:(NSString *)unitId method:(NSString *)method loadAdError:(NSString *)loadAdError;
+- (instancetype)initWithUnitId:(NSString *)unitId method:(NSString *)method;
 
 @end

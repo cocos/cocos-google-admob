@@ -26,17 +26,17 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "AppOpenAdService.h"
-#import "../core/Route.h"
-#import "../core/IScriptHandler.h"
-#import "../proto/appopen/AppOpenAdFullScreenContentCallbackNTF.h"
-#import "../proto/appopen/AppOpenAdLoadCallbackNTF.h"
-#import "../proto/appopen/AppOpenPaidEventNTF.h"
-#import "../proto/appopen/IsAdAvailableACK.h"
-#import "../proto/appopen/IsAdAvailableREQ.h"
-#import "../proto/appopen/LoadAppOpenAdACK.h"
-#import "../proto/appopen/LoadAppOpenAdREQ.h"
-#import "../proto/appopen/ShowAppOpenAdREQ.h"
-#import "../proto/appopen/ShowAppOpenAdCompleteNTF.h"
+#import "Route.h"
+#import "IScriptHandler.h"
+#import "AppOpenAdFullScreenContentCallbackNTF.h"
+#import "AppOpenAdLoadCallbackNTF.h"
+#import "AppOpenPaidEventNTF.h"
+#import "IsAdAvailableACK.h"
+#import "IsAdAvailableREQ.h"
+#import "LoadAppOpenAdACK.h"
+#import "LoadAppOpenAdREQ.h"
+#import "ShowAppOpenAdREQ.h"
+#import "ShowAppOpenAdCompleteNTF.h"
 
 @interface AppOpenAdService() <GADFullScreenContentDelegate>
 
@@ -64,20 +64,16 @@
             LoadAppOpenAdACK *ack = [[LoadAppOpenAdACK alloc] initWithUnitId:req.unitId];
             [bridge sendToScript:[LoadAppOpenAdACK class].description src:ack];
         };
-        [bridge.route on:[LoadAppOpenAdREQ class].description
-                    type:[LoadAppOpenAdREQ class]
-                 handler:loadAdBlock];
-
+        [bridge.route on:[LoadAppOpenAdREQ class].description type:[LoadAppOpenAdREQ class] handler:loadAdBlock];
+        
         ScriptHandlerBlock *showAdBlock = [[ScriptHandlerBlock alloc] init];
         showAdBlock.storedScriptBlock = ^(id arg) {
             ShowAppOpenAdREQ *ack = (ShowAppOpenAdREQ *)arg;
             [wself showAdIfAvailable];
             [bridge sendToScript:[LoadAppOpenAdACK class].description src:ack];
         };
-        [bridge.route on:[ShowAppOpenAdREQ class].description
-                    type:[ShowAppOpenAdREQ class]
-                 handler:showAdBlock];
-
+        [bridge.route on:[ShowAppOpenAdREQ class].description type:[ShowAppOpenAdREQ class] handler:showAdBlock];
+        
         ScriptHandlerBlock *availableBlock = [[ScriptHandlerBlock alloc] init];
         availableBlock.storedScriptBlock = ^(id arg) {
             IsAdAvailableREQ *req = (IsAdAvailableREQ *)arg;
@@ -85,9 +81,7 @@
             IsAdAvailableACK *ack = [[IsAdAvailableACK alloc] initWithUnitId:req.unitId valid:valid];
             [bridge sendToScript:[IsAdAvailableACK class].description src:ack];
         };
-        [bridge.route on:[IsAdAvailableREQ class].description
-                    type:[IsAdAvailableREQ class]
-                 handler:availableBlock];
+        [bridge.route on:[IsAdAvailableREQ class].description type:[IsAdAvailableREQ class] handler:availableBlock];
     }
     return self;
 }
@@ -101,9 +95,10 @@
     self.isLoading = true;
     self.appOpenAd = nil;
     
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     [GADAppOpenAd loadWithAdUnitID:unitId
                            request:[GADRequest request]
-                       orientation:UIInterfaceOrientationPortrait
+                       orientation:orientation
                  completionHandler:^(GADAppOpenAd *_Nullable appOpenAd, NSError *_Nullable error) {
         self.isLoading = false;
         if (error) {
@@ -129,11 +124,11 @@
         __weak typeof(self) wself = self;
         self.appOpenAd.paidEventHandler = ^void(GADAdValue *_Nonnull adValue){
             AppOpenPaidEventNTF *ntf = [[AppOpenPaidEventNTF alloc] initWithUnitId:wself.unitId];
-
+            
             ntf.valueMicros = [[adValue value] longValue];
             ntf.currencyCode = adValue.currencyCode;
             ntf.precision = (int)adValue.precision;
-
+            
             GADAdNetworkResponseInfo *loadedAdNetworkResponseInfo = wself.appOpenAd.responseInfo.loadedAdNetworkResponseInfo;
             ntf.adSourceName = loadedAdNetworkResponseInfo.adSourceName;
             ntf.adSourceId = loadedAdNetworkResponseInfo.adSourceID;
@@ -144,7 +139,9 @@
             ntf.mediationGroupName = extras[@"mediation_group_name"];
             ntf.mediationABTestName = extras[@"mediation_ab_test_name"];
             ntf.mediationABTestVariant = extras[@"mediation_ab_test_variant"];
-          };
+            
+            [wself.bridge sendToScript:[AppOpenPaidEventNTF class].description src:ntf];
+        };
     }];
 }
 
@@ -175,7 +172,7 @@
         [self.bridge sendToScript:[ShowAppOpenAdCompleteNTF class].description src:ntf];
         return;
     }
-        
+    
     NSSet<UIScene *> *connectedScenes = UIApplication.sharedApplication.connectedScenes;
     NSMutableArray<UIWindowScene *> *windowScenes = [NSMutableArray array];
     for (UIScene *scene in connectedScenes) {

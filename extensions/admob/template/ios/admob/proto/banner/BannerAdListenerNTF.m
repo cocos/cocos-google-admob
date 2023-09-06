@@ -23,13 +23,25 @@ you.
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 ****************************************************************************/
-#pragma once
+#import "BannerAdListenerNTF.h"
 
-#import <Foundation/Foundation.h>
-#import "Base.h"
+@implementation BannerAdListenerNTF
 
-@interface LoadAppOpenAdACK : Base
+- (instancetype)initWithUnitId:(NSString *)unitId method:(NSString *)method loadAdError:(NSString *)loadAdError {
+    self = [super initWithUnitId:unitId];
+    if (self) {
+        self.method = method;
+        self.loadAdError = loadAdError;
+    }
+    return self;
+}
 
-- (instancetype)initWithUnitId:(NSString *)unitId;
+- (instancetype)initWithUnitId:(NSString *)unitId method:(NSString *)method {
+    self = [super initWithUnitId:unitId];
+    if (self) {
+        self.method = method;
+    }
+    return self;
+}
 
 @end

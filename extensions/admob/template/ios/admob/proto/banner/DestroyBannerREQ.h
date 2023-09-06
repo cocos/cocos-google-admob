@@ -28,7 +28,7 @@ you.
 #import <Foundation/Foundation.h>
 #import "Base.h"
 
-@interface LoadAppOpenAdACK : Base
+@interface DestroyBannerREQ : Base
 
 - (instancetype)initWithUnitId:(NSString *)unitId;
 

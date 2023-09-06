@@ -28,6 +28,17 @@ endforeach()
 
 add_library(admob ${ADMOB_PROJ_SOURCES})
 
+target_include_directories(admob PRIVATE 
+    "${CMAKE_CURRENT_LIST_DIR}/proto"
+    "${CMAKE_CURRENT_LIST_DIR}/proto/appopen"
+    "${CMAKE_CURRENT_LIST_DIR}/proto/banner"
+    "${CMAKE_CURRENT_LIST_DIR}/proto/interstitial"
+    "${CMAKE_CURRENT_LIST_DIR}/proto/nativead"
+    "${CMAKE_CURRENT_LIST_DIR}/proto/rewarded"
+    "${CMAKE_CURRENT_LIST_DIR}/proto/rewardedinterstitial"
+    "${CMAKE_CURRENT_LIST_DIR}/core"
+)
+
 # google admob sdk 引入
 set(GOOGLE_ADMOB_XCFRAMEWORKS_DIR ${CMAKE_CURRENT_LIST_DIR}/GoogleMobileAdsSdkiOS-10.9.0)
 

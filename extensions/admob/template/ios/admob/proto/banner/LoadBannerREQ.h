@@ -26,10 +26,16 @@ you.
 #pragma once
 
 #import <Foundation/Foundation.h>
+
 #import "Base.h"
 
-@interface LoadAppOpenAdACK : Base
+@interface LoadBannerREQ : Base
+
+@property (nonatomic, strong) NSString *bannerSizeType;
+@property (nonatomic, strong) NSString *bannerSize;
+@property (nonatomic, strong) NSArray<NSString *> *alignments;
 
 - (instancetype)initWithUnitId:(NSString *)unitId;
 
 @end
+

@@ -26,9 +26,10 @@ you.
 #pragma once
 
 #import <Foundation/Foundation.h>
-#import "Base.h"
 
-@interface LoadAppOpenAdACK : Base
+#import "PaidEventNTF.h"
+
+@interface BannerPaidEventNTF : PaidEventNTF
 
 - (instancetype)initWithUnitId:(NSString *)unitId;
 
