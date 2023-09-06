@@ -26,9 +26,12 @@ you.
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "AdServiceHub.h"
-#import "service/AppOpenAdService.h"
+
 #import "core/Bridge.h"
 #import "core/Codec.h"
+
+#import "service/AppOpenAdService.h"
+#import "service/BannerService.h"
 
 @interface AdServiceHub()
 
@@ -36,6 +39,7 @@ you.
 @property (nonatomic, strong) Codec *codec;
 
 @property (nonatomic, strong) AppOpenAdService *appOpenAdService;
+@property (nonatomic, strong) BannerService *bannerService;
 
 @end
 
@@ -62,9 +66,10 @@ static AdServiceHub *sharedInstance = nil;
 - (void)initAdService {
     // Initialize Google Mobile Ads SDK.
     [GADMobileAds.sharedInstance startWithCompletionHandler:nil];
-    _codec = [[Codec alloc] init];
-    _bridge = [[Bridge alloc] initWithCodec:_codec];
-    _appOpenAdService = [[AppOpenAdService alloc] initWithBridge:_bridge];
+    self.codec = [[Codec alloc] init];
+    self.bridge = [[Bridge alloc] initWithCodec:self.codec];
+    self.appOpenAdService = [[AppOpenAdService alloc] initWithBridge:self.bridge];
+    self.bannerService = [[BannerService alloc] initWithBridge:self.bridge];
 }
 
 @end

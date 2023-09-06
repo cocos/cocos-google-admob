@@ -51,8 +51,9 @@
     self = [super init];
     if (self) {
         self.bridge = bridge;
-        __weak typeof(self) wself = self;
+        self.bannerMap = [NSMutableDictionary dictionary];
         
+        __weak typeof(self) wself = self;
         ScriptHandlerBlock *loadBannerBlock =  [[ScriptHandlerBlock alloc] init];
         loadBannerBlock.storedScriptBlock = ^(id arg) {
             LoadBannerREQ *req = (LoadBannerREQ *) arg;
@@ -120,6 +121,7 @@
     GADAdSize adSize = [self getAdSize:req.bannerSize bannerType:req.bannerSizeType viewWidth:viewWidth];
     GADBannerView *bannerView = [[GADBannerView alloc]initWithAdSize:adSize];
     bannerView.adUnitID = req.unitId;
+    bannerView.rootViewController = viewController;
     [viewController.view addSubview:bannerView];
     [self.bannerMap setObject:bannerView forKey:req.unitId];
 }
@@ -181,6 +183,7 @@
         NSLog(@"banner service createBannerView no call");
         return;
     }
+    [bannerView removeFromSuperview];
     [self.bannerMap removeObjectForKey:unitId];
 }
 

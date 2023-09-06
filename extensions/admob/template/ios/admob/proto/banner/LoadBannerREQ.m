@@ -28,7 +28,7 @@ you.
 @implementation LoadBannerREQ
 
 - (instancetype)initWithUnitId:(NSString *)unitId {
-    return [super initWithUnitId:unitId];;
+    return [super initWithUnitId:unitId];
 }
 
 @end

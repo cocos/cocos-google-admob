@@ -28,16 +28,6 @@
 
 #import <objc/runtime.h>
 
-#import "AppOpenAdFullScreenContentCallbackNTF.h"
-#import "AppOpenAdLoadCallbackNTF.h"
-#import "AppOpenPaidEventNTF.h"
-#import "IsAdAvailableACK.h"
-#import "IsAdAvailableREQ.h"
-#import "LoadAppOpenAdACK.h"
-#import "LoadAppOpenAdREQ.h"
-#import "ShowAppOpenAdREQ.h"
-#import "ShowAppOpenAdCompleteNTF.h"
-
 @interface Codec ()
 
 @property (nonatomic, strong) NSMutableDictionary<NSString *, Class> *registerMap;
@@ -59,17 +49,22 @@
 }
 
 - (id)decode:(NSString *)method data:(NSString *)data {
-    Class type = [self.registerMap objectForKey:method];
-    if (type) {
+    Class classType = [self.registerMap objectForKey:method];
+    if (classType) {
         NSData *jsonData = [data dataUsingEncoding:NSUTF8StringEncoding];
         NSError *error = nil;
-        id decodedObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
         if (error) {
             NSLog(@"JSON parsing error: %@", error);
             return nil;
         }
-        id instance = [[type alloc] initWithUnitId:decodedObject[@"unitId"]];
-        return instance;
+        id decodedObject = [classType new];
+        for (NSString *key in jsonDict.allKeys) {
+            if ([decodedObject respondsToSelector:NSSelectorFromString(key)]) {
+                [decodedObject setValue:jsonDict[key] forKey:key];
+            }
+        }        
+        return decodedObject;
     }
     return nil;
 }

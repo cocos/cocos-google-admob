@@ -26,6 +26,7 @@ you.
 #pragma once
 
 #import <Foundation/Foundation.h>
+
 #import "Base.h"
 
 @interface DestroyBannerREQ : Base
