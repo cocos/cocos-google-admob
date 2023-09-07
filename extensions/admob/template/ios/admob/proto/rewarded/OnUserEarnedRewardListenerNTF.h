@@ -26,18 +26,13 @@ you.
 #pragma once
 
 #import <Foundation/Foundation.h>
+#import "Base.h"
 
-@class Codec;
+@interface OnUserEarnedRewardListenerNTF : Base
 
-@interface Route : NSObject
+@property (nonatomic, strong) NSString *rewardType;
+@property (nonatomic, assign) int rewardAmount;
 
-@property (nonatomic, strong, readonly) Codec *codec;
-
-- (instancetype)initWithCodec:(Codec *)codec;
-- (void)destroy;
-- (void)on:(NSString *)method type:(Class)type messageHandler:(void (^)(id))messageHandler;
-- (void)off:(NSString *)method;
-- (void)dispatch:(NSString *)arg0 arg1:(NSString *)arg1;
+- (instancetype)initWithUnitId:(NSString *)unitId rewardType:(NSString *)rewardType rewardamount:(int)rewardAmount;
 
 @end
-

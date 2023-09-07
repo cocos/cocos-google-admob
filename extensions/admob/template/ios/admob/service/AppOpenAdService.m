@@ -27,7 +27,7 @@
 
 #import "AppOpenAdService.h"
 #import "Route.h"
-#import "IScriptHandler.h"
+
 #import "AppOpenAdFullScreenContentCallbackNTF.h"
 #import "AppOpenAdLoadCallbackNTF.h"
 #import "AppOpenPaidEventNTF.h"
@@ -57,31 +57,25 @@
     if (self) {
         self.bridge = bridge;
         __weak typeof(self) wself = self;
-        ScriptHandlerBlock *loadAdBlock = [[ScriptHandlerBlock alloc] init];
-        loadAdBlock.storedScriptBlock = ^(id arg) {
+        [bridge.route on:[LoadAppOpenAdREQ class].description type:[LoadAppOpenAdREQ class] messageHandler:^(id arg) {
             LoadAppOpenAdREQ *req = (LoadAppOpenAdREQ *)arg;
             [wself loadAd:req.unitId];
             LoadAppOpenAdACK *ack = [[LoadAppOpenAdACK alloc] initWithUnitId:req.unitId];
             [bridge sendToScript:[LoadAppOpenAdACK class].description src:ack];
-        };
-        [bridge.route on:[LoadAppOpenAdREQ class].description type:[LoadAppOpenAdREQ class] handler:loadAdBlock];
+        }];
         
-        ScriptHandlerBlock *showAdBlock = [[ScriptHandlerBlock alloc] init];
-        showAdBlock.storedScriptBlock = ^(id arg) {
+        [bridge.route on:[ShowAppOpenAdREQ class].description type:[ShowAppOpenAdREQ class] messageHandler:^(id arg) {
             ShowAppOpenAdREQ *ack = (ShowAppOpenAdREQ *)arg;
             [wself showAdIfAvailable];
             [bridge sendToScript:[LoadAppOpenAdACK class].description src:ack];
-        };
-        [bridge.route on:[ShowAppOpenAdREQ class].description type:[ShowAppOpenAdREQ class] handler:showAdBlock];
+        }];
         
-        ScriptHandlerBlock *availableBlock = [[ScriptHandlerBlock alloc] init];
-        availableBlock.storedScriptBlock = ^(id arg) {
+        [bridge.route on:[IsAdAvailableREQ class].description type:[IsAdAvailableREQ class] messageHandler:^(id arg) {
             IsAdAvailableREQ *req = (IsAdAvailableREQ *)arg;
             BOOL valid = [wself isAdAvailable];
             IsAdAvailableACK *ack = [[IsAdAvailableACK alloc] initWithUnitId:req.unitId valid:valid];
             [bridge sendToScript:[IsAdAvailableACK class].description src:ack];
-        };
-        [bridge.route on:[IsAdAvailableREQ class].description type:[IsAdAvailableREQ class] handler:availableBlock];
+        }];
     }
     return self;
 }

@@ -73,6 +73,7 @@ foreach(XCFRAMEWORK_FILE ${GOOGLE_ADMOB_XCFRAMEWORK_FILES})
 endforeach()
 
 target_link_options(admob PRIVATE -ObjC)
+target_link_options(${EXECUTABLE_NAME} PRIVATE -ObjC)
 
 target_link_libraries(admob ${ENGINE_NAME})
 target_include_directories(${EXECUTABLE_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR})

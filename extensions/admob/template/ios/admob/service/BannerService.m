@@ -28,7 +28,6 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "Route.h"
-#import "IScriptHandler.h"
 #import "BannerAdListenerNTF.h"
 #import "BannerPaidEventNTF.h"
 #import "DestroyBannerACK.h"
@@ -54,8 +53,7 @@
         self.bannerMap = [NSMutableDictionary dictionary];
         
         __weak typeof(self) wself = self;
-        ScriptHandlerBlock *loadBannerBlock = [[ScriptHandlerBlock alloc] init];
-        loadBannerBlock.storedScriptBlock = ^(id arg) {
+        [bridge.route on:[LoadBannerREQ class].description type:[LoadBannerREQ class] messageHandler:^(id arg) {
             LoadBannerREQ *req = (LoadBannerREQ *) arg;
             if(![wself.bannerMap objectForKey:req.unitId]) {
                 [wself createBannerView:req];
@@ -63,24 +61,19 @@
             LoadBannerACK *ack = [[LoadBannerACK alloc] initWithUnitId:req.unitId];
             [wself loadBannerAd:req.unitId];
             [bridge sendToScript:[LoadBannerACK class].description src:ack];
-        };
-        [bridge.route on:[LoadBannerREQ class].description type:[LoadBannerREQ class] handler:loadBannerBlock];
+        }];
         
-        ScriptHandlerBlock *showBannerBlock =  [[ScriptHandlerBlock alloc] init];
-        showBannerBlock.storedScriptBlock = ^(id arg) {
+        [bridge.route on:[ShowBannerREQ class].description type:[ShowBannerREQ class] messageHandler:^(id arg) {
             ShowBannerREQ *sb = (ShowBannerREQ *) arg;
             [wself showBanner:sb.unitId visible:sb.visible];
-        };
-        [bridge.route on:[ShowBannerREQ class].description type:[ShowBannerREQ class] handler:showBannerBlock];
+        }];
         
-        ScriptHandlerBlock *destroyBannerBlock =  [[ScriptHandlerBlock alloc] init];
-        destroyBannerBlock.storedScriptBlock = ^(id arg) {
+        [bridge.route on:[DestroyBannerREQ class].description type:[DestroyBannerREQ class] messageHandler:^(id arg) {
             DestroyBannerREQ *sb = (DestroyBannerREQ *) arg;
             [wself destroyByUnitId:sb.unitId];
             DestroyBannerACK *ack = [[DestroyBannerACK alloc] initWithUnitId:sb.unitId];
             [bridge sendToScript:[DestroyBannerACK class].description src:ack];
-        };
-        [bridge.route on:[DestroyBannerREQ class].description type:[DestroyBannerREQ class] handler:destroyBannerBlock];
+        }];
     }
     return self;
 }

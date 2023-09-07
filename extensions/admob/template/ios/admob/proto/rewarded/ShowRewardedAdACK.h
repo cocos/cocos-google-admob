@@ -26,15 +26,10 @@ you.
 #pragma once
 
 #import <Foundation/Foundation.h>
+#import "Base.h"
 
-@protocol IScriptHandler
+@interface ShowRewardedAdACK : Base
 
-- (void)onMessage:(id)arg;
-
-@end
-
-@interface ScriptHandlerBlock : NSObject <IScriptHandler>
-
-@property (nonatomic, copy) void (^storedScriptBlock)(id);
+- (instancetype)initWithUnitId:(NSString *)unitId;
 
 @end

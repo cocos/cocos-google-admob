@@ -23,21 +23,19 @@ you.
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 ****************************************************************************/
-#pragma once
+#import "OnUserEarnedRewardListenerNTF.h"
 
-#import <Foundation/Foundation.h>
+@implementation OnUserEarnedRewardListenerNTF
 
-@class Codec;
+- (instancetype)initWithUnitId:(NSString *)unitId rewardType:(NSString *)rewardType rewardamount:(int)rewardAmount {
+    self = [super initWithUnitId:unitId];
+    if(self) {
+        self.rewardType = rewardType;
+        self.rewardAmount = rewardAmount;
+    }
+    return self;
+}
 
-@interface Route : NSObject
-
-@property (nonatomic, strong, readonly) Codec *codec;
-
-- (instancetype)initWithCodec:(Codec *)codec;
-- (void)destroy;
-- (void)on:(NSString *)method type:(Class)type messageHandler:(void (^)(id))messageHandler;
-- (void)off:(NSString *)method;
-- (void)dispatch:(NSString *)arg0 arg1:(NSString *)arg1;
 
 @end
 

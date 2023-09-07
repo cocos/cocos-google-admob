@@ -23,21 +23,25 @@ you.
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 ****************************************************************************/
-#pragma once
+#import "RewardedFullScreenContentCallbackNTF.h"
 
-#import <Foundation/Foundation.h>
+@implementation RewardedFullScreenContentCallbackNTF
 
-@class Codec;
+- (instancetype)initWithUnitId:(NSString *)unitId method:(NSString *)method {
+    self = [super initWithUnitId:unitId];
+    if (self) {
+        self.method = method;
+    }
+    return self;
+}
 
-@interface Route : NSObject
-
-@property (nonatomic, strong, readonly) Codec *codec;
-
-- (instancetype)initWithCodec:(Codec *)codec;
-- (void)destroy;
-- (void)on:(NSString *)method type:(Class)type messageHandler:(void (^)(id))messageHandler;
-- (void)off:(NSString *)method;
-- (void)dispatch:(NSString *)arg0 arg1:(NSString *)arg1;
+- (instancetype)initWithUnitId:(NSString *)unitId method:(NSString *)method adError:(NSString *)adError {
+    self = [super initWithUnitId:unitId];
+    if (self) {
+        self.method = method;
+        self.adError = adError;
+    }
+    return self;
+}
 
 @end
-

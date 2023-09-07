@@ -23,15 +23,25 @@ you.
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 ****************************************************************************/
-#import "IScriptHandler.h"
+#import "RewardedAdLoadCallbackNTF.h"
 
-@implementation ScriptHandlerBlock
+@implementation RewardedAdLoadCallbackNTF
 
-- (void)onMessage:(id)arg {
-    if(self.storedScriptBlock) {
-        self.storedScriptBlock(arg);
+- (instancetype)initWithUnitId:(NSString *)unitId method:(NSString *)method {
+    self = [super initWithUnitId:unitId];
+    if (self) {
+        self.method = method;
     }
+    return self;
+}
+
+- (instancetype)initWithUnitId:(NSString *)unitId method:(NSString *)method loadAdError:(NSString *)loadAdError {
+    self = [super initWithUnitId:unitId];
+    if (self) {
+        self.method = method;
+        self.loadAdError = loadAdError;
+    }
+    return self;
 }
 
 @end
-

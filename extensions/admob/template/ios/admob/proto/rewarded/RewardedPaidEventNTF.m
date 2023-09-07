@@ -23,21 +23,12 @@ you.
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 ****************************************************************************/
-#pragma once
+#import "RewardedPaidEventNTF.h"
 
-#import <Foundation/Foundation.h>
+@implementation RewardedPaidEventNTF
 
-@class Codec;
-
-@interface Route : NSObject
-
-@property (nonatomic, strong, readonly) Codec *codec;
-
-- (instancetype)initWithCodec:(Codec *)codec;
-- (void)destroy;
-- (void)on:(NSString *)method type:(Class)type messageHandler:(void (^)(id))messageHandler;
-- (void)off:(NSString *)method;
-- (void)dispatch:(NSString *)arg0 arg1:(NSString *)arg1;
+- (instancetype)initWithUnitId:(NSString *)unitId {
+    return [super initWithUnitId:unitId];
+}
 
 @end
-

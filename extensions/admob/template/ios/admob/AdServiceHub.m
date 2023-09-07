@@ -33,6 +33,7 @@ you.
 #import "service/AppOpenAdService.h"
 #import "service/BannerService.h"
 #import "service/InterstitialService.h"
+#import "service/RewardedAdService.h"
 
 @interface AdServiceHub()
 
@@ -42,6 +43,7 @@ you.
 @property (nonatomic, strong) AppOpenAdService *appOpenAdService;
 @property (nonatomic, strong) BannerService *bannerService;
 @property (nonatomic, strong) InterstitialService *interstitialService;
+@property (nonatomic, strong) RewardedAdService *rewardedAdService;
 
 @end
 
@@ -73,6 +75,7 @@ static AdServiceHub *sharedInstance = nil;
     self.appOpenAdService = [[AppOpenAdService alloc] initWithBridge:self.bridge];
     self.bannerService = [[BannerService alloc] initWithBridge:self.bridge];
     self.interstitialService = [[InterstitialService alloc] initWithBridge:self.bridge];
+    self.rewardedAdService = [[RewardedAdService alloc] initWithBridge:self.bridge];
 }
 
 @end

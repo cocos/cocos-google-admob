@@ -29,7 +29,7 @@ you.
 
 @interface Route ()
 
-@property (nonatomic, strong) NSMutableDictionary<NSString *, id<IScriptHandler>> *handlers;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, void (^)(id)> *messageHandlers;
 
 @end
 
@@ -39,33 +39,31 @@ you.
     self = [super init];
     if (self) {
         _codec = codec;
-        _handlers = [NSMutableDictionary dictionary];
+        _messageHandlers = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 - (void)destroy {
-    [self.handlers removeAllObjects];
+    [self.messageHandlers removeAllObjects];
 }
 
-- (void)on:(NSString *)method type:(Class)type handler:(id<IScriptHandler>)handler {
+- (void)on:(NSString *)method type:(Class)type messageHandler:(void (^)(id))messageHandler {
     [self.codec registerMethod:method type:type];
-    [self.handlers setObject:handler forKey:method];
+    [self.messageHandlers setObject:messageHandler forKey:method];
 }
 
 - (void)off:(NSString *)method {
-    [self.handlers removeObjectForKey:method];
+    [self.messageHandlers removeObjectForKey:method];
 }
 
 - (void)dispatch:(NSString *)arg0 arg1:(NSString *)arg1 {
-//    [self.adServiceHub sendToUIThread:^{
-        id<IScriptHandler> handler = [self.handlers objectForKey:arg0];
-        if (!handler) {
-            NSLog(@"missing handler: %@", arg0);
-            return;
-        }
-        [handler onMessage:[self.codec decode:arg0 data:arg1]];
-//    }];
+    void (^receivedMessageHandler)(id) = [self.messageHandlers objectForKey:arg0];
+    if (!receivedMessageHandler) {
+        NSLog(@"missing msg handler: %@", arg0);
+        return;
+    }
+    receivedMessageHandler([self.codec decode:arg0 data:arg1]);
 }
 
 @end

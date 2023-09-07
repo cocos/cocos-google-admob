@@ -26,18 +26,11 @@ you.
 #pragma once
 
 #import <Foundation/Foundation.h>
+#import "ILoadAdError.h"
 
-@class Codec;
+@interface RewardedAdLoadCallbackNTF : ILoadAdError
 
-@interface Route : NSObject
-
-@property (nonatomic, strong, readonly) Codec *codec;
-
-- (instancetype)initWithCodec:(Codec *)codec;
-- (void)destroy;
-- (void)on:(NSString *)method type:(Class)type messageHandler:(void (^)(id))messageHandler;
-- (void)off:(NSString *)method;
-- (void)dispatch:(NSString *)arg0 arg1:(NSString *)arg1;
+- (instancetype)initWithUnitId:(NSString *)unitId method:(NSString *)method;
+- (instancetype)initWithUnitId:(NSString *)unitId method:(NSString *)method loadAdError:(NSString *)loadAdError;
 
 @end
-
