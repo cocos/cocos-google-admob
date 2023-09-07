@@ -2,8 +2,6 @@
 set(ADMOB_PROJ_SOURCES)
 
 list(APPEND ADMOB_PROJ_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/AdMobApplication.m
-    ${CMAKE_CURRENT_LIST_DIR}/AdMobApplication.h
     ${CMAKE_CURRENT_LIST_DIR}/AdServiceHub.m
     ${CMAKE_CURRENT_LIST_DIR}/AdServiceHub.h
 )
@@ -35,7 +33,7 @@ target_include_directories(admob PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/proto/interstitial"
     "${CMAKE_CURRENT_LIST_DIR}/proto/nativead"
     "${CMAKE_CURRENT_LIST_DIR}/proto/rewarded"
-    "${CMAKE_CURRENT_LIST_DIR}/proto/rewardedinterstitial"
+    "${CMAKE_CURRENT_LIST_DIR}/proto/rewarded-interstitial"
     "${CMAKE_CURRENT_LIST_DIR}/core"
 )
 
