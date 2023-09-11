@@ -155,5 +155,7 @@
 			<string>3qcr597p9d.skadnetwork</string>
 		</dict>
 	</array>
+	<key>GADNativeAdValidatorEnabled</key>
+	<false/>
 </dict>
 </plist>

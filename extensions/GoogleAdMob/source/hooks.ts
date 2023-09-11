@@ -1,5 +1,6 @@
 import { IBuildTaskOption, BuildHook, IBuildResult } from '../@types';
 import { buildTaskAndroid } from './BuildTaskAndroid';
+import { buildTaskiOS } from './BuildTaskiOS';
 
 interface IOptions {
     remoteAddress: string;
@@ -54,8 +55,14 @@ export const onAfterCompressSettings: BuildHook.onAfterCompressSettings = async 
 };
 
 export const onAfterBuild: BuildHook.onAfterBuild = async function (options: ITaskOptions, result: IBuildResult) {
-    console.log("onAfterBuild", "options:", JSON.stringify(options));    
-    buildTaskAndroid.android.executePostBuildTasks(options, result);
+    console.log("onAfterBuild", "options:", JSON.stringify(options));
+    if(options.platform === "android") {
+        buildTaskAndroid.android.executePostBuildTasks(options, result);    
+    } else if(options.platform === "ios") {
+        buildTaskiOS.ios.executePostBuildTasks(options, result);
+    } else {
+        console.error(`onAfterBuild: The current build platform [${options.platform}] does not extend adMob`);
+    }
 };
 
 export const unload: BuildHook.unload = async function () {
