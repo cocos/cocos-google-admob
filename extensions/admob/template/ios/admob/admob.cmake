@@ -14,6 +14,8 @@ file(GLOB_RECURSE OTHER_FILES LIST_DIRECTORIES false
     "${CMAKE_CURRENT_LIST_DIR}/proto/*.m"
     "${CMAKE_CURRENT_LIST_DIR}/service/*.h"
     "${CMAKE_CURRENT_LIST_DIR}/service/*.m"
+    "${CMAKE_CURRENT_LIST_DIR}/nativetemplates/*.h"
+    "${CMAKE_CURRENT_LIST_DIR}/nativetemplates/*.m"
 )
 list(APPEND ADMOB_PROJ_SOURCES ${OTHER_FILES})
 
@@ -35,6 +37,7 @@ target_include_directories(admob PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/proto/rewarded"
     "${CMAKE_CURRENT_LIST_DIR}/proto/rewarded-interstitial"
     "${CMAKE_CURRENT_LIST_DIR}/core"
+    "${CMAKE_CURRENT_LIST_DIR}/nativetemplates"
 )
 
 # google admob sdk 引入
@@ -73,8 +76,9 @@ endforeach()
 target_link_options(admob PRIVATE -ObjC)
 target_link_options(${EXECUTABLE_NAME} PRIVATE -ObjC)
 
+# set_target_properties(admob PROPERTIES RESOURCE "${ADMOB_RESOURCES}")
+
 target_link_libraries(admob ${ENGINE_NAME})
 target_include_directories(${EXECUTABLE_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
-
 
 target_link_libraries(${EXECUTABLE_NAME} admob)

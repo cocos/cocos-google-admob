@@ -35,6 +35,7 @@ you.
 #import "service/InterstitialService.h"
 #import "service/RewardedAdService.h"
 #import "service/RewardedInterstitialAdService.h"
+#import "service/NativeService.h"
 
 @interface AdServiceHub()
 
@@ -46,6 +47,7 @@ you.
 @property (nonatomic, strong) InterstitialService *interstitialService;
 @property (nonatomic, strong) RewardedAdService *rewardedAdService;
 @property (nonatomic, strong) RewardedInterstitialAdService *rewardedInterstitialAdService;
+@property (nonatomic, strong) NativeService *nativeService;
 
 @end
 
@@ -79,6 +81,7 @@ static AdServiceHub *sharedInstance = nil;
     self.interstitialService = [[InterstitialService alloc] initWithBridge:self.bridge];
     self.rewardedAdService = [[RewardedAdService alloc] initWithBridge:self.bridge];
     self.rewardedInterstitialAdService = [[RewardedInterstitialAdService alloc] initWithBridge:self.bridge];
+    self.nativeService = [[NativeService alloc] initWithBridge:self.bridge];
 }
 
 @end
