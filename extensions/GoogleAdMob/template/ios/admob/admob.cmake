@@ -82,3 +82,7 @@ target_link_libraries(admob ${ENGINE_NAME})
 target_include_directories(${EXECUTABLE_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 
 target_link_libraries(${EXECUTABLE_NAME} admob)
+# 从新指定引擎的 INFO.plist 路径 ，该 plist 文件融合了引擎和 admob 的需要的处理
+set_target_properties(${EXECUTABLE_NAME} PROPERTIES
+    MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_LIST_DIR}/Info.plist"
+)

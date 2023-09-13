@@ -1,144 +1,52 @@
 import { IBuildResult } from "../@types";
 import { PACKAGE_NAME, configs } from "./builder";
+import { AdmobOption } from "./AdmobOptions";
 import * as fs from 'fs';
 import * as fse from 'fs-extra';
+import * as plist from 'plist';
 import { ITaskOptions } from "./hooks";
-import { AdmobOption } from "./AdmobOptions";
-import { AndroidConstants } from "./AndroidConstants";
-import { appendDestContentToSrcFileIfNo, deleteDestContentInSrcFile, insertDestToSrcBehindKey } from "./Util";
 
 const TAG = "[BuildTaskiOS]"
 export class BuildTaskiOS {
 
-    /**
-     * @en
-     * 
-     */
-    private insertApplicationIdToManifest(options: ITaskOptions, buildResult: IBuildResult) {
-        const adMobOption = options.packages[PACKAGE_NAME] as AdmobOption;
+    static readonly AdmobTemplatePath = `${__dirname}/../template/ios`;
+    static readonly NativePath = `${Editor.Project.path}/native/engine/ios`
 
-        const { enableAdMob } = adMobOption;
-        if (!enableAdMob) {
-            console.log(TAG, "generateApplicationId", `exit because enableAdMob is false`);
-            return;
-        }
-        console.log(TAG, "generateApplicationId", `Build path is: ${buildResult.dest}`);
-        const manifestPath = `${buildResult.dest}/${AndroidConstants.AdmobDestManifestPath}`;
-        console.log(TAG, "generateApplicationId", `AndroidManifest.xml path: ${manifestPath}`);
-        const userGradle = fs.readFileSync(manifestPath, { encoding: 'binary' });
-        console.log(TAG, "generateApplicationId", `read AndroidManifest.xml complete`);
+    mergedPlist(option:ITaskOptions, buildResult: IBuildResult) {
+        console.log(TAG, 'mergedPlist','start');
+        const adMobOption = option.packages[PACKAGE_NAME] as AdmobOption;
+        const applicationId = adMobOption.applicationId;
 
-        const parser = new DOMParser();
-        const document = parser.parseFromString(userGradle, "text/xml");
-        const metaNodes = document.getElementsByTagName("manifest")[0].getElementsByTagName("application")[0].getElementsByTagName("meta-data");
+        const admobPlist = fs.readFileSync(`${BuildTaskiOS.AdmobTemplatePath}/admob-config-info.plist`, 'utf8');
+        const parsedAdmobPlist = plist.parse(admobPlist);
+        parsedAdmobPlist["GADApplicationIdentifier"] = applicationId;
+        
+        const nativePlist = fs.readFileSync(`${Editor.Project.path}/native/engine/ios/Info.plist`, 'utf8');
+        const parsedNativePlist = plist.parse(nativePlist);
 
-        const destMetaName = "com.google.android.gms.ads.APPLICATION_ID";
-        for (let i = 0; i < metaNodes.length; i++) {
-            const metaNode = metaNodes[i];
-            const attr = metaNode.getAttribute("android:name");
-            if (attr === destMetaName) {
-                const { applicationId } = adMobOption;
-                metaNodes[i].setAttribute("android:value", applicationId);
-                console.log(TAG, "generateApplicationId", `change the meta-data attribute success.`);
-                break;
-            }
-        }
+        const mergedPlistData = Object.assign(Object.assign({}, parsedAdmobPlist), parsedNativePlist);
+        fs.writeFileSync(`${BuildTaskiOS.AdmobTemplatePath}/admob/Info.plist`, plist.build(mergedPlistData), 'utf8');
 
-        const serializer: XMLSerializer = new XMLSerializer();
-        const content = serializer.serializeToString(document);
-        fs.writeFileSync(manifestPath, content);
+        console.log(TAG, 'mergedPlist','end');
     }
 
-    /**
-     * @en
-     * Handle the grale files.
-     * In the admob extension, it will change 2 files including the build.gradle of the target android project,
-     * and the Setting.gradle which refers to organize the android project.
-     * when the option enableAdMob is true, the template file in the template directory which be copy and insert to 
-     * the files in destination project path, and when the option is false, all related content will be deleted precisely.
-     * 
-     * Feel free to modify the files in the build project, 
-     * but be careful when modify the files in the template directory of the extension
-     * @param buildResult 
-     */
-    private handleGradleFiles(options: ITaskOptions, buildResult: IBuildResult) {
-        console.log(TAG, "appendAppBuildGradle", `Build path is: ${buildResult.dest}`);
-        console.log(TAG, "appendAppBuildGradle, settings: ", buildResult.settings);
-        console.log(TAG, "appendAppBuildGradle, config: ", configs);
-        console.log(TAG, "appendAppBuildGradle, admob options: ", options.packages[PACKAGE_NAME]);
-        const adMobOption = options.packages[PACKAGE_NAME] as AdmobOption;
+    copyAdmobResources(option:ITaskOptions, buildResult: IBuildResult) {
+        console.log(TAG, 'copyAdmobResources', 'start');
+        
+        const adMobOption = option.packages[PACKAGE_NAME] as AdmobOption;
+        const overwriteLibrary = adMobOption.overwriteLibrary;
 
-        const enableAdMob = adMobOption.enableAdMob;
-        const srcGradle = AndroidConstants.AppBuildGradle;
-        const destGradle = AndroidConstants.AdmobTemplateGradlePath;
+        const preCmakeAssertSrc = `${BuildTaskiOS.AdmobTemplatePath}/Post-admob.cmake`;
+        const postCmakeAssertSrc = `${BuildTaskiOS.AdmobTemplatePath}/Pre-admob.cmake`;
+        const preCmakeAssertDest = `${BuildTaskiOS.NativePath}/Post-admob.cmake`;
+        const postCmakeAssertDest = `${BuildTaskiOS.NativePath}/Pre-admob.cmake`;
+        fse.copySync(preCmakeAssertSrc, preCmakeAssertDest, { recursive: true, overwrite: overwriteLibrary });
+        fse.copySync(postCmakeAssertSrc, postCmakeAssertDest, { recursive: true, overwrite: overwriteLibrary });
 
-        const srcSetting = `${buildResult.dest}/proj/${AndroidConstants.SettingGradle}`;
-        const destSetting = AndroidConstants.AdmobTemplateSettingGradle;
-
-        if (enableAdMob) {
-            appendDestContentToSrcFileIfNo(srcGradle, destGradle);
-            appendDestContentToSrcFileIfNo(srcSetting, destSetting);
-        } else {
-            deleteDestContentInSrcFile(srcGradle, destGradle);
-            deleteDestContentInSrcFile(srcSetting, destSetting);
-        }
-
-    }
-
-    /**
-     * @en
-     * Copy libadmob to the dest build path.
-     * After building, The liadmob stored in the extension's template directory will be copy to the target project's src dir. 
-     * @param options 
-     * @param buildResult 
-     */
-    private copyLibraryDirectory(options: ITaskOptions, buildResult: IBuildResult) {
-        console.log(TAG, "copyLibraryDirectory", `Build path is: ${buildResult.dest}`);
-        console.log(TAG, "copyLibraryDirectory, settings: ", buildResult.settings);
-        console.log(TAG, "copyLibraryDirectory, config: ", configs);
-        console.log(TAG, "copyLibraryDirectory, admob options: ", options.packages[PACKAGE_NAME]);
-        const adMobOption = options.packages[PACKAGE_NAME] as AdmobOption;
-
-        const { enableAdMob, overwriteLibrary } = adMobOption;
-        if (enableAdMob) {
-            const extLibPath = AndroidConstants.AdmobLibSrcPath;
-            const destLibPath = `${buildResult.dest}${AndroidConstants.AdmobLibDestPath}`;
-            console.log(TAG, "copyLibraryDirectory", `from ${extLibPath} to ${destLibPath}`);
-            fse.copySync(extLibPath, destLibPath, { recursive: true, overwrite: overwriteLibrary });
-            console.log(TAG, "copyLibraryDirectory", `from ${extLibPath} to ${destLibPath}`, "done");
-            const nativeTemplatePath = `${buildResult.dest}${AndroidConstants.GoogleNativeTemplateLibPath}`;
-            fse.copySync(AndroidConstants.GoogleNativeAdTemplatePath, nativeTemplatePath, { recursive: true, overwrite: overwriteLibrary });
-            console.log(TAG, "copyLibraryDirectory", `from ${AndroidConstants.GoogleNativeAdTemplatePath} to ${nativeTemplatePath}`, "done");
-        }
-    }
-
-    /**
-     * @en
-     * Handle changes in the AppActivity.java.
-     * To insert an entry function in the AppActivity.java, I need to store some code templates in the extension's template directory.
-     * After build, the templates in the ${extension/admob/template/android/java } will be insert into the AppActivity.java in ${YourProject/native/android/src/.../AppActivity.java}, 
-     * if the flag enableAdMob is true.     
-     * But if the flag enableAdMob is false, the extension will delete all the inserted code if exist. 
-     * It relays on the ${..._keycode.java} files to locate where to insert.
-     * @param options 
-     * @param buildResult 
-     */
-    handleAppActivity(options: ITaskOptions, buildResult: IBuildResult) {
-        // console.log(TAG, "handleAppActivity");
-        // const adMobOption = options.packages[PACKAGE_NAME] as AdmobOption;        
-
-        // const appActivityPath = AndroidConstants.AppActivityPath;
-
-        // const { enableAdMob, modifyAppActivity} = adMobOption;
-        // if (!enableAdMob || !modifyAppActivity) {
-        //     deleteDestContentInSrcFile(appActivityPath, AndroidConstants.AppActivityTemplateInitPath);
-        //     deleteDestContentInSrcFile(appActivityPath, AndroidConstants.ImportTemplatePath);
-        //     deleteDestContentInSrcFile(appActivityPath, AndroidConstants.AppActivityTemplateDestroyPath);            
-        // } else {
-        //     insertDestToSrcBehindKey(appActivityPath, AndroidConstants.AppActivityTemplateInitPath, AndroidConstants.AppActivityKeyCodeTemplateInitPath);
-        //     insertDestToSrcBehindKey(appActivityPath, AndroidConstants.ImportTemplatePath, AndroidConstants.ImportKeyCodeTemplatePath);
-        //     insertDestToSrcBehindKey(appActivityPath, AndroidConstants.AppActivityTemplateDestroyPath, AndroidConstants.AppActivityKeyCodeTemplateDestroyPath);            
-        // }
+        const admobAssertSrc = `${BuildTaskiOS.AdmobTemplatePath}/admob`;
+        const admobAssertDest = `${buildResult.dest}/proj/admob`;
+        fse.copySync(admobAssertSrc, admobAssertDest, { recursive: true, overwrite: overwriteLibrary });
+        console.log(TAG, 'copyAdmobResources', 'end');
     }
 
     /**
@@ -148,15 +56,15 @@ export class BuildTaskiOS {
      * @param buildResult 
      */
     executePostBuildTasks(options: ITaskOptions, buildResult: IBuildResult) {
-        // this.handleGradleFiles(options, buildResult);
-        // this.copyLibraryDirectory(options, buildResult);
-        // this.insertApplicationIdToManifest(options, buildResult);
-        // this.handleAppActivity(options, buildResult);
-        // 合并 plist 文件
-        
-
-        // 拷贝 cmake 文件 到 native 目录
-        // 拷贝 admob 文件夹 到 build ios 目录
+        console.log(TAG, 'executePostBuildTasks',"start");
+        const adMobOption = options.packages[PACKAGE_NAME] as AdmobOption;
+        const enableAdMob = adMobOption.enableAdMob;
+        if(enableAdMob) {
+            this.mergedPlist(options, buildResult);
+            this.copyAdmobResources(options, buildResult);
+        } else {
+            console.log(TAG, 'executePostBuildTasks', "enableAdMob is false");    
+        }
         
         console.log(TAG, 'executePostBuildTasks', "all tasks done.");
     }

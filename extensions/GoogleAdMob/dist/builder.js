@@ -107,5 +107,57 @@ exports.configs = {
             },
         },
     },
+    'ios': {
+        hooks: './hooks',
+        doc: 'editor/publish/custom-build-plugin.html',
+        options: {
+            enableAdMob: {
+                label: `i18n:${exports.PACKAGE_NAME}.enableAdMob.title`,
+                description: `i18n:${exports.PACKAGE_NAME}.enableAdMob.tip`,
+                default: `true`,
+                render: {
+                    ui: 'ui-checkbox',
+                },
+            },
+            overwriteLibrary: {
+                label: `i18n:${exports.PACKAGE_NAME}.overwriteLibrary.title`,
+                description: `i18n:${exports.PACKAGE_NAME}.overwriteLibrary.tip`,
+                default: `true`,
+                render: {
+                    ui: 'ui-checkbox',
+                },
+            },
+            applicationId: {
+                label: `i18n:${exports.PACKAGE_NAME}.applicationId.title`,
+                description: `i18n:${exports.PACKAGE_NAME}.applicationId.tip`,
+                default: '',
+                render: {
+                    ui: 'ui-input',
+                    attributes: {
+                        placeholder: `i18n:${exports.PACKAGE_NAME}.applicationId.placeholder`,
+                    },
+                },
+                verifyRules: ['required'],
+            },
+            warn: {
+                label: `i18n:${exports.PACKAGE_NAME}.warn.title`,
+                default: `i18n:${exports.PACKAGE_NAME}.warn.content`,
+                render: {
+                    ui: 'ui-label',
+                },
+            },
+        },
+        verifyRuleMap: {
+            ruleTest: {
+                message: `i18n:${exports.PACKAGE_NAME}.options.ruleTest_msg`,
+                func(val, buildOptions) {
+                    if (val === 'cocos') {
+                        return true;
+                    }
+                    return false;
+                },
+            },
+        },
+    },
 };
 exports.assetHandlers = './asset-handlers';

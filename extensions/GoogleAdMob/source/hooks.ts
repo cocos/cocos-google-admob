@@ -52,16 +52,15 @@ export const onBeforeCompressSettings: BuildHook.onBeforeCompressSettings = asyn
 export const onAfterCompressSettings: BuildHook.onAfterCompressSettings = async function (options: ITaskOptions, result: IBuildResult) {
     // Todo some thing
     console.log('webTestOption', 'onAfterCompressSettings');
+    if(options.platform === "ios") {
+        buildTaskiOS.ios.executePostBuildTasks(options, result);
+    }
 };
 
 export const onAfterBuild: BuildHook.onAfterBuild = async function (options: ITaskOptions, result: IBuildResult) {
     console.log("onAfterBuild", "options:", JSON.stringify(options));
     if(options.platform === "android") {
         buildTaskAndroid.android.executePostBuildTasks(options, result);    
-    } else if(options.platform === "ios") {
-        buildTaskiOS.ios.executePostBuildTasks(options, result);
-    } else {
-        console.error(`onAfterBuild: The current build platform [${options.platform}] does not extend adMob`);
     }
 };
 
