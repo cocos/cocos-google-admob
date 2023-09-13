@@ -11,12 +11,15 @@ import com.cocos.admob.proto.rewardedinterstitial.LoadRewardedInterstitialAdACK;
 import com.cocos.admob.proto.rewardedinterstitial.LoadRewardedInterstitialAdREQ;
 import com.cocos.admob.proto.rewardedinterstitial.OnUserEarnedRewardedInterstitialListenerNTF;
 import com.cocos.admob.proto.rewardedinterstitial.RewardedInterstitialAdLoadCallbackNTF;
+import com.cocos.admob.proto.rewardedinterstitial.RewardedInterstitialFullScreenContentCallbackNTF;
 import com.cocos.admob.proto.rewardedinterstitial.RewardedInterstitialPaidEventNTF;
 import com.cocos.admob.proto.rewardedinterstitial.ShowRewardedInterstitialAdACK;
 import com.cocos.admob.proto.rewardedinterstitial.ShowRewardedInterstitialAdREQ;
 import com.cocos.lib.CocosActivity;
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdapterResponseInfo;
+import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.OnUserEarnedRewardListener;
 import com.google.android.gms.ads.rewarded.RewardItem;
@@ -86,6 +89,46 @@ public final class RewardedInterstitialAdService extends Service {
 
                            bridge.sendToScript(RewardedInterstitialPaidEventNTF.class.getSimpleName(), rewardedInterstitialPaidEventNTF);
                        });
+
+                        rewardedInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                            @Override
+                            public void onAdClicked() {
+                                super.onAdClicked();
+
+                                bridge.sendToScript(RewardedInterstitialFullScreenContentCallbackNTF.class.getSimpleName(),
+                                        new RewardedInterstitialFullScreenContentCallbackNTF(unitId, "onAdClicked"));
+                            }
+
+                            @Override
+                            public void onAdDismissedFullScreenContent() {
+                                super.onAdDismissedFullScreenContent();
+                                rewardedInterstitialAd = null;
+                                bridge.sendToScript(RewardedInterstitialFullScreenContentCallbackNTF.class.getSimpleName(),
+                                        new RewardedInterstitialFullScreenContentCallbackNTF(unitId, "onAdDismissedFullScreenContent"));
+                            }
+
+                            @Override
+                            public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                                super.onAdFailedToShowFullScreenContent(adError);
+                                rewardedInterstitialAd = null;
+                                bridge.sendToScript(RewardedInterstitialFullScreenContentCallbackNTF.class.getSimpleName(),
+                                        new RewardedInterstitialFullScreenContentCallbackNTF(unitId, "onAdFailedToShowFullScreenContent"));
+                            }
+
+                            @Override
+                            public void onAdImpression() {
+                                super.onAdImpression();
+                                bridge.sendToScript(RewardedInterstitialFullScreenContentCallbackNTF.class.getSimpleName(),
+                                        new RewardedInterstitialFullScreenContentCallbackNTF(unitId, "onAdImpression"));
+                            }
+
+                            @Override
+                            public void onAdShowedFullScreenContent() {
+                                super.onAdShowedFullScreenContent();
+                                bridge.sendToScript(RewardedInterstitialFullScreenContentCallbackNTF.class.getSimpleName(),
+                                        new RewardedInterstitialFullScreenContentCallbackNTF(unitId, "onAdShowedFullScreenContent"));
+                            }
+                        });
                     }
 
                     @Override
