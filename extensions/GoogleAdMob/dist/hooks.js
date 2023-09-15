@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.onAfterMake = exports.onBeforeMake = exports.onError = exports.unload = exports.onAfterBuild = exports.onAfterCompressSettings = exports.onBeforeCompressSettings = exports.onBeforeBuild = exports.load = exports.throwError = void 0;
 const BuildTaskAndroid_1 = require("./BuildTaskAndroid");
+const BuildTaskiOS_1 = require("./BuildTaskiOS");
 const PACKAGE_NAME = 'admob';
 function log(...arg) {
     return console.log(`[${PACKAGE_NAME}] `, ...arg);
@@ -46,13 +47,18 @@ const onAfterCompressSettings = function (options, result) {
     return __awaiter(this, void 0, void 0, function* () {
         // Todo some thing
         console.log('webTestOption', 'onAfterCompressSettings');
+        if (options.platform === "ios") {
+            BuildTaskiOS_1.buildTaskiOS.ios.executePostBuildTasks(options, result);
+        }
     });
 };
 exports.onAfterCompressSettings = onAfterCompressSettings;
 const onAfterBuild = function (options, result) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log("onAfterBuild", "options:", JSON.stringify(options));
-        BuildTaskAndroid_1.buildTaskAndroid.android.executePostBuildTasks(options, result);
+        if (options.platform === "android") {
+            BuildTaskAndroid_1.buildTaskAndroid.android.executePostBuildTasks(options, result);
+        }
     });
 };
 exports.onAfterBuild = onAfterBuild;

@@ -136,6 +136,61 @@ export const configs: BuildPlugin.Configs = {
             },
         },
     },
+    'ios': {
+        hooks: './hooks',
+        doc: 'editor/publish/custom-build-plugin.html',
+        options: {
+
+            enableAdMob: {
+                label: `i18n:${PACKAGE_NAME}.enableAdMob.title`,
+                description:`i18n:${PACKAGE_NAME}.enableAdMob.tip`,
+                default: `true`,
+                render: {
+                    ui: 'ui-checkbox',                   
+                },
+            },
+            overwriteLibrary: {
+                label: `i18n:${PACKAGE_NAME}.overwriteLibrary.title`,
+                description:`i18n:${PACKAGE_NAME}.overwriteLibrary.tip`,
+                default: `true`,
+                render: {
+                    ui: 'ui-checkbox',                   
+                },
+            },
+
+            applicationId: {
+                label: `i18n:${PACKAGE_NAME}.applicationId.title`,
+                description:`i18n:${PACKAGE_NAME}.applicationId.tip`,
+                default: '',
+                render: {
+                    ui: 'ui-input',
+                    attributes: {
+                        placeholder: `i18n:${PACKAGE_NAME}.applicationId.placeholder`,
+                    },
+                },
+                verifyRules: ['required'],
+            },
+
+            warn: {
+                label: `i18n:${PACKAGE_NAME}.warn.title`,   
+                default: `i18n:${PACKAGE_NAME}.warn.content`,
+                render: {
+                    ui: 'ui-label',                    
+                },                                                    
+            },       
+        },
+        verifyRuleMap: {
+            ruleTest: {
+                message: `i18n:${PACKAGE_NAME}.options.ruleTest_msg`,
+                func(val, buildOptions) {
+                    if (val === 'cocos') {
+                        return true;
+                    }
+                    return false;
+                },
+            },
+        },
+    },
 };
 
 export const assetHandlers: BuildPlugin.AssetHandlers = './asset-handlers';
