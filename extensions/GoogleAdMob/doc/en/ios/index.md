@@ -23,23 +23,23 @@
 - Open the project by Cocos Creator v3.7.3.
 - Open the Extension Manager panel.
 
-    ![ext-mgr](../img-iOS/ext-mgr.png)
+    ![ext-mgr](../../img//ext-mgr.png)
 
 - Enable this extension in the installed page
 
-    ![enable](../img-iOS/enable.png)
+    ![enable](../../img//enable.png)
 
 - Create an iOS Build Task
 
-    ![open-build-panel](../img-iOS/open-build-panel.png)
+    ![open-build-panel](../../img//open-build-panel.png)
 
 - Input your application Id, and check the **EnableAdmob** option
   
-    ![config-admob-application](../img-iOS/config-admob-application.png)
+    ![config-admob-application](../../img//config-admob-application.png)
 
 - Click on the Build button, and then open the iOS project by xcode, then build the apk to test.
 
-    ![build](../img-iOS/build.png)
+    ![build](../../img//build-ios.png)
 
 ## Options
 
@@ -65,6 +65,7 @@ Code example:
     appDelegateBridge = [[AppDelegateBridge alloc] init];
     
     // 广告初始化
+    // Initialize the AdService
     [[AdServiceHub sharedInstance] initAdService];
     
     .....
