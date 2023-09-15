@@ -21,4 +21,4 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-export const AdMobVersion = "1.0.0";
+export const AdMobVersion = "1.0.1";

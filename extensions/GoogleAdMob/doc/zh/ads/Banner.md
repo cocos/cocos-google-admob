@@ -33,7 +33,7 @@ this.bannerClient.load(TestUnitId.BannerAd, {
 }, { size: BannerSize.BANNER, alignments: this.currentAlignment, type: BannerSizeType.Builtin });
 ```
 
-目前在 JAVA 端设计的是可以通过多个 UnityId 来加载横幅广告，但是考虑到游戏一般只会有1个
+目前设计的是可以通过多个 UnityId 来加载横幅广告，但是考虑到游戏一般只会有1个
 所以如果要添加多个横幅广告，需要使用不同的 UnitId。
 
 记得调用 destroy 方法以释放横幅广告

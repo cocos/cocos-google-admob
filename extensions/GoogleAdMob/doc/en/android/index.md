@@ -1,8 +1,4 @@
-# Cocos Creator Google Mobile Advertisement Extension
-
-This extension is designed for Cocos Creator to integrate the Google Mobile Ad SDK.
-
-如果你需要中文文档，请移步 [CN](../zh/README.md)。
+# Android Platform Guide
 
 ## Requirements
 

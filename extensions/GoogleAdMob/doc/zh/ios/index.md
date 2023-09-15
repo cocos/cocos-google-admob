@@ -1,8 +1,4 @@
-# Cocos Creator Google admob extension
-
-本插件为使 Cocos Creator 工程可以快捷方便的接入谷歌 Mobile Advertisement SDK 而设计。
-
-If you want to read the English version, please refer to [EN](../en/README.md)。
+# iOS 接入指南
 
 ## 安装
 
@@ -26,27 +22,27 @@ If you want to read the English version, please refer to [EN](../en/README.md)�
 
 - 打开扩展管理器
 
-    ![ext-mgr](../img/ext-mgr.png)
+    ![ext-mgr](../../img/ext-mgr.png)
 
 - 启用扩展
 
-    ![enable](../img/enable.png)
+    ![enable](../../img/enable.png)
 
-- 打开构建面板，并创建一个安卓的构建任务：
+- 打开构建面板，并创建一个iOS的构建任务：
 
-    ![open-build-panel](../img/open-build-panel.png)
+    ![open-build-panel](../../img/open-build-panel.png)
 
 - 在构建面板填入配置好的应用 Id，勾选 **EnableAdmob**
   
-    ![config-admob-application](../img/config-admob-application.png)
+    ![config-admob-application](../../img/config-admob-application.png)
 
-- 点击构建，之后编译对应的安卓工程即可。
+- 点击构建，之后编译对应的iOS工程即可。
 
-    ![build](../img/build.png)
+    ![build](../../img/build-ios.png)
 
 ## 选项说明
 
-![options.png](./../img/options.png)
+![options.png](./../../img/options.png)
 
 - Application Id：在谷歌 Admob 控制台生成的 App Id
 - EnableAdmob：是否启用 Admob
@@ -57,32 +53,24 @@ If you want to read the English version, please refer to [EN](../en/README.md)�
 
 ## 构建后如何初始化
 
-找到 Android 工程的 AppActivity.java 文件，添加如下的代码：
+找到 iOS 工程的 AppDelegate.mm 文件，添加如下的代码：
 
-    - onCreate 中添加： AdServiceHub.instance().init(this);
-    - onDestroy 中添加：AdServiceHub.instance().destroy();
+头文件引入 ：#import "AdServiceHub.h"
+SDK 初始化：[[AdServiceHub sharedInstance] initAdService];
 
 代码示例如下：
 
-```java
-protected void onCreate(Bundle savedInstanceState) {
-  super.onCreate(savedInstanceState);
-    // DO OTHER INITIALIZATION BELOW
-    SDKWrapper.shared().init(this);
-    // 初始化 Admob 插件
-    AdServiceHub.instance().init(this);
-}
+```objc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [[SDKWrapper shared] application:application didFinishLaunchingWithOptions:launchOptions];
+    appDelegateBridge = [[AppDelegateBridge alloc] init];
+    
+    // 广告初始化
+    [[AdServiceHub sharedInstance] initAdService];
+    
+    .....
 
-@Override
-protected void onDestroy() {
-    super.onDestroy();
-    // Workaround in https://stackoverflow.com/questions/16283079/re-launch-of-activity-on-home-button-but-only-the-first-time/16447508
-    if (!isTaskRoot()) {
-        return;
-    }
-    SDKWrapper.shared().onDestroy();        
-    // 销毁 Admob 插件
-    AdServiceHub.instance().destroy();    
+    return YES;
 }
 ```
 
@@ -133,24 +121,24 @@ this.bannerClient = new BannerClient();
 
 ## 详情
 
-### 安卓通信机制
+### iOS通信机制
 
 在 Cocos Creator 发布原生的过程中，需要 TS/JS 和原生交互的，一般来说有几个方案：
 
-- [基于反射机制实现 JavaScript 与 Android 系统原生通信](https://docs.cocos.com/creator/manual/zh/advanced-topics/java-reflection.html)
-- [使用 JsbBridge 实现 JavaScript 与 Java 通信](https://docs.cocos.com/creator/manual/zh/advanced-topics/js-java-bridge.html)
+- [基于反射机制实现 JavaScript 与 Objective-C 系统原生通信](https://docs.cocos.com/creator/manual/zh/advanced-topics/oc-reflection.html)
+- [使用 JsbBridge 实现 JavaScript 与 Objective-C 通信](https://docs.cocos.com/creator/manual/zh/advanced-topics/js-oc-bridge.html)
 - [Swig](https://docs.cocos.com/creator/manual/zh/advanced-topics/jsb-swig.html)
 
 其中反射的调用机制，需要明确知道类名以及方法名，还需要设计好对应的参数，使用起来比较复杂。
 Swig 更适合一些需要频繁调用的部分。
 
-因此插件在设计时，采用了 [使用 JsbBridge 实现 JavaScript 与 Java 通信](https://docs.cocos.com/creator/manual/zh/advanced-topics/js-java-bridge.html) 方法。通过两个 `String` 类型的参数来作为传递的内容：
+因此插件在设计时，采用了 [使用 JsbBridge 实现 JavaScript 与 Objective-C 通信](https://docs.cocos.com/creator/manual/zh/advanced-topics/js-oc-bridge.html) 方法。通过两个 `String` 类型的参数来作为传递的内容：
 
 - arg0： 方法名称，用类名作为定义
-  - 在 JAVA 端，使用 `class.getSimpleName()` 获取
+  - 在 iOS 端，使用 `[NSObject description]` 获取
   - 在 TS  端，使用 `js.getClassName` 来获取，注
   - 没有引入其他的用于解析的类型，如果开发者需要自定义，也可以使用如 protobuf 等序列化的库
-- arg1： 具体的协议，将 java 的 class 以及 ts 的 class 序列化为 JSON 传递。  
+- arg1： 具体的协议，将 iOS 的 class 以及 ts 的 class 序列化为 JSON 传递。  
 
 > **注意**：因为要使用内置的 native.bridge，所以会覆盖掉 `native.bridge` 的 `onNative` 方法，如果你也要使用 `native.bridge` 去对接其他的 SDK，这里建议采取和本插件一致的方法。
 
@@ -170,23 +158,23 @@ Swig 更适合一些需要频繁调用的部分。
 
     ```
 
-- 原生 JAVA 示例：
+- 原生 iOS 示例：
 
-    ```java
-    import com.cocos.admob.core.Bridge;
+    ```objc
+    #import "Bridge";
 
     // 接收 ts 的消息
-    bridge.getRoute().on("your message from ts", arg->{
-
-    });
+    [bridge.route on:""your message from ts" type:(Class)type messageHandler:^(id arg) {
+        ...
+    }]
 
     // 发送给 ts
-    bridge.sendToScript("your message", message);
+    [bridge sendToScript:"your message" src:message];
     ```
 
 ### 目录说明
 
-![directory.png](./../img/directory.png)
+![directory.png](./../../img/directory.png)
 
 - assets 测试用的场景和资源
 - extension/admob 插件所在的目录
@@ -195,11 +183,7 @@ Swig 更适合一些需要频繁调用的部分。
 
 ### 运行要求
 
-- 同时满足 Cocos Creator 以及 Google Admob 的最低版本要求的安卓设备
-
-- 设备上有安装谷歌服务，并且可以正确的访问谷歌服务器。否则无法正确启动。
-
-- 发布时的 Api Level  >= 31。
+- 同时满足 Cocos Creator 以及 Google Admob 的最低版本要求的iPhone设备
 
 ## 支持的广告类型
 
