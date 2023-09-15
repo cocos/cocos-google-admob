@@ -1,0 +1,74 @@
+# iOS Integrate Guide
+
+## Requirements
+
+- Download [node.js](https://nodejs.org/en)
+- Download [Cocos Creator](https://www.cocos.com/en)(Minimum version is 3.7.3)
+
+## Work Flow
+
+- Download this sample
+- Open the terminal and enter the extension's directory
+
+    ```bash
+    cd ./extensions/amob
+    ```
+
+    Type `npm install` in the terminal
+
+    ```bash
+    npm install
+    ```
+
+- Open the project by Cocos Creator v3.7.3.
+- Open the Extension Manager panel.
+
+    ![ext-mgr](../img-iOS/ext-mgr.png)
+
+- Enable this extension in the installed page
+
+    ![enable](../img-iOS/enable.png)
+
+- Create an iOS Build Task
+
+    ![open-build-panel](../img-iOS/open-build-panel.png)
+
+- Input your application Id, and check the **EnableAdmob** option
+  
+    ![config-admob-application](../img-iOS/config-admob-application.png)
+
+- Click on the Build button, and then open the iOS project by xcode, then build the apk to test.
+
+    ![build](../img-iOS/build.png)
+
+## Options
+
+- Application Id: The application Id is generated in the back-end of Google admobile console.
+- EnableAdmob: Whether to enable the extension  
+  - When enabled, releated files include the gradle files and iOS project configs will be modified.
+  - When disabled, all configurations will be removed from the generated project.
+- Force overwrite the libadmob: This option overwrites the libadmob project in the build directory with the extension's template, so don't check this option if you have modified libadmob in the build.
+      - If you want to customize libadmob, it is recommended to modify the libadmob project in extension/admob/template, which will be **copied** to the corresponding project in the build.
+
+## Integrate in iOS
+
+- Find the AppDelegate.mm in your generated iOS Project
+- Add the following code to the correct method:
+    #import "AdServiceHub.h"
+    [[AdServiceHub sharedInstance] initAdService];
+
+Code example:
+
+```objc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [[SDKWrapper shared] application:application didFinishLaunchingWithOptions:launchOptions];
+    appDelegateBridge = [[AppDelegateBridge alloc] init];
+    
+    // 广告初始化
+    [[AdServiceHub sharedInstance] initAdService];
+    
+    .....
+
+    return YES;
+}
+```
