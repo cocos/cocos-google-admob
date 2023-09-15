@@ -20,3 +20,5 @@ For the English version please refer to [Document](./extensions/GoogleAdMob/doc/
 - Rewarded
 - RewardedInterstitial
 - Native
+
+![snap](./extensions/GoogleAdMob/doc/img/snap.jpeg)
