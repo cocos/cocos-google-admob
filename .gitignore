@@ -25,3 +25,4 @@ node_modules/
 /build/android/proj/libservice/build
 /extensions/admob/template/android/.gradle
 build/
+.DS_Store

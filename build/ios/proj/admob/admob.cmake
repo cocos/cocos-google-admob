@@ -45,9 +45,10 @@ set(GOOGLE_ADMOB_XCFRAMEWORKS_DIR ${CMAKE_CURRENT_LIST_DIR}/GoogleMobileAdsSdkiO
 
 file(GLOB GOOGLE_ADMOB_XCFRAMEWORK_FILES "${GOOGLE_ADMOB_XCFRAMEWORKS_DIR}/*.xcframework")
 
+# 谷歌广告sdk命名规则需要修改 ios-arm64_x86_64-simulator 改为 ios-x86_64
 set(TARGET_ARCHITECTURES
     arm64
-    arm64_x86_64-simulator
+    x86_64
 )
 
 foreach(XCFRAMEWORK_FILE ${GOOGLE_ADMOB_XCFRAMEWORK_FILES})
@@ -57,17 +58,18 @@ foreach(XCFRAMEWORK_FILE ${GOOGLE_ADMOB_XCFRAMEWORK_FILES})
     foreach(ARCHITECTURE ${TARGET_ARCHITECTURES})
         file(GLOB LIBRARY "${XCFRAMEWORK_PATH}/ios-${ARCHITECTURE}/*.framework")
         get_filename_component(LIB_NAME ${LIBRARY} NAME_WE)
-
-        find_library(MYLIBRARY_${LIB_NAME} ${LIB_NAME}
+        
+        find_library(MYLIBRARY_${LIB_NAME}_${ARCHITECTURE} ${LIB_NAME}
             PATHS "${XCFRAMEWORK_PATH}/ios-${ARCHITECTURE}"
             NO_DEFAULT_PATH
             NO_CMAKE_FIND_ROOT_PATH
         )
-
-        if(MYLIBRARY_${LIB_NAME} STREQUAL "MYLIBRARY_${LIB_NAME}-NOTFOUND")
+        
+        if(MYLIBRARY_${LIB_NAME}_${ARCHITECTURE} STREQUAL "MYLIBRARY_${LIB_NAME}_${ARCHITECTURE}-NOTFOUND")
             message("${LIB_NAME} Library not found")
         else()
-            target_link_libraries(admob ${MYLIBRARY_${LIB_NAME}})
+            string(REPLACE "${ARCHITECTURE}" "\${CURRENT_ARCH}" updated_path "${MYLIBRARY_${LIB_NAME}_${ARCHITECTURE}}")
+            target_link_libraries(admob ${updated_path})
             message("${LIB_NAME}-${ARCHITECTURE} Library link success")
         endif()
     endforeach()
