@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.SceneAsset",
-    "_name": "5.interstitialRewardedAd",
+    "_name": "5.rewardedInterstitialAd",
     "_objFlags": 0,
     "_native": "",
     "scene": {
@@ -10,7 +10,7 @@
   },
   {
     "__type__": "cc.Scene",
-    "_name": "5.interstitialRewardedAd",
+    "_name": "5.rewardedInterstitialAd",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -1392,7 +1392,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 433.55,
+      "width": 420.21,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1421,7 +1421,7 @@
       "b": 255,
       "a": 255
     },
-    "_string": "5.interstitialRewardedAd",
+    "_string": "5.rewardedInterstitialAd",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 40,

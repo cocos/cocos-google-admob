@@ -3,6 +3,6 @@ export const TestScenes: string[] = [
     "2.interstitial",
     "3.appOpenAd",
     "4.rewardedAd",
-    "5.interstitialRewardedAd",
+    "5.rewardedInterstitialAd",
     "6.nativeAd"
 ];

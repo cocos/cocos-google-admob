@@ -47,7 +47,7 @@ export class AdmobTestBanner extends Component {
         this.bannerClient = new BannerClient();
         this.bannerClient.load(TestUnitId.BannerAd, {
             onAdImpression: () => {
-                log(module, "onAdImpression", "onAdClicked", this);
+                log(module, "onAdImpression", "onAdImpression", this);
             },
 
             onAdClicked: () => {
@@ -59,7 +59,7 @@ export class AdmobTestBanner extends Component {
             },
 
             onAdFailedToLoad: (loadError: LoadAdError) => {
-                log(module, "onClickLoadBanner", "onAdLoaded", `${loadError}`);
+                log(module, "onClickLoadBanner", "onFailedToLoad", `${loadError}`);
             },
 
             onPaidEvent(paidNTF: BannerPaidEventNTF) {
@@ -87,7 +87,7 @@ export class AdmobTestBanner extends Component {
         this.bannerClient = new BannerClient();
         this.bannerClient.load(TestUnitId.BannerAd, {
             onAdImpression: () => {
-                log(module, "onAdImpression", "onAdClicked", this);
+                log(module, "onAdImpression", "onAdImpression", this);
             },
 
             onAdClicked: () => {
@@ -99,7 +99,7 @@ export class AdmobTestBanner extends Component {
             },
 
             onAdFailedToLoad: (loadError: LoadAdError) => {
-                log(module, "onClickLoadBanner", "onAdLoaded", `${loadError}`);
+                log(module, "onClickLoadBanner", "onAdFailedToLoad", `${loadError}`);
             },
 
             onPaidEvent(paidNTF: BannerPaidEventNTF) {
@@ -118,7 +118,7 @@ export class AdmobTestBanner extends Component {
         this.bannerClient = new BannerClient();
         this.bannerClient.load(TestUnitId.BannerAd, {
             onAdImpression: () => {
-                log(module, "onAdImpression", "onAdClicked", this);
+                log(module, "onAdImpression", "onAdImpression", this);
             },
 
             onAdClicked: () => {
@@ -130,7 +130,7 @@ export class AdmobTestBanner extends Component {
             },
 
             onAdFailedToLoad: (loadError: LoadAdError) => {
-                log(module, "onClickLoadBanner", "onAdLoaded", `${loadError}`);
+                log(module, "onClickLoadBanner", "onAdFailedToLoad", `${loadError}`);
             },
 
             onPaidEvent(paidNTF: BannerPaidEventNTF) {
@@ -150,7 +150,7 @@ export class AdmobTestBanner extends Component {
         this.bannerClient = new BannerClient();
         this.bannerClient.load(TestUnitId.BannerAd, {
             onAdImpression: () => {
-                log(module, "onAdImpression", "onAdClicked", this);
+                log(module, "onAdImpression", "onAdImpression", this);
             },
 
             onAdClicked: () => {
@@ -162,7 +162,7 @@ export class AdmobTestBanner extends Component {
             },
 
             onAdFailedToLoad: (loadError: LoadAdError) => {
-                log(module, "onClickLoadBanner", "onAdLoaded", `${loadError}`);
+                log(module, "onClickLoadBanner", "onAdFailedToLoad", `${loadError}`);
             },
 
             onPaidEvent(paidNTF: BannerPaidEventNTF) {
