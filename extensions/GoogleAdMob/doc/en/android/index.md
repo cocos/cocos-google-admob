@@ -11,7 +11,7 @@
 - Open the terminal and enter the extension's directory
 
     ```bash
-    cd ./extensions/amob
+    cd ./extensions/GoogleAdMob
     ```
 
     Type `npm install` in the terminal
@@ -33,7 +33,7 @@
 
     ![open-build-panel](../img/open-build-panel.png)
 
-- Input your application Id, and check the **EnableAdmob** option
+- Input your application Id, and check the **EnableAdMob** option
   
     ![config-admob-application](../img/config-admob-application.png)
 
@@ -43,8 +43,8 @@
 
 ## Options
 
-- Application Id: The application Id is generated in the back-end of Google admobile console.
-- EnableAdmob: Whether to enable the extension  
+- Application Id: The application Id is generated in the back-end of Google AdMob console.
+- EnableAdMob: Whether to enable the extension  
   - When enabled, releated files include the gradle files and Android project configs will be modified.
   - When disabled, all configurations will be removed from the generated project.
 - Force overwrite the libadmob: This option overwrites the libadmob project in the build directory with the extension's template, so don't check this option if you have modified libadmob in the build.

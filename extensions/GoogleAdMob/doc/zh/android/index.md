@@ -11,7 +11,7 @@
 - 在终端进入到扩展所在的目录
 
     ```bash
-    cd ./extensions/amob
+    cd ./extensions/GoogleAdMob
     ```
 
     Type `npm install` in the terminal
@@ -32,7 +32,7 @@
 
     ![open-build-panel](../../img/open-build-panel.png)
 
-- 在构建面板填入配置好的应用 Id，勾选 **EnableAdmob**
+- 在构建面板填入配置好的应用 Id，勾选 **EnableAdMob**
   
     ![config-admob-application](../../img/config-admob-application.png)
 
@@ -44,8 +44,8 @@
 
 ![options.png](./../../img/options.png)
 
-- Application Id：在谷歌 Admob 控制台生成的 App Id
-- EnableAdmob：是否启用 Admob
+- Application Id：在谷歌 AdMob 控制台生成的 App Id
+- EnableAdMob：是否启用 AdMob
   - 启用后会修改对应的项目工程的文件以及相关
   - 不启动后点击生成会删除对应修改的项  
 - Force overwrite the libadmob：该选项会使用插件的模板覆盖 build 目录内的 libadmob 项目，因此如果你修改了 build 内的 libadmob，那么不要勾选此选项
@@ -65,7 +65,7 @@ protected void onCreate(Bundle savedInstanceState) {
   super.onCreate(savedInstanceState);
     // DO OTHER INITIALIZATION BELOW
     SDKWrapper.shared().init(this);
-    // 初始化 Admob 插件
+    // 初始化 AdMob 插件
     AdServiceHub.instance().init(this);
 }
 
@@ -77,7 +77,7 @@ protected void onDestroy() {
         return;
     }
     SDKWrapper.shared().onDestroy();        
-    // 销毁 Admob 插件
+    // 销毁 AdMob 插件
     AdServiceHub.instance().destroy();    
 }
 ```
@@ -191,7 +191,7 @@ Swig 更适合一些需要频繁调用的部分。
 
 ### 运行要求
 
-- 同时满足 Cocos Creator 以及 Google Admob 的最低版本要求的安卓设备
+- 同时满足 Cocos Creator 以及 Google AdMob 的最低版本要求的安卓设备
 
 - 设备上有安装谷歌服务，并且可以正确的访问谷歌服务器。否则无法正确启动。
 
