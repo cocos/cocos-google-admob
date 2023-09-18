@@ -103,19 +103,51 @@
         NSLog(@"banner service viewController search failure!");
         return;
     }
-    
-    CGRect frame = viewController.view.frame;
-    // Here safe area is taken into account, hence the view frame is used after
-    // the view has been laid out.
+    UIView *rootView = viewController.view;
+    CGRect frame = rootView.frame;
     if (@available(iOS 11.0, *)) {
-        frame = UIEdgeInsetsInsetRect(viewController.view.frame, viewController.view.safeAreaInsets);
+        frame = UIEdgeInsetsInsetRect(rootView.frame, rootView.safeAreaInsets);
     }
     CGFloat viewWidth = frame.size.width;
     GADAdSize adSize = [self getAdSize:req.bannerSize bannerType:req.bannerSizeType viewWidth:viewWidth];
     GADBannerView *bannerView = [[GADBannerView alloc]initWithAdSize:adSize];
     bannerView.adUnitID = req.unitId;
     bannerView.rootViewController = viewController;
-    [viewController.view addSubview:bannerView];
+    [bannerView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [rootView addSubview:bannerView];
+    
+    for (NSString *alignment in req.alignments) {
+        NSLayoutConstraint *constraint = nil;
+        
+        if ([alignment isEqualToString:@"ALIGN_LEFT"]) {
+            constraint = [bannerView.leadingAnchor constraintEqualToAnchor:rootView.safeAreaLayoutGuide.leadingAnchor];
+        }
+        else if ([alignment isEqualToString:@"ALIGN_TOP"]) {
+            constraint = [bannerView.topAnchor constraintEqualToAnchor:rootView.safeAreaLayoutGuide.topAnchor];
+        }
+        else if ([alignment isEqualToString:@"ALIGN_RIGHT"]) {
+            constraint = [bannerView.trailingAnchor constraintEqualToAnchor:rootView.safeAreaLayoutGuide.trailingAnchor];
+        }
+        else if ([alignment isEqualToString:@"ALIGN_BOTTOM"]) {
+            constraint = [bannerView.bottomAnchor constraintEqualToAnchor:rootView.safeAreaLayoutGuide.bottomAnchor];
+        }
+        else if ([alignment isEqualToString:@"CENTER_HORIZONTAL"]) {
+            constraint = [bannerView.centerXAnchor constraintEqualToAnchor:rootView.safeAreaLayoutGuide.centerXAnchor];
+        }
+        else if ([alignment isEqualToString:@"CENTER_VERTICAL"]) {
+            constraint = [bannerView.centerYAnchor constraintEqualToAnchor:rootView.safeAreaLayoutGuide.centerYAnchor];
+        }
+        else if ([alignment isEqualToString:@"ALIGN_PARENT_BOTTOM"]) {
+            constraint = [bannerView.bottomAnchor constraintEqualToAnchor:rootView.safeAreaLayoutGuide.bottomAnchor];
+        } else {
+            NSLog(@"bannerView unknown constraint: %@", alignment);
+        }
+        
+        if (constraint) {
+            [constraint setActive:YES];
+        }
+    }
+    
     [self.bannerMap setObject:bannerView forKey:req.unitId];
 }
 
