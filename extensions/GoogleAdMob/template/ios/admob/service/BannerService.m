@@ -36,6 +36,8 @@
 #import "LoadBannerREQ.h"
 #import "ShowBannerREQ.h"
 
+#import "../AdServiceHub.h"
+
 @interface BannerService() <GADBannerViewDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary<NSString *, GADBannerView *> *bannerMap;
@@ -190,6 +192,7 @@
     }
     GADRequest *request = [GADRequest request];
     bannerView.delegate = self;
+    request.requestAgent = [[AdServiceHub sharedInstance] extensionVersion];
     [bannerView loadRequest:request];
 }
 

@@ -39,6 +39,7 @@
 #import "ShowRewardedAdACK.h"
 #import "ShowRewardedAdREQ.h"
 
+#import "../AdServiceHub.h"
 
 @interface RewardedAdService()<GADFullScreenContentDelegate>
 
@@ -79,6 +80,7 @@
 - (void)loadAd:(NSString *)unitId {
     self.unitId = unitId;
     GADRequest *request = [GADRequest request];
+    request.requestAgent = [[AdServiceHub sharedInstance] extensionVersion];
     [GADRewardedAd
      loadWithAdUnitID:unitId
      request:request
