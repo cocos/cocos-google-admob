@@ -29,6 +29,8 @@ you.
 
 #import "core/Bridge.h"
 #import "core/Codec.h"
+#import "core/Route.h"
+#import "VersionREQ.h"
 
 #import "service/AppOpenAdService.h"
 #import "service/BannerService.h"
@@ -76,6 +78,12 @@ static AdServiceHub *sharedInstance = nil;
     [GADMobileAds.sharedInstance startWithCompletionHandler:nil];
     self.codec = [[Codec alloc] init];
     self.bridge = [[Bridge alloc] initWithCodec:self.codec];
+    __weak typeof(self) wself = self;
+    [self.bridge.route on:[VersionREQ class].description type:[VersionREQ class] messageHandler:^(id arg) {
+        VersionREQ *req = (VersionREQ *)arg;
+        wself.extensionVersion = req.engineVersion;
+    }];
+    
     self.appOpenAdService = [[AppOpenAdService alloc] initWithBridge:self.bridge];
     self.bannerService = [[BannerService alloc] initWithBridge:self.bridge];
     self.interstitialService = [[InterstitialService alloc] initWithBridge:self.bridge];

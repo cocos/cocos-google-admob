@@ -42,6 +42,8 @@
 #import "GADTFullScreenTemplateView.h"
 #import "GADTTemplateView.h"
 
+#import "../AdServiceHub.h"
+
 @interface NativeService()<GADNativeAdLoaderDelegate,
 GADNativeAdDelegate>
 
@@ -135,7 +137,9 @@ GADNativeAdDelegate>
                                                   adTypes:@[ GADAdLoaderAdTypeNative ]
                                                   options:nil];
     self.adLoader.delegate = self;
-    [self.adLoader loadRequest:[GADRequest request]];
+    GADRequest *request = [GADRequest request];
+    request.requestAgent = [[AdServiceHub sharedInstance] extensionVersion];
+    [self.adLoader loadRequest:request];
 }
 
 - (void)nativeAdDestroy {

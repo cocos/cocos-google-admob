@@ -38,6 +38,8 @@
 #import "ShowInterstitialAdACK.h"
 #import "ShowInterstitialAdREQ.h"
 
+#import "../AdServiceHub.h"
+
 @interface InterstitialService()<GADFullScreenContentDelegate>
 
 @property(nonatomic, strong) GADInterstitialAd *interstitial;
@@ -75,6 +77,7 @@
 - (void)loadAd:(NSString *)unitId {
     self.unitId = unitId;
     GADRequest *request = [GADRequest request];
+    request.requestAgent = [[AdServiceHub sharedInstance] extensionVersion];
     [GADInterstitialAd loadWithAdUnitID:unitId
                                 request:request
                       completionHandler:^(GADInterstitialAd *ad, NSError *error) {

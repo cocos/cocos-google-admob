@@ -39,6 +39,7 @@
 #import "ShowRewardedInterstitialAdREQ.h"
 #import "RewardedInterstitialFullScreenContentCallbackNTF.h"
 
+#import "../AdServiceHub.h"
 
 @interface RewardedInterstitialAdService()<GADFullScreenContentDelegate>
 
@@ -79,6 +80,7 @@
 - (void)loadAd:(NSString *)unitId {
     self.unitId = unitId;
     GADRequest *request = [GADRequest request];
+    request.requestAgent = [[AdServiceHub sharedInstance] extensionVersion];
     [GADRewardedInterstitialAd
         loadWithAdUnitID:unitId
         request:request

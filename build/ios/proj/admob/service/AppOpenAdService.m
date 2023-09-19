@@ -38,6 +38,8 @@
 #import "ShowAppOpenAdREQ.h"
 #import "ShowAppOpenAdCompleteNTF.h"
 
+#import "../AdServiceHub.h"
+
 @interface AppOpenAdService() <GADFullScreenContentDelegate>
 
 @property(strong, nonatomic) GADAppOpenAd* appOpenAd;
@@ -90,8 +92,11 @@
     self.appOpenAd = nil;
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    GADRequest *request = [GADRequest request];
+    request.requestAgent = [[AdServiceHub sharedInstance] extensionVersion];
     [GADAppOpenAd loadWithAdUnitID:unitId
-                           request:[GADRequest request]
+                           request:request
                        orientation:orientation
                  completionHandler:^(GADAppOpenAd *_Nullable appOpenAd, NSError *_Nullable error) {
         self.isLoading = false;

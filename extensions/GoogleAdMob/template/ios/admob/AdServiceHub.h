@@ -31,6 +31,8 @@ you.
 
 + (instancetype)sharedInstance;
 
+@property (nonatomic, strong) NSString *extensionVersion;
+
 - (void)initAdService;
 
 @end
