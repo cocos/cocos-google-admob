@@ -23,23 +23,23 @@
 - Open the project by Cocos Creator v3.7.3.
 - Open the Extension Manager panel.
 
-    ![ext-mgr](../img/ext-mgr.png)
+    ![ext-mgr](../../img/ext-mgr.png)
 
 - Enable this extension in the installed page
 
-    ![enable](../img/enable.png)
+    ![enable](../../img/enable.png)
 
 - Create an Android Build Task
 
-    ![open-build-panel](../img/open-build-panel.png)
+    ![open-build-panel](../../img/open-build-panel.png)
 
 - Input your application Id, and check the **EnableAdMob** option
   
-    ![config-admob-application](../img/config-admob-application.png)
+    ![config-admob-application](../../img/config-admob-application.png)
 
 - Click on the Build button, and then open the Android project by AndroidStudio, then build the apk to test.
 
-    ![build](../img/build.png)
+    ![build](../../img/build.png)
 
 ## Options
 
