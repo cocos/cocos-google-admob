@@ -1,12 +1,12 @@
-# Cocos Creator Google Admob Extension
+# Cocos Creator Google AdMob Extension
 
 ![cocos icon](./extensions/GoogleAdMob/doc/img/cocos.png)
 
 ![google admob icon](./extensions/GoogleAdMob/doc/img/admob-icon.png)
 
-本插件是为了方便用户快速使用 Cocos Creator 接入谷歌 Admob 平台而设计。
+本插件是为了方便用户快速使用 Cocos Creator 接入谷歌 AdMob 平台而设计。
 
-This extension is designed for Cocos Creator users to integrate the Google Ad Mobile SDK.
+This extension is designed for Cocos Creator users to integrate the Google Mobile Ads SDK.
 
 中文版请查看 [文档](./extensions/GoogleAdMob/doc/zh/index.md)。
 
