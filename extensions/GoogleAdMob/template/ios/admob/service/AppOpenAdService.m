@@ -91,13 +91,10 @@
     self.isLoading = true;
     self.appOpenAd = nil;
     
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    
     GADRequest *request = [GADRequest request];
     request.requestAgent = [[AdServiceHub sharedInstance] extensionVersion];
     [GADAppOpenAd loadWithAdUnitID:unitId
                            request:request
-                       orientation:orientation
                  completionHandler:^(GADAppOpenAd *_Nullable appOpenAd, NSError *_Nullable error) {
         self.isLoading = false;
         if (error) {
