@@ -21,15 +21,4 @@ iOS 接入指南移步 [iOS 接入指南](./ios/index.md)。
 - [插页式激励广告](./ads/InterstistualRewadedAd.md)
 - [原生](./ads/NativeAd.md)
 
-## 更新日志
-
-- v1.0.0(2023-08-28 发布)
-  - 接入安卓平台
-- v1.0.1(2023-09-15 发布)
-  - 新增
-    - 接入 iOS 平台
-  - 修复
-    - 修复 onAdFailedToShowFullScreenContent 事件发送错误
-    - rewardedInterstitial Ad 增加了全屏的安卓接口
-    - NativeAdListenerNTF 丢失的问题。
   
