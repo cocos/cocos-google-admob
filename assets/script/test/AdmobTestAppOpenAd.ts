@@ -3,7 +3,7 @@ import { log } from 'cc';
 import { director } from 'cc';
 import { TestScenes } from './TestScenes';
 import { AppOpenAdClient } from 'db://admob/ads/client/AppOpenAdClient';
-import { TestUnitId } from 'db://admob/misc/TestUnitId';
+import { AdFormat, getTestAdUnitId } from 'db://admob/misc/TestUnitId';
 const { ccclass, property } = _decorator;
 
 const module = "[AdmobTestAppOpenAd]";
@@ -15,7 +15,7 @@ export class AdmobTestAppOpenAd extends Component {
     onClickLoadAppOpenAd() {
         log(module, "onClickLoadAppOpenAd");
 
-        this.appOpenAdView.loadAd(TestUnitId.AppOpenAd, {
+        this.appOpenAdView.loadAd(getTestAdUnitId(AdFormat.AppOpen), {
             onAdLoaded: ()=> {
                 log(module, "onClickLoadAppOpenAd", "onAdLoaded");
             },

@@ -1,7 +1,7 @@
 import { _decorator, Component } from 'cc';
 import { director } from 'cc';
 import { TestScenes } from './TestScenes';
-import { TestUnitId } from 'db://admob/misc/TestUnitId';
+import { AdFormat, getTestAdUnitId } from 'db://admob/misc/TestUnitId';
 import { log } from 'cc';
 import { Node } from 'cc';
 import { Label } from 'cc';
@@ -23,7 +23,7 @@ export class AdmobTestRewardedInterstitialAd extends Component {
 
         let rewardEarnNode: Node = this.node.getChildByName("DialogRewarded");
         let rewardedInterstitialAdClient = new RewardedInterstitialAdClient();
-        rewardedInterstitialAdClient.load(TestUnitId.RewardedInterstitialAd, {
+        rewardedInterstitialAdClient.load(getTestAdUnitId(AdFormat.RewardedInterstitial), {
             onAdLoaded: () => {
                 log(module, "onClickLoadRewardedAd", "onAdLoaded");
                 rewardedInterstitialAdClient.show();

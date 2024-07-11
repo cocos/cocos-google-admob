@@ -22,11 +22,48 @@
  THE SOFTWARE.
 */
 
-export enum TestUnitId {
-    BannerAd = "ca-app-pub-3940256099942544/6300978111",
-    InterstitialAd = "ca-app-pub-3940256099942544/3419835294",
-    AppOpenAd = "ca-app-pub-3940256099942544/3419835294",
-    RewardedAd = "ca-app-pub-3940256099942544/5224354917",
-    NativeAd = "ca-app-pub-3940256099942544/2247696110",
-    RewardedInterstitialAd = "ca-app-pub-3940256099942544/5354046379",
+import { sys } from 'cc';
+
+export enum AdFormat {
+    AppOpen,
+    Banner,
+    Interstitial,
+    Rewarded,
+    RewardedInterstitial,
+    Native,
+}
+
+export function getTestAdUnitId(format: AdFormat): string {
+    switch (format) {
+        case AdFormat.AppOpen:
+            return isAndroid()
+                ? "ca-app-pub-3940256099942544/9257395921"
+                : "ca-app-pub-3940256099942544/5575463023";
+        case AdFormat.Banner:
+            return isAndroid()
+                ? "ca-app-pub-3940256099942544/6300978111"
+                : "ca-app-pub-3940256099942544/2934735716";
+        case AdFormat.Interstitial:
+            return isAndroid()
+                ? "ca-app-pub-3940256099942544/1033173712"
+                : "ca-app-pub-3940256099942544/4411468910";
+        case AdFormat.Rewarded:
+            return isAndroid()
+                ? "ca-app-pub-3940256099942544/5224354917"
+                : "ca-app-pub-3940256099942544/1712485313";
+        case AdFormat.RewardedInterstitial:
+            return isAndroid()
+                ? "ca-app-pub-3940256099942544/5354046379"
+                : "ca-app-pub-3940256099942544/6978759866";
+        case AdFormat.Native:
+            return isAndroid()
+                ? "ca-app-pub-3940256099942544/2247696110"
+                : "ca-app-pub-3940256099942544/3986624511";
+        default:
+            throw new Error(`Unexpected format: ${format}`);
+    }
+}
+
+function isAndroid(): boolean {
+    return sys.os === sys.OS.ANDROID;
 }
