@@ -1,9 +1,0 @@
-/Users/lbq/Desktop/cocos/cocos-google-admob/build/ios/proj/CMakeFiles/builtin-res.dir
-/Users/lbq/Desktop/cocos/cocos-google-admob/build/ios/proj/CMakeFiles/cocos_engine.dir
-/Users/lbq/Desktop/cocos/cocos-google-admob/build/ios/proj/CMakeFiles/cocos-google-admob-mobile.dir
-/Users/lbq/Desktop/cocos/cocos-google-admob/build/ios/proj/CMakeFiles/admob.dir
-/Users/lbq/Desktop/cocos/cocos-google-admob/build/ios/proj/CMakeFiles/ALL_BUILD.dir
-/Users/lbq/Desktop/cocos/cocos-google-admob/build/ios/proj/CMakeFiles/ZERO_CHECK.dir
-/Users/lbq/Desktop/cocos/cocos-google-admob/build/ios/proj/boost/container/CMakeFiles/boost_container.dir
-/Users/lbq/Desktop/cocos/cocos-google-admob/build/ios/proj/boost/container/CMakeFiles/ALL_BUILD.dir
-/Users/lbq/Desktop/cocos/cocos-google-admob/build/ios/proj/boost/container/CMakeFiles/ZERO_CHECK.dir

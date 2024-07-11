@@ -1,3 +1,0 @@
-# directories for searching native plugins
-/Users/lbq/Desktop/cocos/cocos-google-admob/native
-/Users/lbq/Desktop/cocos/cocos-google-admob/extensions
