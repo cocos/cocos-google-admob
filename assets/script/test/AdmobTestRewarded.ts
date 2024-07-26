@@ -2,7 +2,7 @@ import { _decorator, Component } from 'cc';
 import { director } from 'cc';
 import { TestScenes } from './TestScenes';
 import { RewardedAdClient } from 'db://admob/ads/client/RewardedAdClient';
-import { TestUnitId } from 'db://admob/misc/TestUnitId';
+import { AdFormat, getTestAdUnitId } from 'db://admob/misc/TestUnitId';
 import { log } from 'cc';
 import { Node } from 'cc';
 import { Label } from 'cc';
@@ -24,7 +24,7 @@ export class AdmobTestRewarded extends Component {
         let rewardEarnNode: Node = this.node.getChildByName("DialogRewarded");
         let rewardedAdClient = new RewardedAdClient();
 
-        rewardedAdClient.load(TestUnitId.RewardedAd, {
+        rewardedAdClient.load(getTestAdUnitId(AdFormat.Rewarded), {
             onAdLoaded: () => {
                 log(module, "onClickLoadRewardedAd", "onAdLoaded");
                 rewardedAdClient.show();

@@ -3,7 +3,7 @@ import { director } from 'cc';
 import { TestScenes } from './TestScenes';
 import { log } from 'cc';
 import { NativeAdClient } from 'db://admob/ads/client/NativeAdClient';
-import { TestUnitId } from 'db://admob/misc/TestUnitId';
+import { AdFormat, getTestAdUnitId } from 'db://admob/misc/TestUnitId';
 import { NativeAdTemplateSize } from 'db://admob/proto/NativeAd';
 import { NativePaidEventNTF } from 'db://admob/proto/PaidEventNTF';
 const { ccclass, property } = _decorator;
@@ -18,8 +18,8 @@ export class AdmobTestNative extends Component {
     onClickLoadSmallAd() {
         log(module, "onClickLoadNativeAd");
 
-        this.smallNativeAd = new NativeAdClient();        
-        this.smallNativeAd.load(TestUnitId.NativeAd, NativeAdTemplateSize.Small, {
+        this.smallNativeAd = new NativeAdClient();
+        this.smallNativeAd.load(getTestAdUnitId(AdFormat.Native), NativeAdTemplateSize.Small, {
             onAdLoaded: () => {
                 log(module, "onClickLoadSmallAd", "onAdLoaded");
             },
@@ -36,7 +36,7 @@ export class AdmobTestNative extends Component {
         log(module, "onClickLoadNativeAd");
 
         this.mediumNativeAd = new NativeAdClient();
-        this.mediumNativeAd.load(TestUnitId.NativeAd, NativeAdTemplateSize.Medium, {
+        this.mediumNativeAd.load(getTestAdUnitId(AdFormat.Native), NativeAdTemplateSize.Medium, {
             onAdLoaded: () => {
                 log(module, "onClickLoadSmallAd", "onAdLoaded");
             },

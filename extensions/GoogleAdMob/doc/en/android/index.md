@@ -39,7 +39,7 @@
 
 - Click on the Build button, and then open the Android project by AndroidStudio, then build the apk to test.
 
-    ![build](../../img/build.png)
+    ![build](../../img/build-android.png)
 
 ## Options
 

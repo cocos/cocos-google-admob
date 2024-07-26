@@ -28,7 +28,7 @@ import { INativeResponse } from "./INativeResponse";
 import { route } from "./Route";
 import { Base } from "../proto/Base";
 import { VersionREQ } from "../proto/Version";
-import { AdMobVersion } from "./Version";
+import { ExtensionVersion } from "./Version";
 import { js } from "cc";
 
 /**
@@ -44,7 +44,7 @@ export class Bridge {
         log(module, "init");
         this.overwriteCallback();
 
-        const engineVersion = `cocos-${AdMobVersion}`;
+        const engineVersion = `cocos-${ExtensionVersion}`;
         console.log(module, "init", `report engineVersion: ${engineVersion}.`);
         this.sendToNative(js.getClassName(VersionREQ), new VersionREQ('', engineVersion), null, null);
         return this;

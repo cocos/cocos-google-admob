@@ -5,7 +5,7 @@ import { director } from 'cc';
 import { TestScenes } from './TestScenes';
 import { BannerClient } from 'db://admob/ads/client/BannerClient';
 import { LoadAdError } from 'db://admob/ads/alias/TypeAlias';
-import { TestUnitId } from 'db://admob/misc/TestUnitId';
+import { AdFormat, getTestAdUnitId } from 'db://admob/misc/TestUnitId';
 import { BannerSize } from 'db://admob/misc/BannerSize';
 import { BannerAlignment, BottomCenter, TopCenter } from 'db://admob/misc/BannerAlignment';
 import { BannerPaidEventNTF } from 'db://admob/proto/PaidEventNTF';
@@ -45,7 +45,7 @@ export class AdmobTestBanner extends Component {
             this.bannerClient.destroy();
         }
         this.bannerClient = new BannerClient();
-        this.bannerClient.load(TestUnitId.BannerAd, {
+        this.bannerClient.load(getTestAdUnitId(AdFormat.Banner), {
             onAdImpression: () => {
                 log(module, "onAdImpression", "onAdImpression", this);
             },
@@ -85,7 +85,7 @@ export class AdmobTestBanner extends Component {
             this.bannerClient.destroy();
         }
         this.bannerClient = new BannerClient();
-        this.bannerClient.load(TestUnitId.BannerAd, {
+        this.bannerClient.load(getTestAdUnitId(AdFormat.Banner), {
             onAdImpression: () => {
                 log(module, "onAdImpression", "onAdImpression", this);
             },
@@ -116,7 +116,7 @@ export class AdmobTestBanner extends Component {
             this.bannerClient.destroy();
         }
         this.bannerClient = new BannerClient();
-        this.bannerClient.load(TestUnitId.BannerAd, {
+        this.bannerClient.load(getTestAdUnitId(AdFormat.Banner), {
             onAdImpression: () => {
                 log(module, "onAdImpression", "onAdImpression", this);
             },
@@ -148,7 +148,7 @@ export class AdmobTestBanner extends Component {
             this.bannerClient.destroy();
         }
         this.bannerClient = new BannerClient();
-        this.bannerClient.load(TestUnitId.BannerAd, {
+        this.bannerClient.load(getTestAdUnitId(AdFormat.Banner), {
             onAdImpression: () => {
                 log(module, "onAdImpression", "onAdImpression", this);
             },

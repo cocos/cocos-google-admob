@@ -3,7 +3,7 @@ import { log } from 'cc';
 import { director } from 'cc';
 import { TestScenes } from './TestScenes';
 import { InterstitialAdClient } from 'db://admob/ads/client/InterstitialAdClient';
-import { TestUnitId } from 'db://admob/misc/TestUnitId';
+import { AdFormat, getTestAdUnitId } from 'db://admob/misc/TestUnitId';
 import { InterstitialPaidEventNTF } from 'db://admob/proto/PaidEventNTF';
 const { ccclass, property } = _decorator;
 
@@ -15,7 +15,7 @@ export class AdmobTestInterstitialAdts extends Component {
 
         let interstitialAdClient = new InterstitialAdClient();
 
-        interstitialAdClient.load(TestUnitId.InterstitialAd, {
+        interstitialAdClient.load(getTestAdUnitId(AdFormat.Interstitial), {
             onAdLoaded: () => {
                 log(module, "onAdLoaded");
                 interstitialAdClient.show();
@@ -27,7 +27,7 @@ export class AdmobTestInterstitialAdts extends Component {
 
             onPaidEvent(paidNTF:InterstitialPaidEventNTF) {
                 // paid event, you can do your own analysis here.
-                log(module, "onPaidEvent", paidNTF);                
+                log(module, "onPaidEvent", paidNTF);
             },
         });
     }
